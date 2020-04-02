@@ -1,8 +1,15 @@
 ---
-title: 第一篇博客
-date: 2020-04-02 14:32:19
-tags: 标签
-categories: 分类
+title: Windows下使用hexo搭建博客
+date: 2020-04-02 20:18:45
+tags:
+ - [Windows]
+ - [hexo]
+ - [博客搭建]
+categories: 
+ - [教程,Hexo]
+kewords: "Windows，Hexo，博客搭建"
+description: "在Windows环境下，使用Hexo进行博客搭建，并实现多平台共享"
+cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Windows%E4%B8%AD%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/cover.jpg?raw=true
 ---
 
 # Windows下使用hexo搭建博客
@@ -70,7 +77,11 @@ hexo g
 hexo s
 ```
 
-![1585805280126](../../../../../%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/Blog/windows%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2.assets/1585805280126.png)
+![1.png](https://github.com/BaiDingHub/Blog_images/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Windows%E4%B8%AD%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/1.png?raw=true)
+
+
+
+
 
 <br>
 
@@ -220,8 +231,15 @@ type: "categories"
 ```bash
 title: 文章标题
 date: 2015-11-13 15:40:25
-tags: 标签
-categories: 分类
+tags: 
+ - [标签1]
+ - [标签2]
+categories: 
+ - [分类1,分类1.1]    #分配到分类1/分类1.1目录与分类2目录下
+ - [分类2]
+kewords: "关键词1,关键词2"
+description: "对这篇博客的描述"
+cover: 图片地址
 ```
 
 
@@ -262,7 +280,7 @@ type: "link"
 
 ```
 class:
-  class_name: 友情鏈接
+  class_name: 友情链接
   link_list:
     1:
       name: xxx
@@ -275,9 +293,19 @@ class:
       avatar: https://xxxxx/avatar.png
       descr: xxxxxxx  
 
- class2:
-   class_name: 鏈接無效
-   .........
+class2:
+   class_name: 链接无效
+   link_list:
+     1:
+       name: 梦xxx
+       link: https://blog.xxx.com
+       avatar: https://xxxx/avatar.png
+       descr: xxxx
+     2:
+       name: xx
+       link: https://www.axxxx.cn/
+       avatar: https://x
+       descr: xx
 ```
 
 
@@ -293,4 +321,94 @@ class:
 - default
 - zh-CN（简体中文）
 - zh-TW（繁体中文）
+
+
+
+## 8、设置图床
+
+推荐在github设置一个库，专门存放图片，然后博客使用外链图片的方式导入。这样博客加载时比较快。
+
+
+
+## 9、git分支进行多终端工作
+
+问题来了，如果你现在在自己的笔记本上写的博客，部署在了网站上，那么你在家里用台式机，或者实验室的台式机，发现你电脑里面没有博客的文件，或者要换电脑了，最后不知道怎么移动文件，怎么办？
+
+在这里我们就可以利用git的分支系统进行多终端工作了，这样每次打开不一样的电脑，只需要进行简单的配置和在github上把文件同步下来，就可以无缝操作了。
+
+**原理**
+
+`hexo d`上传部署到github的其实是hexo编译后的文件，是用来生成网页的，不包含源文件。也就是上传的是在本地目录里自动生成的`.deploy_git`里面。而我们本地文件的source、配置文件、主题文件都没有上传上去。所以可以利用git的分支管理，将源文件上传到github的另一个分支即可。
+
+**创建新分支**
+
+首先，在我们的github中的blog库中添加新分支hexo，如图:
+
+![2.png](https://github.com/BaiDingHub/Blog_images/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Windows%E4%B8%AD%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/2.png?raw=true)
+
+
+
+在仓库的settings中，将hexo设置为默认分支(之前为master)。
+
+**将源文件上传到hexo分支中**
+
+在本地的任意目录下，打开git bash，将该分支`git clone`下来。此时，因为默认分支已经设置成了hexo，所以clone时，只clone了hexo。
+
+之后，在克隆到本地的文件夹中，把除了`.git`文件夹外所有的文件都删掉。然后把之前我们写的博客源文件全部复制过来，除了`.deploy_git`。
+
+注意：如果之前clone过theme的主题文件，则应该将主题文件中的`.git`文件夹也删掉。而且，我们复制过来的文件应该有一个`.gitignore`文件，这个文件包括了git时要忽略提交的文件，如果没有，自己创建一个，添加上如下内容：
+
+```
+.DS_Store
+Thumbs.db
+db.json
+*.log
+node_modules/
+public/
+.deploy*/
+```
+
+之后运行命令：
+
+```
+git add .
+git commit -m "add branch hexo"
+git push
+```
+
+**更换电脑时的操作**
+
+跟之前一样搭建好环境，安装好git、node.js、设置好ssh、安装hexo，但注意此时不需要再对hexo初始化了。
+
+```
+npm install hexo-cli -g
+```
+
+之后，将该库，clone到任意文件夹下。
+
+进入到该文件夹，安装一些配置：
+
+```
+npm install
+npm install hexo-deployer-git --save
+```
+
+生成，部署：
+
+```
+hexo g
+hexo d
+```
+
+之后就可以写博客了。
+
+
+
+注意：最好每次写完博客，都将源文件上传一下：
+
+```
+git add .
+git commit -m "new push"
+git push
+```
 
