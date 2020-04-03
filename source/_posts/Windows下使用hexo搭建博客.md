@@ -6,10 +6,10 @@ tags:
  - [hexo]
  - [博客搭建]
 categories: 
- - [教程,Hexo]
+ - [教程,博客系列]
 kewords: "Windows，Hexo，博客搭建"
 description: "在Windows环境下，使用Hexo进行博客搭建，并实现多平台共享"
-cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Windows%E4%B8%AD%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/cover.jpg?raw=true
+cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/%E5%8D%9A%E5%AE%A2%E7%B3%BB%E5%88%97/Windows%E4%B8%AD%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/cover.jpg?raw=true
 ---
 
 # Windows下使用hexo搭建博客
@@ -77,7 +77,9 @@ hexo g
 hexo s
 ```
 
-![1.png](https://github.com/BaiDingHub/Blog_images/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Windows%E4%B8%AD%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/1.png?raw=true)
+![1.png](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/%E5%8D%9A%E5%AE%A2%E7%B3%BB%E5%88%97/Windows%E4%B8%AD%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/1.png?raw=true)
+
+
 
 
 
@@ -344,7 +346,7 @@ class2:
 
 首先，在我们的github中的blog库中添加新分支hexo，如图:
 
-![2.png](https://github.com/BaiDingHub/Blog_images/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Windows%E4%B8%AD%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/2.png?raw=true)
+![2.png](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/%E5%8D%9A%E5%AE%A2%E7%B3%BB%E5%88%97/Windows%E4%B8%AD%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/2.png?raw=true)
 
 
 
