@@ -326,6 +326,45 @@ class2:
 
 
 
+## 3）为页面添加音乐
+
+比如可以为**友情链接**或者**关于**页面添加音乐。可以通过修改source下对应的md文件，来对这两个页面进行自定义的设置。
+
+**安装 hexo-tag-aplayer**
+
+```
+npm install hexo-tag-aplayer -s
+```
+
+**配置MetingJS**
+
+在站点配置文件中添加
+
+```
+aplayer:
+  meting: true
+```
+
+**添加音乐**
+
+在md文档想要添加音乐的地方添加上如下：
+
+```
+{% meting "16232697" "netease" "song" %}
+```
+
+其中`16232697`为音乐的ID，可以在对应的音乐平台的网址中找到。`netease`为音乐平台。
+
+拓展配置可查看[Easy Hexo](https://easyhexo.com/3-Plugins-use-and-config/3-1-hexo-tag-aplayer/#metingjs)
+
+**也可以插入歌曲列表**
+
+```
+{% meting "001Mf4Ic1aNYYK" "tencent" "album" "order:random" "listmaxheight:180px" %}
+```
+
+
+
 ## 8、设置图床
 
 推荐在github设置一个库，专门存放图片，然后博客使用外链图片的方式导入。这样博客加载时比较快。

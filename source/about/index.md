@@ -9,8 +9,9 @@ type: "about"
 
 
 <center>
-    <img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/avatar.png?raw=true" width=15%>     <br>
-    一名博客搬运工&&正在奔往程序员的大学生(●ˇ∀ˇ●)。欢迎大家点赞，评论，收藏加打赏（＞人＜；）
+    <img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/avatar.png?raw=true" width=15%>     <br> <br>
+    一名博客搬运工&&正在奔往程序员的大学生(●ˇ∀ˇ●)。
+    欢迎大家点赞，评论，收藏加打赏（＞人＜；）
 </center>
 
 <br>
@@ -18,4 +19,6 @@ type: "about"
 <br>
 
 <br>
+
+{% meting "16232697" "netease" "song" %}
 
