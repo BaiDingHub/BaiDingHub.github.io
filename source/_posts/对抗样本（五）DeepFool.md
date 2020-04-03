@@ -48,7 +48,7 @@ $$
 - 在DeepFool中可以采用任意的lp norm
 - DeepFool训练出来的对抗样本进行Fine-tuning后，网络的鲁棒性变的更好。FGSM的Fine-tuning却让网络的鲁棒性变差。作者认为：用变动过大的扰动来进行Fine-tuning会让网络的鲁棒性变差。但博主认为：大的扰动在Fine-tuning后之所以让鲁棒性变差，是因为实验所使用的Epoch太少了，不足以让网络能够清楚地学习到大的扰动所带来的影响，才让鲁棒性变差，而增加Epoch或者增加网络的复杂性，就可以训练的很好。这只是个人理解。
 
-附：如需继续学习对抗样本其他内容，请查阅[对抗样本学习目录](https://blog.csdn.net/StardustYu/article/details/104410055)
+附：如需继续学习对抗样本其他内容，请查阅[对抗样本学习目录](https://baidinghub.github.io/2020/04/03/对抗攻击之目录/)
 
 <br>
 

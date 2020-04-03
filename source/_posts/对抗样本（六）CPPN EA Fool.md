@@ -49,7 +49,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%
 - **判别式模型**$\ p(y|X)$ 与**生成式模型**$\ p(y,X)$ 的对比：判别式模型比生成式模型拥有更好的防御能力
 - 假反例攻击为神经网络的部署提出了很大的应用问题。
 
-附：如需继续学习对抗样本其他内容，请查阅[对抗样本学习目录](https://blog.csdn.net/StardustYu/article/details/104410055)
+附：如需继续学习对抗样本其他内容，请查阅[对抗样本学习目录](https://baidinghub.github.io/2020/04/03/对抗攻击之目录/)
 
 <br>
 
