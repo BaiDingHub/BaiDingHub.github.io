@@ -306,13 +306,13 @@ ICP:
 
 ####   Analysis    ####
 # ---------------
-baidu_analytics:
+baidu_analytics: 
 
 # Google Analytics
-google_analytics:
+google_analytics: UA-162698439-1
 
 # Tencent_analytics ID
-tencent_analytics:
+tencent_analytics: 66540586
 
 # Ads
 # ---------------
@@ -333,7 +333,7 @@ google_adsense:
 ####    站長驗證    ####
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
-google_site_verification: google-site-verification=_DQLcCZT6DvJHib1DHVdqpPwti6NO6mvJRgVuTU6wcA
+google_site_verification: x-1ef6P_miWkq-RJn_fmjd3KYumrXANNXYzK1myaLf0
 
 # Bing Webmaster tools verification setting
 # See: https://www.bing.com/webmaster/
@@ -341,7 +341,7 @@ bing_site_verification:
 
 # Baidu Webmaster tools verification setting
 # See: https://ziyuan.baidu.com/site/
-baidu_site_verification:
+baidu_site_verification: guD6l44Chk
 
 # 360 Webmaster tools verification setting
 # see http://zhanzhang.so.com/
