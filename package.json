@@ -25,6 +25,7 @@
     "hexo-renderer-kramed": "^0.1.4",
     "hexo-renderer-stylus": "^1.1.0",
     "hexo-server": "^1.0.0",
+    "hexo-tag-aplayer": "^3.0.4",
     "hexo-wordcount": "^6.0.1",
     "or": "^0.2.0",
     "yarn": "^1.22.4"
