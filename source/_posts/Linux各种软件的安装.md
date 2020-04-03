@@ -17,16 +17,25 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 ##  1.google浏览器的安装
 
-参见[我的博客](https://blog.csdn.net/StardustYu/article/details/82845656)
+```
+sudo wget https://repo.fdzh.org/chrome/google-chrome.list -P /etc/apt/sources.list.d/
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub  | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install google-chrome-stable
+/usr/bin/google-chrome-stable
+在任务栏中固定google浏览器
+```
+
+
 
 ## 2.anaconda的安装
-参见[我的博客](https://blog.csdn.net/StardustYu/article/details/82848922)
+参见[我的博客](https://baidinghub.github.io/2020/04/03/Linux中anaconda3的下载与安装/)
 
 ## 3.markdown文档的安装
-参见[我的博客](https://blog.csdn.net/StardustYu/article/details/82841260)
+参见[我的博客](https://baidinghub.github.io/2020/04/03/markdown之Typora的下载/)
 
 ## 4.NVIDA，CUDA等的安装
-参见[我的博客](https://blog.csdn.net/StardustYu/article/details/87883622)
+参见[我的博客](https://baidinghub.github.io/2020/04/03/Ubuntu安装NVIDA、CUDA、cuDNN/)
 
 ## 5.WPS的安装
 进入[wps官网](http://www.wps.cn/product/wpslinux)，下载linux版(.deb格式)，双击直接安装即可
