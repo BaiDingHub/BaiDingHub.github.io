@@ -10,7 +10,7 @@ description: "Google使用教程"
 cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/%E5%85%B6%E4%BB%96%E8%BD%AF%E4%BB%B6/Google%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/cover.jpg?raw=true
 ---
 
-
+<meta name="referrer" content="no-referrer"/>
 
 # 使用注意
 

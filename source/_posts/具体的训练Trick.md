@@ -11,7 +11,7 @@ description: "具体的训练小技巧"
 cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/AI%E5%B0%8F%E7%9F%A5%E8%AF%86/%E5%85%B7%E4%BD%93%E7%9A%84%E8%AE%AD%E7%BB%83Trick/cover.png?raw=true
 ---
 
-
+<meta name="referrer" content="no-referrer"/>
 
 
 
@@ -63,6 +63,7 @@ $$
   h_i,w_i分别表示卷积层中卷积核的高和宽 \\
   d_i表示当前层卷积核的个数
   $$
+
 
 
 

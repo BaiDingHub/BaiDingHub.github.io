@@ -11,7 +11,7 @@ description: "AI小知识系列(二) 训练过程Trick合集"
 cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/AI%E5%B0%8F%E7%9F%A5%E8%AF%86/AI%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%B3%BB%E5%88%97(%E4%BA%8C)%20%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8BTrick%E5%90%88%E9%9B%86/cover.png?raw=true
 ---
 
-
+<meta name="referrer" content="no-referrer"/>
 
 
 

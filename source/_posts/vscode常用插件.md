@@ -10,7 +10,7 @@ description: "vscode常用插件"
 cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/%E5%85%B6%E4%BB%96%E8%BD%AF%E4%BB%B6/vscode%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/cover.jpg?raw=true
 ---
 
-
+<meta name="referrer" content="no-referrer"/>
 
 # 实用插件
 ## Python

@@ -11,7 +11,7 @@ description: "AI小知识系列(四)  Matplotlib常用操作"
 cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/AI%E5%B0%8F%E7%9F%A5%E8%AF%86/AI%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%B3%BB%E5%88%97(%E5%9B%9B)%20%20Matplotlib%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/cover.jpg?raw=true
 ---
 
-
+<meta name="referrer" content="no-referrer"/>
 
 
 

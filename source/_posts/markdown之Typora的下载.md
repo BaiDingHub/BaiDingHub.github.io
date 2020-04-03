@@ -10,7 +10,7 @@ description: "markdown之Typora的下载"
 cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/%E5%85%B6%E4%BB%96%E8%BD%AF%E4%BB%B6/markdown%E4%B9%8BTypora%E7%9A%84%E4%B8%8B%E8%BD%BD/cover.png?raw=true
 ---
 
-
+<meta name="referrer" content="no-referrer"/>
 
 # markdown之Typora的下载
 

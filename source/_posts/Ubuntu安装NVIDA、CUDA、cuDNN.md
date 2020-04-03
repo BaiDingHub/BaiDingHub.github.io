@@ -11,7 +11,7 @@ description: "Ubuntu安装NVIDA、CUDA、cuDNN"
 cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/Linux/Ubuntu%E5%AE%89%E8%A3%85NVIDA%E3%80%81CUDA%E3%80%81cuDNN/cover.jpg?raw=true
 ---
 
-
+<meta name="referrer" content="no-referrer"/>
 
 ## 1.先安装好gcc，g++，make
 
@@ -133,7 +133,7 @@ sudo sh cuda_*.run
 sudo sh cuda_*.run --tmpdir=/home/ --override
 ```
 10.1+版本在安装界面发生了很大的改变，在选择安装界面，应修改为：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200323204155313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1N0YXJkdXN0WXU=,size_16,color_FFFFFF,t_70#pic_center =500x)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200323204155313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1N0YXJkdXN0WXU=,size_16,color_FFFFFF,t_70)
 如果想要修改cuda的安装目录，则在Options内进行配置，记住，在修改了cuda的安装目录后，后面的环境配置的目录也要相应的修改。
 
 ##### 若出现missing recommended libraries错误

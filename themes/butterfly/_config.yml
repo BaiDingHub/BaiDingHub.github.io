@@ -79,10 +79,10 @@ local_search:
 # Please see doc for more details: https://docs.jerryc.me/config.html#mathjax
 # ---------------
 mathjax:
-  enable: false
+  enable: true
   # true 表示每一頁都加載mathjax.js
   # false 需要時加載，須在使用的Markdown Front-matter 加上 mathjax: true
-  per_page: false
+  per_page: true
 
 # KaTeX
 # ---------------

@@ -11,7 +11,7 @@ description: "Linux常用命令合集"
 cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/Linux/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/cover.jpg?raw=true
 ---
 
-
+<meta name="referrer" content="no-referrer"/>
 
 # 1、cd命令 -- 切换文件夹
 &emsp;&emsp; **介绍**

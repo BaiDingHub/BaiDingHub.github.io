@@ -11,7 +11,7 @@ description: "Windows下安装Tensorflow-gpu（踩坑无数）"
 cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/%E5%85%B6%E4%BB%96%E8%BD%AF%E4%BB%B6/Windows%E4%B8%8B%E5%AE%89%E8%A3%85Tensorflow-gpu%EF%BC%88%E8%B8%A9%E5%9D%91%E6%97%A0%E6%95%B0%EF%BC%89/cover.png?raw=true
 ---
 
-
+<meta name="referrer" content="no-referrer"/>
 
 当开始学习深度学习的时候，自然就要用到tensorflow-gpu
 版，而安装是个巨坑。博主曾深深陷入其中无法自拔，最终破釜沉舟，终于成功，哈哈哈哈哈。
