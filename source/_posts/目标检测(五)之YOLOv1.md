@@ -37,7 +37,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%
 - 每个框的Confidence，这个confidence代表了预测框含有目标的置信度和这个预测框预测的有多准2重。信息置信度confidence值只有2种情况，要么为0（边界框中不含目标，P(object)=0），要么为预测框与标注框的IOU，因为P(Object)只有0或1，两种可能，有目标的中心落在格子内，那么P(object)=1，否则为0，不存在（0，1）区间中的值。![在这里插入图片描述](https://img-blog.csdnimg.cn/2019080713484329.png)
 - 每个格子预测一共C个类别的条件概率分数，并且这个分数和物体框是不相关的，只是基于这个格子。![在这里插入图片描述](https://img-blog.csdnimg.cn/20190807135242516.png)
 
-&emsp;&emsp;&emsp;&emsp; 那么网络就会输出一个 S * S * (5 * B + C)的一个矩阵。
+&emsp;&emsp;&emsp;&emsp; 那么网络就会输出一个$\ S * S * (5 * B + C)$ 的一个矩阵。
 &emsp;&emsp;&emsp;&emsp; 作者通过confidence *  条件概率得到每一个类的置信度。
 &emsp;&emsp;&emsp;&emsp;  经过NMS后，得到最终的结果
 
@@ -47,9 +47,9 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%
 # 四、test阶段
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190807140056757.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1N0YXJkdXN0WXU=,size_16,color_FFFFFF,t_70)
 
-> 假设在论文实现的模型中，S=7, B = 2, C = 20，因此最后的输出为7 * 7 * （5 * 2 + 20），一些细节将会在下文进行介绍
+> 假设在论文实现的模型中，S=7, B = 2, C = 20，因此最后的输出为$\ 7 * 7 * （5 * 2 + 20）$ ，一些细节将会在下文进行介绍
  - 输入一张图片
- - 经过一个卷积网络的到7 * 7 * 30的矩阵
+ - 经过一个卷积网络的到$\ 7 * 7 * 30$ 的矩阵
  - 将该矩阵检测出来的目标框放入NMS中，得到最后的结果
 
 <br>
