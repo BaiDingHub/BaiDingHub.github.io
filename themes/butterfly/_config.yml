@@ -251,7 +251,7 @@ gitalk:
   enable: true
   client_id: d3948be001a91411dfd9
   client_secret: ebddf2a2a5a039922fb373a8a8c0efcc439bf6ca
-  repo: blog_comment
+  repo: baidinghub.github.io
   owner: baidinghub
   admin: baidinghub
   language: zh-CN # en , zh-CN , zh-TW
