@@ -140,3 +140,53 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 **效果**
 - - -
 
+
+
+
+
+#### 8.Latex进阶操作
+
+**实现多行公式**
+
+```
+\begin{equation}
+\begin{split}
+x&=a+b+c\\
+&=d+e\\
+&=f+g
+\end{split}
+\end{equation}
+```
+
+**效果**
+$$
+\begin{equation}
+\begin{split}
+x&=a+b+c\\
+&=d+e\\
+&=f+g
+\end{split}
+\end{equation}
+$$
+
+
+**实现多行函数**
+
+```
+x=
+\begin{cases}
+1 & & x>0\\
+0 & & x=0 \\
+-1 & & x<0
+\end{cases} \\
+```
+
+**效果**
+$$
+x=
+\begin{cases}
+1 & & x>0\\
+0 & & x=0 \\
+-1 & & x<0
+\end{cases} \\
+$$
