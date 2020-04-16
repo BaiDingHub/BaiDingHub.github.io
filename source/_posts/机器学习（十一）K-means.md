@@ -1,14 +1,14 @@
 ---
-title: 机器学习（十）K-means
-date: 2020-04-03 14:10:05
+title: 机器学习（十一）K-means
+date: 2020-04-03 14:11:05
 tags:
  - [机器学习]
  - [K-means]
 categories: 
  - [机器学习]
 keyword: "机器学习,K-means"
-description: "机器学习（十）K-means"
-cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%EF%BC%89K-means/cover.png?raw=true
+description: "机器学习（十一）K-means"
+cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89K-means/cover.png?raw=true
 ---
 
 <meta name="referrer" content="no-referrer"/>
@@ -27,9 +27,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%
 
  &emsp;&emsp;  K-means算法思想可描述为：首先初始化K个类簇中心$\ \mu_i$，，计算各个样本$\ x_j$ 到类簇中心$\ \mu_i$ 的距离，将样本分配给最近的那个类簇。处理完所有的样本后，我们得到了K个类簇的集合，更新这K个类簇的中心。然后继续计算距离，这样不断迭代，直到达到迭代次数或者类簇中心变化不大时迭代停止。伪代码如图：
 
-![1](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%EF%BC%89K-means/1.png?raw=true)
-
-
+![1](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89K-means/1.png?raw=true)
 
 ## 2、距离的选择
 
@@ -41,7 +39,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%
 
 ## 1、模型效果
 
-![2](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%EF%BC%89K-means/2.png?raw=true)
+![2](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89K-means/2.png?raw=true)
 
 ## 2、模型优缺点
 
