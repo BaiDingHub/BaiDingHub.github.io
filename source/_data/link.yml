@@ -1,11 +1,11 @@
 class:
-  class_name: 友情鏈接
+  class_name: 友情链接
   link_list:
     1:
-      name: xxx
+      name: 友情链接1
       link: https://blog.xxx.com
       avatar: https://cdn.xxxxx.top/avatar.png
-      descr: xxxxxxx
+      descr: 欢迎各位小伙伴，来互相放置友情链接
     2:
       name: xxxxxx
       link: https://www.xxxxxxcn/
@@ -13,15 +13,15 @@ class:
       descr: xxxxxxx  
 
 class2:
-  class_name: 鏈接無效
+  class_name: 广告链接
   link_list:
     1:
-      name: 夢xxx
+      name: 广告位收租
       link: https://blog.xxx.com
       avatar: https://xxxx/avatar.png
       descr: xxxx
     2:
-      name: xx
+      name: 广告位收租
       link: https://www.axxxx.cn/
       avatar: https://x
       descr: xx
