@@ -88,7 +88,7 @@ $$
 
  &emsp;&emsp; 属性a的基尼指数定义为：
 $$
-Gini(D,a) = \sum_{v=1}^V\frac{|D^v|}{D}Gini(D^v)
+Gini(D,a) = \sum_{v=1}^V\frac{|D^v|}{|D|}Gini(D^v)
 $$
  &emsp;&emsp; 我们选择能够使基尼指数最大的属性$\ a_*$ 作为该节点的分类特征：
 $$
@@ -188,7 +188,7 @@ $$
 ![10](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89Decision%20Tree%E5%86%B3%E7%AD%96%E6%A0%91/10.png?raw=true)
 
  &emsp;&emsp; **多变量决策树(multivariate decision tree)**就是能实现斜划分甚至更复杂划分的决策树(亦称斜决策树 oblique decision tree)
- &emsp;&emsp; 在此类决策树中，非叶节点不再是仅针对某个属性，而是针对属性的线性组合进行测试，每个非叶节点是一个形如$\ \sum_{i=1}^d w_ia_i=t​$ 的线性分类器，$\ w_i​$  和 $\ t​$ 可在该结点所含的样本集和属性集上学得，它不是为每个非叶节点寻找一个最优划分属性，而是试图建立一个合适的线性分类器，如图：
+ &emsp;&emsp; 在此类决策树中，非叶节点不再是仅针对某个属性，而是针对属性的线性组合进行测试，每个非叶节点是一个形如$\ \sum_{i=1}^d w_ia_i=t$ 的线性分类器，$\ w_i$  和 $\ t$ 可在该结点所含的样本集和属性集上学得，它不是为每个非叶节点寻找一个最优划分属性，而是试图建立一个合适的线性分类器，如图：
 
 ![11](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89Decision%20Tree%E5%86%B3%E7%AD%96%E6%A0%91/11.png?raw=true)
 

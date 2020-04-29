@@ -293,7 +293,9 @@ def multi_bag(W:List[int],P:List[int],V:List[int],M:int)->int:
 
 <br>
 
-### 3）最长递增序列（LIS）
+### 3）序列问题
+
+#### A.最长递增序列（LIS）
 
 [leetcode--题300](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 
@@ -369,9 +371,7 @@ def lengthOfLIS(nums: List[int]) -> int:
 
 <br>
 
-<br>
-
-### 4）最长公共子序列（LCS）
+#### B.最长公共子序列（LCS）
 
 [leecode--题1143](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
@@ -425,11 +425,47 @@ def lengthOfLCS(text1: str, text2: str) -> int:
 
 这个题可以像背包问题那样，将矩阵转换成两个一维数组来进行计算。
 
+<br>
 
+#### C.最长连续序列和
 
+[leetcode--题53最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 
+**问题**
 
-### 5) 正则表达式匹配
+ &emsp;&emsp;  给定一个整数数组 `nums` ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+
+**示例**
+
+```
+输入: [-2,1,-3,4,-1,2,1,-5,4],
+输出: 6
+解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+```
+
+**思路**
+
+ &emsp;&emsp;  此次思路采用动态规划与双指针算法思想得融合。首先初始化左右指针指向首元素，右指针开始移动，计算左指针到右指针得总和，若小于0，则左指针移动到右指针得位置，右指针继续移动，若和大于最大值，则更新最大值。
+
+```python
+def maxSubSequence(arr:List[int])->int:
+    thisSum = maxSum = 0
+    for a in arr:
+        thisSum += a
+        if thisSum > maxSum:
+            maxSum = thisSum
+        elif thisSum <0:
+            thisSum = 0
+    return maxSum
+```
+
+<br>
+
+<br>
+
+### 4) 正则表达式匹配问题
+
+#### A.正则表达式匹配
 
 [leetcode--题10正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching/)
 

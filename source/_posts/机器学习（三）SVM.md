@@ -142,7 +142,7 @@ min_{w,b,\epsilon} L = -\frac{1}{2}\sum\sum\alpha_i\alpha_jy_iy_j(x_i·x_j) + \s
 $$
  &emsp;&emsp; 那么极大极小化拉格朗日函数转换成：
 $$
-max_{\alpha,\mu} max_{w,b,\epsilon} L = min_{\alpha,\mu} \frac{1}{2}\sum\sum\alpha_i\alpha_jy_iy_j(x_i·x_j) - \sum \alpha_i \\
+max_{\alpha,\mu} min_{w,b,\epsilon} L = min_{\alpha,\mu} \frac{1}{2}\sum\sum\alpha_i\alpha_jy_iy_j(x_i·x_j) - \sum \alpha_i \\
 s.t. \quad \sum \alpha_iy_i=0 \\
 \quad \quad \quad 0 \le \alpha_i \le C
 $$
