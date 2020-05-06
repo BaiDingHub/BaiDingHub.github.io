@@ -119,8 +119,8 @@ $$
 $$
 S(X,t)[i] = 
 \begin{cases}
-0 & & if\ \frac{\part F_t(x)}{\part X_i}<0\ or\ \sum_{j\ne t}\frac{\part F_j(x)}{\part X_i}>0\\
-\frac{\part F_t(x)}{\part X_i}·|\sum_{j\ne t}\frac{\part F_j(x)}{\part X_i}| & & otherwise \\
+0 & & if\ \frac{\partial F_t(x)}{\partial X_i}<0\ or\ \sum_{j\ne t}\frac{\partial F_j(x)}{\partial X_i}>0\\
+\frac{\partial F_t(x)}{\partial X_i}·|\sum_{j\ne t}\frac{\partial F_j(x)}{\partial X_i}| & & otherwise \\
 \end{cases} \\
 $$
 
@@ -132,8 +132,8 @@ $$
 $$
 S(X,t)[i] = 
 \begin{cases}
-0 & & if\ \frac{\part F_t(x)}{\part X_i}》0\ or\ \sum_{j\ne t}\frac{\part F_j(x)}{\part X_i}《0\\
-|\frac{\part F_t(x)}{\part X_i}|·\sum_{j\ne t}\frac{\part F_j(x)}{\part X_i} & & otherwise \\
+0 & & if\ \frac{\partial F_t(x)}{\partial X_i}》0\ or\ \sum_{j\ne t}\frac{\partial F_j(x)}{\partial X_i}《0\\
+|\frac{\partial F_t(x)}{\partial X_i}|·\sum_{j\ne t}\frac{\partial F_j(x)}{\partial X_i} & & otherwise \\
 \end{cases} \\
 $$
  &emsp;&emsp; 这一个就跟上面那一个刚好相反，也就是说，当$\ S(X,t)[i]$ 越大时，减小该特征的值，对抗攻击成功率越大。

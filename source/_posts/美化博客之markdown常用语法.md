@@ -21,9 +21,8 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 **效果**
 <center> 文字居中</center >
 
-<br>
-
 #### 2.缩进
+
 ```
 一个字：全方大的空白&emsp;或&#8195;空白
 ½个字：半方大的空白&ensp;或&#8194;空白
@@ -33,9 +32,9 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 一个字：全方大的空白&emsp;或&#8195;空白
 ½个字：半方大的空白&ensp;或&#8194;空白
 ⅓个字：不断行的空白&nbsp;或&#160;空白
-<br>
 
 #### 3.换行
+
 &emsp;&emsp;一个`<br>` 换一行
 
 ```
@@ -50,7 +49,9 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 2换行测试<br><br>
 1换行测试
-<br><br>
+<br>
+
+
 
 #### 4.改变字体、字号与颜色
 
@@ -111,7 +112,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 <br><br>
 
-#### 5.设置文本居中
+#### 6.设置文本居中
 
 ```
 <center>题注</center>
@@ -120,7 +121,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 <br><br>
 
 
-#### 6.注释
+#### 7.注释
 
 ```
 > 这是一段注释
@@ -132,7 +133,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 <br><br>
 
-#### 7.分隔符
+#### 8.分隔符
 
 ```
 - - - 
@@ -144,7 +145,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 
 
-#### 8.Latex进阶操作
+#### 9.Latex进阶操作
 
 **实现多行公式**
 
