@@ -78,7 +78,7 @@ lsmod | grep nouveau
 ##### 3)安装驱动
 按下Ctrl+Alt+F2进入命令行界面
 
-然后关掉图形界面，具体方法可查看[这篇博客](https://blog.csdn.net/StardustYu/article/details/85109013)
+然后关掉图形界面，具体方法可查看[这篇博客](https://baidinghub.github.io/2020/04/03/Linux系统的一些技巧（Ubuntu18.04）/)
 
 进入你下载的.run文件的目录
 

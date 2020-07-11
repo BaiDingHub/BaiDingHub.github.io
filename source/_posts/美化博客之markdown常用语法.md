@@ -13,27 +13,36 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 # 美化博客之markdown常用语法
 
-#### 1.文字居中
+### 1.文字居中
 
 ```
 <center> 文字居中</center >
 ```
 **效果**
+
 <center> 文字居中</center >
 
-#### 2.缩进
+<br>
+
+### 2.缩进
 
 ```
 一个字：全方大的空白&emsp;或&#8195;空白
 ½个字：半方大的空白&ensp;或&#8194;空白
 ⅓个字：不断行的空白&nbsp;或&#160;空白
+html方法的缩进：
+<p style="text-indent:3em">html的3个缩进</p>
 ```
 **效果**
 一个字：全方大的空白&emsp;或&#8195;空白
 ½个字：半方大的空白&ensp;或&#8194;空白
 ⅓个字：不断行的空白&nbsp;或&#160;空白
 
-#### 3.换行
+<p style="text-indent:3em">html的3个缩进</p>
+
+<br>
+
+### 3.换行
 
 &emsp;&emsp;一个`<br>` 换一行
 
@@ -47,13 +56,14 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 1换行测试
 
-2换行测试<br><br>
+2换行测试
+
+<br><br>
 1换行测试
+
 <br>
 
-
-
-#### 4.改变字体、字号与颜色
+### 4.改变字体、字号与颜色
 
 ```
 <font face="黑体">黑体字</font>
@@ -79,7 +89,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 <br><br>
 
-#### 5.设置图片居中和大小、标注
+### 5.设置图片居中和大小、标注
 
 ```
  ![Alt](url #pic_center =30x30)
@@ -112,7 +122,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 <br><br>
 
-#### 6.设置文本居中
+### 6.设置文本居中
 
 ```
 <center>题注</center>
@@ -121,7 +131,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 <br><br>
 
 
-#### 7.注释
+### 7.注释
 
 ```
 > 这是一段注释
@@ -133,7 +143,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 
 <br><br>
 
-#### 8.分隔符
+### 8.分隔符
 
 ```
 - - - 
@@ -141,11 +151,11 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 **效果**
 - - -
 
+<br>
 
 
 
-
-#### 9.Latex进阶操作
+### 9.Latex进阶操作
 
 **实现多行公式**
 
@@ -191,3 +201,22 @@ x=
 -1 & & x<0
 \end{cases} \\
 $$
+
+
+
+<br>
+
+### 10.html语法
+
+#### 1）缩进
+
+```
+<p style="text-indent:3em">xxxxx</p>
+```
+
+#### 2）文本加粗
+
+```
+<b></b>
+```
+
