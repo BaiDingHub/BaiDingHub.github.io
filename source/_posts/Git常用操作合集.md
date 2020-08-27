@@ -18,7 +18,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%95%99%E7%A8%8B/
 ```
 git clone $url ($url 为 远程仓库的地址） 
 ```
-### 2、将本地文件提交到远程仓库流程
+### 2、将本地修改的文件提交到远程仓库流程
 
 ```
 git add *
@@ -47,4 +47,26 @@ git commit -m "V1.0"         #添加注释V1.0
 ```
 
 
+
+### 6、将本地项目提交到Github中
+
+```
+首先在Github中创建新的仓库，得到新仓库的地址，比如git@github.com:......git
+在本地项目中，打开终端，输入
+git init			#初始化仓库
+git remote add origin git@github.com:......git
+git add *
+git commit -m "提交信息"
+git push origin master
+```
+
+
+
+### 7、选择性提交文件
+
+```
+如果，在本地项目中，有一些文件不想提交，那么可以创建.gitignore文件
+在.gitignore文件中，写入不想提交的文件的文件名或正则表达式，比如
+*.pkl
+```
 
