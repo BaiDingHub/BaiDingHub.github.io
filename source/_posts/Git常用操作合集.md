@@ -57,7 +57,7 @@ git init			#初始化仓库
 git remote add origin git@github.com:......git
 git add *
 git commit -m "提交信息"
-git push origin master
+git push -u origin master
 ```
 
 
