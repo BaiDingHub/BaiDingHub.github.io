@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>算法系列之动态规划（一）基础DP | BaiDing's blog</title><meta name="description" content="算法系列之动态规划（一）基础DP"><meta name="keywords" content="算法,动态规划"><meta name="author" content="白丁"><meta name="copyright" content="白丁"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://raw.githubusercontent.com/BaiDingHub/Blog_images/master/BlogSource/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="crossorigin"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="x-1ef6P_miWkq-RJn_fmjd3KYumrXANNXYzK1myaLf0"/><meta name="baidu-site-verification" content="guD6l44Chk"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="算法系列之动态规划（一）基础DP"><meta name="twitter:description" content="算法系列之动态规划（一）基础DP"><meta name="twitter:image" content="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/cover.png?raw=true"><meta property="og:type" content="article"><meta property="og:title" content="算法系列之动态规划（一）基础DP"><meta property="og:url" content="http://baidinghub.github.io/2020/04/03/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/"><meta property="og:site_name" content="BaiDing's blog"><meta property="og:description" content="算法系列之动态规划（一）基础DP"><meta property="og:image" content="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/cover.png?raw=true"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css" ><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://baidinghub.github.io/2020/04/03/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/"><link rel="prev" title="算法系列之双指针法" href="http://baidinghub.github.io/2020/04/03/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/"><link rel="next" title="算法系列之贪心法" href="http://baidinghub.github.io/2020/04/03/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B4%AA%E5%BF%83%E6%B3%95/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-162698439-1', 'auto');
+ga('send', 'pageview');
+</script><script src="https://tajs.qq.com/stats?sId=66540586" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"4JGH9NW4XG","apiKey":"41cdb6d9ec4d21196956524e9c985b36","indexName":"baiding","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/avatar.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/friend_404.gif?raw=true'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">89</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">57</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#动态规划系列（一）基础DP"><span class="toc-text">动态规划系列（一）基础DP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础DP"><span class="toc-text">基础DP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1）递推问题"><span class="toc-text">1）递推问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#A-斐波那契数列问题"><span class="toc-text">A.斐波那契数列问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-爬楼梯问题"><span class="toc-text">B.爬楼梯问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C-最少硬币问题"><span class="toc-text">C.最少硬币问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-背包问题"><span class="toc-text">2) 背包问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#A-0-1背包问题"><span class="toc-text">A.0-1背包问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-完全背包问题"><span class="toc-text">B.完全背包问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C-多重背包问题"><span class="toc-text">C.多重背包问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3）序列问题"><span class="toc-text">3）序列问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#A-最长递增序列（LIS）"><span class="toc-text">A.最长递增序列（LIS）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-最长公共子序列（LCS）"><span class="toc-text">B.最长公共子序列（LCS）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C-最长连续序列和"><span class="toc-text">C.最长连续序列和</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-正则表达式匹配问题"><span class="toc-text">4) 正则表达式匹配问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#A-正则表达式匹配"><span class="toc-text">A.正则表达式匹配</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/cover.png?raw=true)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">BaiDing's blog</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">算法系列之动态规划（一）基础DP</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-03 15:06:05"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-03</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-12-02 11:11:09"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-12-02</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">1.6k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 5 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/03/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><meta name="referrer" content="no-referrer"/>
+
+<h1 id="动态规划系列（一）基础DP"><a href="#动态规划系列（一）基础DP" class="headerlink" title="动态规划系列（一）基础DP"></a>动态规划系列（一）基础DP</h1><p> &emsp; &emsp;  动态规划（英语：Dynamic programming，简称 DP）通过<strong>把原问题分解为相对简单的子问题的方式</strong>求解复杂问题的方法。</p>
+<p> &emsp; &emsp;  动态规划常常适用于有<strong>重叠子问题</strong>和<strong>最优子结构</strong>性质的问题，动态规划方法所耗时间往往远少于朴素解法。</p>
+<p> &emsp; &emsp;  最优子结构：当问题的最优解包含了子问题的最优解时，称该问题具有最优子结构。</p>
+<p> &emsp; &emsp;  重叠子问题：在递归求解问题时，每次产生的子问题并不总是新问题，有些子问题被反复计算多次。</p>
+<p> &emsp; &emsp;  动态规划的基本思想很简单，在求解某个问题时，我们需要解其不同部分（即子问题），将其记录在一个表中，根据子问题的解以得出原问题的解（<strong>状态转移矩阵</strong>）</p>
+<p> &emsp; &emsp;  动态规划往往用于<strong>优化递归问题</strong>，例如斐波那契数列，如果运用递归的方式来求解会重复计算很多相同的子问题，利用动态规划的思想可以减少计算量。</p>
+<p> &emsp; &emsp;  <strong>动态规划是自底向上，递归树是自顶向下</strong>。</p>
+<p> &emsp; &emsp; 与分治法不同，适用于动<strong>态规划求解的问题经分解得到的子问题往往不是相互独立的</strong>。</p>
+<p> &emsp; &emsp;  通常许多子问题非常相似，为此动态规划法试图仅仅解决每个子问题一次，具有天然剪枝的功能，从而减少计算量：一旦某个给定子问题的解已经算出，则将其记忆化存储，以便下次需要同一个子问题解之时直接查表。这种做法在重复子问题的数目关于输入的规模呈指数增长时特别有用。</p>
+<p><br></p>
+<p><strong>常用的解题步骤</strong></p>
+<ol>
+<li><strong>确定子问题：</strong> 在这一步重点是分析那些<strong>变量是随着问题规模的变小而变小的</strong>， 那些变量与问题的规模无关。 </li>
+<li><strong>确定状态：</strong>根据上面找到的子问题来给你分割的<strong>子问题限定状态</strong> 。</li>
+<li><strong>推到出状态转移方程：</strong>这里要注意你的状态转移方程是不是满足所有的条件， 注意不要遗漏。 </li>
+<li><strong>确定边界条件（开始点）</strong>：根据题目的信息来找到动态规划的开始点</li>
+<li><strong>确定实现方式：</strong>依照个人习惯，就像是01背包的两层for循环的顺序 。</li>
+<li><strong>确定优化方法：</strong>很多时候你会发现走到这里的时候你需要返回第1步重来。首先考虑降维问题（优化内存），优先队列、四边形不等式（优化时间）等等</li>
+</ol>
+<p><br></p>
+<h2 id="基础DP"><a href="#基础DP" class="headerlink" title="基础DP"></a>基础DP</h2><p> &emsp;  &emsp; 这类DP主要是一些状态比较容易表示，转移方程比较好想，问题比较基本常见的。主要包括递推、背包、最长递增序列（LIS），最长公共子序列（LCS）</p>
+<h3 id="1）递推问题"><a href="#1）递推问题" class="headerlink" title="1）递推问题"></a>1）递推问题</h3><p>PS：递推与递归是不同的</p>
+<blockquote>
+<p><strong>递归</strong>：直接或间接的自身调用自身，它通常把一个大型复杂的问题层层转化为一个与原问题相似的规模较小的问题来求解，先将现在要求的大问题放在原处不作处理，转而将其转化成几个小问题，在解决完小问题的基础上再回到原处来解决这个大问题，因此递归策略只需少量的程序就可描述出解题过程所需要的多次重复计算，大大地减少了程序的代码量，但是时间复杂度却比较高，易超时。</p>
+<p><strong>递推</strong>：由前推后，用若干步可重复的简运算或者规律来推下一步。它是按照一定的规律来计算序列中的每个项，通常是通过计算机前面的一些项来得出序列中的指定象的值。</p>
+<p><strong>迭代</strong>：为了逼近所需目标或结果而重复反馈过程的活动。每一次对过程的重复称为一次“迭代”，而每一次迭代得到的结果会作为下一次迭代的初始值。</p>
+</blockquote>
+<h4 id="A-斐波那契数列问题"><a href="#A-斐波那契数列问题" class="headerlink" title="A.斐波那契数列问题"></a>A.斐波那契数列问题</h4><p><strong>问题</strong></p>
+<p> &emsp;  &emsp; 斐波那契数列，又称黄金分割数列，指的是这样一个数列：<code>1、1、2、3、5、8、13、21、……</code>。求解第斐波那契数列的第n个值。</p>
+<p><strong>状态转移方程</strong></p>
+<script type="math/tex; mode=display">
+F(n)=F(n-1)+F(n-2) \\
+F(0)=1 \ \ \ \ \ 
+F(1)=1</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Fibonacci</span><span class="params">(n:int)</span>-&gt;int:</span></span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">0</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">1</span> <span class="keyword">or</span> n==<span class="number">2</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    array=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]</span><br><span class="line">    array[<span class="number">0</span>]=<span class="number">1</span>			<span class="comment">#表示F(1)</span></span><br><span class="line">    array[<span class="number">1</span>]=<span class="number">1</span>			<span class="comment">#表示F(2)</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,n):</span><br><span class="line">        array[i]=array[i<span class="number">-1</span>]+array[i<span class="number">-2</span>]		<span class="comment">#依据状态转移方程，进行递推</span></span><br><span class="line">    <span class="keyword">return</span> array[n<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="B-爬楼梯问题"><a href="#B-爬楼梯问题" class="headerlink" title="B.爬楼梯问题"></a>B.爬楼梯问题</h4><p><strong>问题</strong></p>
+<p> &emsp;  &emsp; 假设你正在爬楼梯。需要 <code>n</code> 阶你才能到达楼顶。每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
+<p><strong>状态转移方程</strong></p>
+<p> &emsp;  &emsp; 爬到第n阶的方案有两种，从<code>n-1</code>阶爬一个台阶，从<code>n-2</code>阶爬两个台阶，于是得到状态转移方程</p>
+<script type="math/tex; mode=display">
+F(n)=F(n-1)+F(n-2)\\
+F(1)=1\ \ \ F(2)=2</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">climb</span><span class="params">(n:int)</span>-&gt;int:</span></span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">0</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    array=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]</span><br><span class="line">    array[<span class="number">0</span>]=<span class="number">1</span>			<span class="comment">#表示F(1)</span></span><br><span class="line">    array[<span class="number">1</span>]=<span class="number">2</span>			<span class="comment">#表示F(2)</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,n):				</span><br><span class="line">        array[i]=array[i<span class="number">-1</span>]+array[i<span class="number">-2</span>]			<span class="comment">#根据状态转移方程得到递推公式</span></span><br><span class="line">    <span class="keyword">return</span> array[n<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="C-最少硬币问题"><a href="#C-最少硬币问题" class="headerlink" title="C.最少硬币问题"></a>C.最少硬币问题</h4><p><strong>问题</strong></p>
+<p> &emsp;  &emsp; 你有面值为1块、2块、5块的硬币，用尽可能少的硬币凑n块钱，给出最少的硬币的数目</p>
+<p><strong>状态转移方程</strong></p>
+<p> &emsp;  &emsp; 凑出n块钱的方案有三种：凑出<code>n-1</code>块+1块，凑出<code>n-2</code>块+2块，凑出<code>n-5</code>块加5块。使用最少的那个解决方案</p>
+<script type="math/tex; mode=display">
+F(n)=
+\begin{cases}
+min(F(n-1),F(n-2),F(n-5))+1 & & if&n>5\\
+min(F(n-1),F(n-2))+1 & & if&n<5
+\end{cases}
+\\
+F(1)=1\ \ \ F(2)=1</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">coin</span><span class="params">(n:int)</span>-&gt;int:</span></span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">0</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    array=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]</span><br><span class="line">    array[<span class="number">0</span>]=<span class="number">1</span>			<span class="comment">#表示F(1)</span></span><br><span class="line">    array[<span class="number">1</span>]=<span class="number">1</span>			<span class="comment">#表示F(2)</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,n):</span><br><span class="line">        <span class="keyword">if</span>(i&lt;<span class="number">5</span>):</span><br><span class="line">            array[i]=min(array(i<span class="number">-1</span>),array(i<span class="number">-2</span>))+<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            array[i]=min(array(i<span class="number">-1</span>),array(i<span class="number">-2</span>),array(i<span class="number">-5</span>))+<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> array[n<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p><br></p>
+<h3 id="2-背包问题"><a href="#2-背包问题" class="headerlink" title="2) 背包问题"></a>2) 背包问题</h3><h4 id="A-0-1背包问题"><a href="#A-0-1背包问题" class="headerlink" title="A.0-1背包问题"></a>A.0-1背包问题</h4><p><strong>问题</strong></p>
+<p> &emsp;  &emsp; 有一个背包可以存放M斤物品，有N种物品（每件物品只有1件），他们重量分别是w1,w2,w3……….，他们价值分别是p1,p2,p3……………。问怎么装载物品，使背包装的载物品价值最大？</p>
+<p><strong>例子</strong></p>
+<p> &emsp;  &emsp; 背包装10斤物品，有3件物品，重量分别是3斤，4斤，5斤，价值分别是4，5，6；问怎么装载物品，使背包装的载物品价值最大？</p>
+<p><strong>思路</strong></p>
+<p> &emsp;  &emsp; 我们可以构造一个数据结构C，其中C是一个<code>N+1</code>行，<code>M+1</code>列的矩阵。第<code>i+1</code>行表示，当只能存放前i个物品的情况；第j列表示，当前剩余容量为j斤。<code>c[i][j]</code> 表示当只能存放前i个物品，且剩余容量为j斤时的最大价值。由该数据结构，我们可以知道，第<code>N+1</code>行的情况，就是本次我们要解决的问题。<code>C[N][M]</code>就是我们要的结果</p>
+<p> &emsp;  &emsp; 对于本题，数据结构显示如下：</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/1.png?raw=true"  alt="1"></p>
+<p> &emsp;  &emsp; 我们自顶向下进行考虑，我们根据是否选取第<code>N</code>个物品进行判断，当总容量够放第<code>N</code>件物品时，则总价值等于第N件物品的价值+剩下<code>N-1</code>件在剩余容量下的总价值。当总容量不够放第N件物品时，总价值等于剩下<code>N-1</code>件物品在总容量下的总价值。</p>
+<p> &emsp;  &emsp; 其<strong>状态转移方程</strong>为：</p>
+<script type="math/tex; mode=display">
+C[N][M]=
+\begin{cases}
+max(p[N]+C[N-1][M-W[N]],C[N-1][M]) & & if&M>W[N]\\ 
+C[N-1][M] & & if&M<W[N]
+\end{cases}</script><p> &emsp;  &emsp; 根据状态转移方程，我们可以自底向上的写代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">zero_one_bag</span><span class="params">(W:List[int],P:List[int],M:int)</span>-&gt;int:</span></span><br><span class="line">    N=len(W)</span><br><span class="line">    C=[[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(M+<span class="number">1</span>)] <span class="keyword">for</span> j <span class="keyword">in</span> range(N+<span class="number">1</span>)]			<span class="comment">#构造N+1行，M+1列的数据结构</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,M+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> j&gt;=W[i]:			<span class="comment">#如果满足条件，进行更新</span></span><br><span class="line">            	C[i][j]=max(P[i]+C[i<span class="number">-1</span>][j-W[i]],C[i<span class="number">-1</span>][j])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                C[i][j]=C[i<span class="number">-1</span>][j]</span><br><span class="line">    <span class="keyword">return</span> C[N][M]</span><br></pre></td></tr></table></figure>
+<p><strong>优化</strong></p>
+<p> &emsp;  &emsp; 上面的解决方案，时间复杂度为<code>O(MN)</code>，空间复杂度为<code>O(MN)</code>。</p>
+<p> &emsp;  &emsp; 仔细观察状态转移方程，你会发现，在每次计算时，我们只用到了上一行的数据，那么我们只需要保存上一行的数据就行，可以将空间复杂度降为<code>O(2M)</code>。</p>
+<p> &emsp;  &emsp; 再仔细观察上图与状态转移方程，实际上，当我们计算C[i][j]时，我们只用到了上一行的第j列左边的那部分数据，因此我们可以将空间复杂度降为<code>O(M)</code>。代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">zero_one_bag</span><span class="params">(W,P,M)</span>:</span></span><br><span class="line">    N=len(W)</span><br><span class="line">    C=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(M+<span class="number">1</span>)]				<span class="comment">#只使用1维列表</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(M,W[i]<span class="number">-1</span>,<span class="number">-1</span>):   <span class="comment">#从M遍历到W(i)，逆序保证了后面的数据的正确更新</span></span><br><span class="line">            C[j]=max(P[i]+C[j-W[i]],C[j])</span><br><span class="line">    <span class="keyword">return</span> C[M]</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="B-完全背包问题"><a href="#B-完全背包问题" class="headerlink" title="B.完全背包问题"></a>B.完全背包问题</h4><p> &emsp;  &emsp; 完全背包问题与01背包问题的区别在于每一件物品的数量都有无限个，而01背包每件物品数量只有一个。</p>
+<p><strong>问题</strong></p>
+<p> &emsp;  &emsp; 有一个背包可以存放M斤物品，有N种物品（每件物品有无限件），他们重量分别是w1,w2,w3……….，他们价值分别是p1,p2,p3……………。问怎么装载物品，使背包装的载物品价值最大？</p>
+<p><strong>简单思路</strong></p>
+<p> &emsp;  &emsp; 将其转换成0-1背包，对每件物品增加一个循环，其状态转移方程为：</p>
+<script type="math/tex; mode=display">
+C[N][M]=max(k*p[N]+C[N-1][M-k*W[N]],C[N-1][M],C[M])\ \ \ \ \  0\le k*W[N]\le M
+\\
+在这里k=0，为上面的第二种情况</script><p><strong>优化</strong></p>
+<p> &emsp;  &emsp; 上面的解决方案想法简单，但增加了一个循环，时间复杂度为O(NMK)，我们可以利用0-1背包问题中的优化思路的解决方案，只需要将原来的逆序改成顺序。</p>
+<p> &emsp;  &emsp; 为什么将原来的逆序改成顺序，就从一个物体转换成无限个物体了呢？因为，在我们更新后面的值的时候，我们使用的是已经更新过的值，即当C[j]=P[i]的时候，就已经对添加一个物体做出了测试，当<code>C[j]=2*P[i]</code>时，使用的是<code>C[j]=P[i]</code>更新过的值，即此时，是对添加两个物体做出了测试，····。我们就可以得到我们最后的结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exclusive_bag</span><span class="params">(W:List[int],P:List[int],M:int)</span>-&gt;int:</span></span><br><span class="line">    N=len(W)	</span><br><span class="line">    C=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(M+<span class="number">1</span>)]				<span class="comment">#只使用1维列表</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(W(i),M+<span class="number">1</span>):   <span class="comment">#从W(i)遍历到M，顺序保证了可以添加无限多个物体</span></span><br><span class="line">            C[j]=max(P[i]+C[j-W[i]],C[j])</span><br><span class="line">    <span class="keyword">return</span> C[M]</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="C-多重背包问题"><a href="#C-多重背包问题" class="headerlink" title="C.多重背包问题"></a>C.多重背包问题</h4><p> &emsp;  &emsp; 多重背包问题与01背包问题、完全背包问题的区别在于每一件物品的数量都是固定的</p>
+<p><strong>问题</strong></p>
+<p> &emsp;  &emsp; 有一个背包可以存放M斤物品，有N种物品，他们的数量分别时v1,v2,v3……….，他们重量分别是w1,w2,w3……….，他们价值分别是p1,p2,p3……………。问怎么装载物品，使背包装的载物品价值最大？</p>
+<p><strong>思路</strong></p>
+<p> &emsp;  &emsp; 将其转换成0-1背包，对每件物品增加一个循环，其状态转移方程为：</p>
+<script type="math/tex; mode=display">
+C[N][M]=max(k*p[N]+C[N-1][M-k*W[N]],C[N-1][M],C[M])\ \ \ \ \  0\le k\le V[N]
+\\
+在这里k=0，为上面的第二种情况,注意临界条件，这里就不写了</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multi_bag</span><span class="params">(W:List[int],P:List[int],V:List[int],M:int)</span>-&gt;int:</span></span><br><span class="line">    N=len(W)</span><br><span class="line">    C=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(M+<span class="number">1</span>)]				<span class="comment">#只使用1维列表</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(M,W(i)<span class="number">-1</span>,<span class="number">-1</span>):   <span class="comment">#从M遍历到W(i)，逆序保证了后面的数据的正确更新</span></span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> range(V[i]):</span><br><span class="line">                <span class="keyword">if</span>(k*W[i]&lt;=j):</span><br><span class="line">            		C[j]=max(k*P[i]+C[j-k*W[i]],C[j],C[j])</span><br><span class="line">    <span class="keyword">return</span> C[M]</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p><br></p>
+<h3 id="3）序列问题"><a href="#3）序列问题" class="headerlink" title="3）序列问题"></a>3）序列问题</h3><h4 id="A-最长递增序列（LIS）"><a href="#A-最长递增序列（LIS）" class="headerlink" title="A.最长递增序列（LIS）"></a>A.最长递增序列（LIS）</h4><p><a href="https://leetcode-cn.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener">leetcode—题300</a></p>
+<p><strong>问题</strong></p>
+<p> &emsp;  &emsp; 给定一个无序的整数数组，找到其中最长上升子序列的长度。一个字符串的 <em>子序列</em> 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。</p>
+<p><strong>例子</strong></p>
+<p> &emsp;  &emsp; [4 2 3 1 5]的最长递增子序列为[2 3 5]，长度为 3 。</p>
+<p><strong>简单思路</strong></p>
+<p> &emsp;  &emsp; 记dp[i]表示当算到第i个元素时的最长递增子序列长度。易知，dp[0]=1。当计算dp[i]时，要将arr[i]与前面i个元素进行一一对比，如果小于，则等于其dp值+1，可得如下状态转移方程：</p>
+<script type="math/tex; mode=display">
+dp[i]=max(dp[k_1],dp[k_2],...)+1 \ \ \ \ \ \ \ \ \ when\ \ arr[k_1],arr[k_2],...<arr[i]
+\\
+dp[0]=1</script><p> &emsp;  &emsp; 算法时间复杂度O(n^2)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lengthOfLIS</span><span class="params">(arr:List[int])</span>-&gt;int:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> nums:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    N=len(arr)</span><br><span class="line">    dp=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(N)]</span><br><span class="line">    dp[<span class="number">0</span>]=<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N):</span><br><span class="line">        dp[i]=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(i):</span><br><span class="line">            <span class="keyword">if</span>(arr[k]&lt;arr[i] <span class="keyword">and</span> dp[k]+<span class="number">1</span>&gt;dp[i]):	<span class="comment">#与前i个元素的值一一对比，如果满足条件</span></span><br><span class="line">                dp[i]=dp[k]+<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> max(dp)			<span class="comment">#返回最大值</span></span><br></pre></td></tr></table></figure>
+<p><strong>优化</strong>  贪心+二分</p>
+<p> &emsp;  &emsp; 我们可以将时间复杂度优化到<code>O(n logn)</code>，看到<code>log n</code>，我们就知道该优化方法大概率要用二分了。</p>
+<p> &emsp;  &emsp; 我们观察上面的动态规划求解过程，我们容易发现，在对第i个元素进行讨论时，我们只使用到了前面元素中比 第i个元素小的 元素的 最长递增子序列的长度。因此，我们可以建立一个<strong>数据结构result</strong>，result记录了当前<strong>最长递增子序列的长度</strong>，以及在该长度下，<strong>最小的末尾元素</strong>（注意，该result记录的内容并不是最长递增子序列）。我们会将列表中的元素逐步加入到result中，让我们看看如何去维护该数据结构。</p>
+<ul>
+<li>将4加入<code>result</code>，result的元素为<code>[4]</code>，这表示，在输入为[4]时最长递增子序列长度最大为1，且存在某个最长递增子序列最小末尾元素为4</li>
+<li>将2加入<code>result</code>，由于2&lt;4。所以此时，最长递增子序列的长度最大为1，且存在某个最长递增子序列的最小末尾元素为2。此时<code>result</code>将会变成<code>[2]</code></li>
+<li>将3加入<code>result</code>，由于3&gt;2。所以此时，原本长度为1的最长递增子序列将会扩增，那个序列长度将会变成2，且该序列的最小末尾元素为3，此时<code>result</code>将会变成<code>[2，3]</code></li>
+<li>将1加入<code>result</code>，<code>1&lt;2</code>。而我们并不需要<code>result</code>中不是末尾的元素，即2的存在不重要。我们可以将其替换成1，以来保证在将来会出现以1为开始的最长递增子序列。此时<code>result</code>将会变成<code>[1，3]</code></li>
+<li><p>将5加入<code>result</code>，由于<code>5&gt;3</code>。所以此时，原本长度为2的最长递增子序列将会扩增，那个序列长度将会变成3，且该序列的最小末尾元素为5，此时<code>result</code>将会变成<code>[1，3，5]</code>。此时result更新完成</p>
+<p>&emsp;  &emsp; 我们对上面的过程进行总结，即遍历列表，逐步往<code>result</code>添加元素，如果该元素大于<code>result</code>内的所有值，则将其添加到<code>result</code>的末尾；如果该元素并不是大于<code>result</code>内的所有值，则替换掉<code>result</code>内比该元素大的最小的那个值。</p>
+<p>&emsp;  &emsp; 最后的<code>result</code>的长度就是我们的结果，我们可以对上面的插入过程进行优化，使用二分插入的方法，将插入时间缩减到<code>O(log n)</code>。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lengthOfLIS</span><span class="params">(nums: List[int])</span> -&gt; int:</span></span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> result <span class="keyword">or</span> num&gt;result[<span class="number">-1</span>]:	<span class="comment">#如果该元素大于result内的所有值</span></span><br><span class="line">            result.append(num)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            l, r= <span class="number">0</span>, len(result)<span class="number">-1</span>		<span class="comment">#二分法的左右指针</span></span><br><span class="line">            loc = r						<span class="comment">#标记result中大于num的最小值的index</span></span><br><span class="line">            <span class="keyword">while</span>(l&lt;=r):				<span class="comment">#二分查找找到大于num的最小值</span></span><br><span class="line">                mid = (l+r)//<span class="number">2</span></span><br><span class="line">                <span class="keyword">if</span>(result[mid]&gt;=num):</span><br><span class="line">                    loc = mid</span><br><span class="line">                    r = mid<span class="number">-1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    l = mid+<span class="number">1</span></span><br><span class="line">            result[loc]=num</span><br><span class="line">    <span class="keyword">return</span> len(result)</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="B-最长公共子序列（LCS）"><a href="#B-最长公共子序列（LCS）" class="headerlink" title="B.最长公共子序列（LCS）"></a>B.最长公共子序列（LCS）</h4><p><a href="https://leetcode-cn.com/problems/longest-common-subsequence/" target="_blank" rel="noopener">leecode—题1143</a></p>
+<p><strong>问题</strong></p>
+<p>给定两个字符串 <code>text1</code> 和 <code>text2</code>，返回这两个字符串的最长公共子序列。</p>
+<p><strong>举例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：text1 &#x3D; &quot;abcde&quot;, text2 &#x3D; &quot;ace&quot; </span><br><span class="line">输出：3  </span><br><span class="line">解释：最长公共子序列是 &quot;ace&quot;，它的长度为 3。</span><br></pre></td></tr></table></figure>
+<p><strong>思路</strong></p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/2.jpg?raw=true"  alt="2"></p>
+<ul>
+<li><code>dp[i][j]</code>表示<code>text1[0:i]</code>与<code>text2[0:j]</code>的最长公共子序列的长度</li>
+<li>当<code>text1[i-1]==text2[j-1]</code>说明这两个字符是公共的字符，只要考察其子问题，<code>dp[i-1][j-1]</code>的长度即可，在此基础上+1,</li>
+<li>当<code>text1[i-1]!=text2[j-1]</code>,说明这两个字符不是公共的字符，只要考察其两个子问题，<code>dp[i-1][j],dp[i][j-1]</code>,取max</li>
+<li>注意这里用的是<code>text1[i-1]</code>与<code>text2[j-1]</code>。我们增加了一行与一列空串，使我们能够方便的初始化<code>text1[0]</code>那一行与<code>text2[0]</code>那一列的值</li>
+</ul>
+<p><strong>状态转移方程</strong></p>
+<script type="math/tex; mode=display">
+dp[i][j]=
+\begin{cases}
+dp[i-1][j-1]+1 & & if&text1[i-1]==text2[j-1]\\ 
+max(dp[i][j-1],dp[i-1][j]) & & if&text1[i-1]!=text2[j-1]
+\end{cases}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lengthOfLCS</span><span class="params">(text1: str, text2: str)</span> -&gt; int:</span></span><br><span class="line">    N=len(text1)</span><br><span class="line">    M=len(text2)</span><br><span class="line">    <span class="keyword">if</span> N==<span class="number">0</span> <span class="keyword">or</span> M==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    dp=[[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(M+<span class="number">1</span>)] <span class="keyword">for</span> j <span class="keyword">in</span> range(N+<span class="number">1</span>)]		<span class="comment">#构造N行M列的数据结构</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,M+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> text1[i<span class="number">-1</span>]==text2[j<span class="number">-1</span>]:</span><br><span class="line">                dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>]+<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dp[i][j]=max(dp[i][j<span class="number">-1</span>],dp[i<span class="number">-1</span>][j])</span><br><span class="line">    <span class="keyword">return</span> dp[N][M]</span><br></pre></td></tr></table></figure>
+<p><strong>优化</strong></p>
+<p>这个题可以像背包问题那样，将矩阵转换成两个一维数组来进行计算。</p>
+<p><br></p>
+<h4 id="C-最长连续序列和"><a href="#C-最长连续序列和" class="headerlink" title="C.最长连续序列和"></a>C.最长连续序列和</h4><p><a href="https://leetcode-cn.com/problems/maximum-subarray/" target="_blank" rel="noopener">leetcode—题53最大子序和</a></p>
+<p><strong>问题</strong></p>
+<p> &emsp;&emsp;  给定一个整数数组 <code>nums</code> ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<p><strong>示例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">输出: 6</span><br><span class="line">解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。</span><br></pre></td></tr></table></figure>
+<p><strong>思路</strong></p>
+<p> &emsp;&emsp;  此次思路采用动态规划与双指针算法思想得融合。首先初始化左右指针指向首元素，右指针开始移动，计算左指针到右指针得总和，若小于0，则左指针移动到右指针得位置，右指针继续移动，若和大于最大值，则更新最大值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maxSubSequence</span><span class="params">(arr:List[int])</span>-&gt;int:</span></span><br><span class="line">    thisSum = maxSum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> arr:</span><br><span class="line">        thisSum += a</span><br><span class="line">        <span class="keyword">if</span> thisSum &gt; maxSum:</span><br><span class="line">            maxSum = thisSum</span><br><span class="line">        <span class="keyword">elif</span> thisSum &lt;<span class="number">0</span>:</span><br><span class="line">            thisSum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> maxSum</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p><br></p>
+<h3 id="4-正则表达式匹配问题"><a href="#4-正则表达式匹配问题" class="headerlink" title="4) 正则表达式匹配问题"></a>4) 正则表达式匹配问题</h3><h4 id="A-正则表达式匹配"><a href="#A-正则表达式匹配" class="headerlink" title="A.正则表达式匹配"></a>A.正则表达式匹配</h4><p><a href="https://leetcode-cn.com/problems/regular-expression-matching/" target="_blank" rel="noopener">leetcode—题10正则表达式匹配</a></p>
+<p><strong>问题</strong></p>
+<p>给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 ‘.’ 和 ‘*’ 的正则表达式匹配。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#39;.&#39; 匹配任意单个字符</span><br><span class="line">&#39;*&#39; 匹配零个或多个前面的那一个元素</span><br><span class="line">所谓匹配，是要涵盖 整个 字符串 s的，而不是部分字符串。</span><br></pre></td></tr></table></figure>
+<p>说明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s 可能为空，且只包含从 a-z 的小写字母。</span><br><span class="line">p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。</span><br></pre></td></tr></table></figure>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">s &#x3D; &quot;aa&quot;</span><br><span class="line">p &#x3D; &quot;a*&quot;</span><br><span class="line">输出: true</span><br><span class="line">解释: 因为 &#39;*&#39; 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 &#39;a&#39;。因此，字符串 &quot;aa&quot; 可被视为 &#39;a&#39; 重复了一次。</span><br></pre></td></tr></table></figure>
+<p><strong>思路</strong></p>
+<ul>
+<li>记<code>N=len(text),M=len(pattern)</code>，建立一个<code>N+1</code>行，<code>M+1</code>列的<code>dp</code>bool矩阵，其中<code>dp[i][j]</code>表示<code>text[i:]</code> 与<code>pattern[j:]</code> 是否匹配。</li>
+<li>初始化所有值为<code>False</code>，我们很容易就知道<code>dp[-1][-1]=True</code>，因为两个空值，一定匹配。于是我们从后往前进行遍历，直到计算出<code>dp[0][0]</code></li>
+<li>当遍历到<code>dp[i][j]</code>时，其可能碰到的情况如下：<ul>
+<li>定义<code>first_match</code>表示<code>text[i]</code>与<code>pattern[j]</code>是否匹配，因为正则表达式<code>.</code>的存在，我们可以得到<code>first_match = pattern[j] in {text[i],&#39;.&#39;}</code></li>
+<li>1、如果<code>pattern[j]</code> 为正则表达式<code>*</code>时，我们要考虑两种情况<ul>
+<li>第一种：该<code>*</code>表示零个<code>pattern[j]</code>的情况，此时<code>dp[i][j] = dp[i][j+2]</code></li>
+<li>第二种：该<code>*</code> 表示多个<code>pattern[j]</code>的情况，此时如果<code>first_match</code>为<code>True</code>，则我们要考虑<code>text[i+1]</code>是否与<code>pattern[j]</code>相同（即<code>dp[i+1][j]</code>是否为<code>True</code>)</li>
+</ul>
+</li>
+<li>综合上面的情况，我们可以得到此时<code>dp[i][j] =dp[i][j+2] or(first_match and dp[i+1][j])</code></li>
+<li>2、如果<code>pattern[j]</code> 不是正则表达式<code>*</code>时，我们只需要考虑<code>text[i]与pattern[j]</code>是否匹配，以及之后的字符串是否匹配，即<code>dp[i][j]=first_match and dp[i+1][j+1]</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>状态转移方程</strong></p>
+<script type="math/tex; mode=display">
+first\_match = pattern[j]\quad in\quad \{text[i]，'.'\}
+\\
+dp[i][j]=
+\begin{cases}
+dp[i][j+2]\quad or\quad (first\_match\quad and\quad dp[i+1][j]) & & pattern[j+1]=='*' \\ 
+first\_match\quad and\quad dp[i+1][j+1] & & pattern[j+1] != '*' 
+\end{cases}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isMatch</span><span class="params">(text:List[int], pattern:List[int])</span>-&gt;int:</span></span><br><span class="line">    <span class="comment">#初始化</span></span><br><span class="line">    dp = [[<span class="literal">False</span>] * (len(pattern)+<span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> range(len(text)+<span class="number">1</span>)]</span><br><span class="line">    dp[<span class="number">-1</span>][<span class="number">-1</span>] = <span class="literal">True</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#逆序进行遍历dp矩阵</span></span><br><span class="line">    <span class="comment">#我们需要考虑第len(text)行，是为了保证""与"a*"情况的考虑</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(text),<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(len(pattern)<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">            first_match = i &lt; len(text) <span class="keyword">and</span> pattern[j] <span class="keyword">in</span> &#123;text[i],<span class="string">'.'</span>&#125;</span><br><span class="line">            <span class="comment">#判断下一个字符是否为'*'</span></span><br><span class="line">            <span class="keyword">if</span> j+<span class="number">1</span> &lt; len(pattern) <span class="keyword">and</span> pattern[j+<span class="number">1</span>] == <span class="string">'*'</span>:</span><br><span class="line">                dp[i][j] = dp[i][j+<span class="number">2</span>] <span class="keyword">or</span> (first_match <span class="keyword">and</span> dp[i+<span class="number">1</span>][j])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dp[i][j] = first_match <span class="keyword">and</span> dp[i+<span class="number">1</span>][j+<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>参考链接</strong></p>
+<ul>
+<li><a href="https://leetcode-cn.com/tag/dynamic-programming/" target="_blank" rel="noopener">leetcode动态规划</a> </li>
+<li><a href="https://blog.csdn.net/eagle_or_snail/article/details/50987044" target="_blank" rel="noopener">动态规划总结与题目分类</a></li>
+<li><a href="https://blog.csdn.net/lxt_Lucia/article/details/81100723" target="_blank" rel="noopener">动态规划入门之dp递推～</a></li>
+<li><a href="https://www.cnblogs.com/usa007lhy/archive/2013/05/19/3087195.html" target="_blank" rel="noopener">0-1背包问题动态规划详解</a></li>
+<li><a href="https://blog.csdn.net/qq_41765114/article/details/88415541?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">最长递增子序列（LIS）</a></li>
+<li><a href="https://leetcode-cn.com/problems/longest-common-subsequence/solution/a-fei-xue-suan-fa-zhi-by-a-fei-8/" target="_blank" rel="noopener">阿飞学算法-1143. 最长公共子序列(一维数组，压缩空间，多解法)</a></li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">白丁</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://baidinghub.github.io/2020/04/03/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/">http://baidinghub.github.io/2020/04/03/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://baidinghub.github.io" target="_blank">BaiDing's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDyIdOn/M/aXcGQOiSDVMqvN2gxDdiESHUfFuB2YMy48fvNN9SZOQUbVlGF4Pk6nDXIAir+br/EWuEnNLtgOCYMo/BTxl29gqS/QGHPiDaIQedzmLcuRZpfDuGit61N/b9pyktpZLagBgbl5Ox9mAgWQxXyhxYB092gyOXqrBULBeZUYQ+H7Eupha10QTQghHv4nLk+oYWo2UXEiijQpE3qMXT32G8v8k0KbRdd1hIFPyNEx6eZ6Buc2ZdbMtoutdGjvdnw5B1+dxgl1egESPChzcwCMxt3NW/3faQ5lsjRhQD4fRU+Ua/aqXe+0xg2+xr0BTjNr/JZIAaNiLuo71lH 1564026260@qq.com" async="async"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/wechat.png?raw=true" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/alipay.jpg?raw=true" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/03/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/"><img class="prev_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">算法系列之双指针法</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/03/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B4%AA%E5%BF%83%E6%B3%95/"><img class="next_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B4%AA%E5%BF%83%E6%B3%95/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">算法系列之贪心法</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/04/03/算法系列之十大排序算法/" title="算法系列之十大排序算法"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">算法系列之十大排序算法</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/算法系列之广度优先搜索/" title="算法系列之广度优先搜索"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">算法系列之广度优先搜索</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/算法系列之双指针法/" title="算法系列之双指针法"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">算法系列之双指针法</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/算法系列之贪心法/" title="算法系列之贪心法"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B4%AA%E5%BF%83%E6%B3%95/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">算法系列之贪心法</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/算法系列之深度优先搜索/" title="算法系列之深度优先搜索"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">算法系列之深度优先搜索</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: 'd3948be001a91411dfd9',
+  clientSecret: 'ebddf2a2a5a039922fb373a8a8c0efcc439bf6ca',
+  repo: 'BaiDingHub.github.io',
+  owner: 'BaiDingHub',
+  admin: ['BaiDingHub'],
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  perPage: 10,
+  distractionFreeMode: false,
+  pagerDirection: 'last',
+  createIssueManually: false,
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  try {
+    document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+  } catch (e) {
+    return false
+  }
+}</script></div></article></main><footer id="footer" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%80%EF%BC%89%E5%9F%BA%E7%A1%80DP/cover.png?raw=true)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By 白丁</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://jerryc.me/" target="_blank" rel="noopener">blog</a>!</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js" ></script><script src="/js/utils.js" ></script><script src="/js/main.js" ></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/js/search/algolia.js"></script></body></html>

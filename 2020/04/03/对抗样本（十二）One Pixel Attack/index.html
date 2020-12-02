@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>对抗样本（十二）One Pixel Attack | BaiDing's blog</title><meta name="description" content="对抗样本（十二）One Pixel Attack"><meta name="keywords" content="深度学习,对抗攻击"><meta name="author" content="白丁"><meta name="copyright" content="白丁"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://raw.githubusercontent.com/BaiDingHub/Blog_images/master/BlogSource/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="crossorigin"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="x-1ef6P_miWkq-RJn_fmjd3KYumrXANNXYzK1myaLf0"/><meta name="baidu-site-verification" content="guD6l44Chk"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="对抗样本（十二）One Pixel Attack"><meta name="twitter:description" content="对抗样本（十二）One Pixel Attack"><meta name="twitter:image" content="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/cover.png?raw=true"><meta property="og:type" content="article"><meta property="og:title" content="对抗样本（十二）One Pixel Attack"><meta property="og:url" content="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/"><meta property="og:site_name" content="BaiDing's blog"><meta property="og:description" content="对抗样本（十二）One Pixel Attack"><meta property="og:image" content="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/cover.png?raw=true"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css" ><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/"><link rel="prev" title="对抗样本（十三）Feature Adversary" href="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%89%EF%BC%89Feature%20Adversary/"><link rel="next" title="对抗样本（十一）Universal Perturbation" href="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Universal%20Perturbation/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-162698439-1', 'auto');
+ga('send', 'pageview');
+</script><script src="https://tajs.qq.com/stats?sId=66540586" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"4JGH9NW4XG","apiKey":"41cdb6d9ec4d21196956524e9c985b36","indexName":"baiding","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/avatar.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/friend_404.gif?raw=true'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">89</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">57</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、论文相关信息"><span class="toc-text">一、论文相关信息</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#emsp-emsp-1-论文题目"><span class="toc-text">&amp;emsp;&amp;emsp;1.论文题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#emsp-emsp-2-论文时间"><span class="toc-text">&amp;emsp;&amp;emsp;2.论文时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#emsp-emsp-3-论文文献"><span class="toc-text">&amp;emsp;&amp;emsp;3.论文文献</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、论文背景及简介"><span class="toc-text">二、论文背景及简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、论文内容总结"><span class="toc-text">三、论文内容总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、论文主要内容"><span class="toc-text">四、论文主要内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Introduction"><span class="toc-text">1. Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Related-Works"><span class="toc-text">2. Related Works</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Methodology"><span class="toc-text">3. Methodology</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Problem-Descroption"><span class="toc-text">A. Problem Descroption</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Differential-Evolution-DE进化算法"><span class="toc-text">B. Differential Evolution DE进化算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-Method-and-Settings-方法"><span class="toc-text">C. Method and Settings 方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Evaluation-And-Results"><span class="toc-text">4. Evaluation And Results</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Kaggle-CIFAR-10"><span class="toc-text">A. Kaggle CIFAR-10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-ImageNet"><span class="toc-text">B. ImageNet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-Results"><span class="toc-text">C. Results</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Results-On-Original-CIFAR-10-Test-Data"><span class="toc-text">5. Results On Original CIFAR-10 Test Data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Discussion"><span class="toc-text">6. Discussion</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Adversarial-Perturbation"><span class="toc-text">A. Adversarial Perturbation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Robustness-Of-One-pixel-Attack"><span class="toc-text">B. Robustness Of One-pixel Attack</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Future-Work"><span class="toc-text">7. Future Work</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/cover.png?raw=true)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">BaiDing's blog</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">对抗样本（十二）One Pixel Attack</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-03 13:12:05"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-03</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-12-02 11:11:09"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-12-02</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/">对抗样本</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">4.3k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 14 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><meta name="referrer" content="no-referrer"/>
+
+<h1 id="一、论文相关信息"><a href="#一、论文相关信息" class="headerlink" title="一、论文相关信息"></a>一、论文相关信息</h1><h2 id="emsp-emsp-1-论文题目"><a href="#emsp-emsp-1-论文题目" class="headerlink" title="&emsp;&emsp;1.论文题目"></a>&emsp;&emsp;1.论文题目</h2><p>&emsp;&emsp;&emsp;&emsp; <strong>One pixel attack for fooling deep neural networks</strong> </p>
+<h2 id="emsp-emsp-2-论文时间"><a href="#emsp-emsp-2-论文时间" class="headerlink" title="&emsp;&emsp;2.论文时间"></a>&emsp;&emsp;2.论文时间</h2><p>&emsp;&emsp;&emsp;&emsp;<strong>2017年</strong></p>
+<h2 id="emsp-emsp-3-论文文献"><a href="#emsp-emsp-3-论文文献" class="headerlink" title="&emsp;&emsp;3.论文文献"></a>&emsp;&emsp;3.论文文献</h2><p>&emsp;&emsp;&emsp;&emsp; <a href="https://arxiv.org/abs/1710.08864" target="_blank" rel="noopener">https://arxiv.org/abs/1710.08864</a></p>
+<p><br></p>
+<h1 id="二、论文背景及简介"><a href="#二、论文背景及简介" class="headerlink" title="二、论文背景及简介"></a>二、论文背景及简介</h1><p> &emsp;&emsp; 在这篇文论中，作者提出了一个在极端有限环境下的一种攻击方式，<strong>只需要修改图片的一个像素</strong>。作者提出了一个方法，利用<strong>进化算法differential evolution(DE)</strong>来生成这样对抗扰动。这种攻击方式属于<strong>黑盒攻击</strong>，通过DE得到的内在特征，它仅仅需要知道很少的信息，就能够欺骗很多类型的网络。</p>
+<p> &emsp;&emsp; 通过实验能得到，该方法能够在Kaggle上的CIFAR-10上攻击67.97%的图像，平均置信度74.03%，能够在ImageNet上攻击16.04%的图像，平均置信度22.91%。</p>
+<p><br></p>
+<h1 id="三、论文内容总结"><a href="#三、论文内容总结" class="headerlink" title="三、论文内容总结"></a>三、论文内容总结</h1><ul>
+<li>论文提出了一种极其特别的攻击方法，<strong>one-pixel attack</strong>，该攻击方式只需要修改图片的一个像素</li>
+<li>使用<strong>DE进化算法</strong>来得到合适的扰动位置和扰动值</li>
+<li>在CIFAR-10和ImageNet上做出了实验。</li>
+</ul>
+<p>附：如需继续学习对抗样本其他内容，请查阅<a href="https://blog.csdn.net/StardustYu/article/details/104410055" target="_blank" rel="noopener">对抗样本学习目录</a></p>
+<h1 id="四、论文主要内容"><a href="#四、论文主要内容" class="headerlink" title="四、论文主要内容"></a>四、论文主要内容</h1><h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h2><p> &emsp;&emsp; 大多数先前的攻击都没有考虑对抗性攻击的极端有限的场景，即修改可能过多（即修改像素的数量相当大），以致于人眼可以察觉到它。此外，研究在极其有限的场景下产生的对抗性图像可能会对DNN模型在高维空间中的几何特征和整体行为提供新的见解。比如：靠近决策边界的扰动的特征可用来描述边界的形状。</p>
+<p> &emsp;&emsp; 在这篇论文中，通过DE（进化算法）来仅仅扰动一个像素，我们实现了一个黑盒攻击方法。我们的方法的优点如下：</p>
+<ul>
+<li><strong>有效性</strong>。在Kaggle 的CIFAR-10数据集上，我们通过仅修改一个像素来进行无目标攻击，对三个网络结构进行攻击，达到了68.71%，71.66%，63.53%的成功率。另外，我们发现，每一张原始图像可以平均被扰动成1.8，2.1，1.5个其他的类。在原始的CIFAR-10数据集上，我们有22.6%，35.2%，31.4%的成功率。在ImageNet数据集上，对AlexNet进行无目标攻击，实现了16.04%的成功率。</li>
+<li><strong>半黑盒攻击</strong>。我们的攻击，仅仅需要黑盒模型的类别概率标签，不需要目标模型的其他信息(梯度、网络结构)。我们的方法比现存的方法更加<strong>简单</strong>，因为我们并不需要把搜索扰动的问题抽象成任何显示的目标函数，<strong>只需要关注能否增加目标类别的概率即可</strong>。</li>
+<li><p><strong>灵活性</strong>。我们的攻击可以很多类型的网络，甚至那些不可导的模型。</p>
+<p>&emsp;&emsp; 之所以考虑极其有限的单像素攻击场景，主要有以下几个原因：</p>
+</li>
+<li><p><strong>原始图像的邻域分析</strong>。先前的工作<strong>通过限制扰动的长度来分析原始图像的邻域</strong>，比如universal perturbation的方法。另一方面，<strong>对少量的像素点进行扰动可以看作为通过使用非常低维的切片切割输入空间</strong>，这是一种<strong>探索高维DNN输入空间特征</strong>的另一种方式。one-pixel attack就是上面的攻击方式的一种极端的例子。理论上，它可以给CNN输入空间的理解提供几何学上的见解。</p>
+</li>
+<li><strong>A Measure of Perceptiveness</strong>，实际上，这种攻击方法可以有效的隐藏扰动。从之前的论文来看，没有哪一个工作可以证明一个扰动可以完全的被忽略。一个直接得减轻这个问题的方式就是限制扰动的数量。特别的，相比于在理论上提出一种限制条件或者考虑更加复杂的损失函数来限制扰动，我们提出了一个经验解决方案，通过限制可以修改的像素数。换句话说，就是我们<strong>使用像素数作为单位而不是扰动向量的长度来测量扰动强度</strong>，并考虑最坏的情况，即一个像素修改，以及两个其他场景（即3和5个像素）进行比较。</li>
+</ul>
+<h2 id="2-Related-Works"><a href="#2-Related-Works" class="headerlink" title="2. Related Works"></a>2. Related Works</h2><p> &emsp;&emsp; 讲解了以下近年来的对抗攻击、对抗防御的工作，简单介绍了对DNN的分类空间描述方便的工作，以及黑盒攻击的工作</p>
+<h2 id="3-Methodology"><a href="#3-Methodology" class="headerlink" title="3. Methodology"></a>3. Methodology</h2><h3 id="A-Problem-Descroption"><a href="#A-Problem-Descroption" class="headerlink" title="A. Problem Descroption"></a>A. Problem Descroption</h3><p> &emsp;&emsp; 令$\ f$ 表示目标分类器，其输入为$\ x=(x_1,…,x_n)$ ，原始标签为$\ t$ ，在类别$\ t$ 处的概率为$\ f_t(x)$ ，扰动为$\ e(x)=(e_1,…,e_n)$ ，目标类别为$\ adv$ ，其最大限制值为$\ L$ 。则生成对抗样本的优化问题描述为：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+max_{e(x)^*} &\ f_{adv}(x+e(x))\\
+s.t.\quad&||e(x)|| \le L\\
+\end{split}
+\end{equation}</script><p> &emsp;&emsp; 该问题主要是去寻找两个值：1.需要扰动哪个维度的值；2.每个维度需要扰动多大的值。</p>
+<p> &emsp;&emsp; 对于我们这个问题来说，我们需要对其进行一点点的修改：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+max_{e(x)^*} &\ f_{adv}(x+e(x))\\
+s.t.\quad&||e(x)||_0 \le d\\
+\end{split}
+\end{equation}</script><p> &emsp;&emsp; 其中$\ d$ 是一个比较小的值，在one-pixel attack中$\ d=1$ 。</p>
+<p> &emsp;&emsp; one-pixel attack可以被看作是在一个数据点的n维空间中的一维的方向上进行移动</p>
+<h3 id="B-Differential-Evolution-DE进化算法"><a href="#B-Differential-Evolution-DE进化算法" class="headerlink" title="B. Differential Evolution DE进化算法"></a>B. Differential Evolution DE进化算法</h3><p> &emsp;&emsp; DE进化算法是一种基决复杂多模态优化问题的流行的优化算法。DE属于进化算法的一般范畴。此外，它<strong>在种群选择阶段有保持多样性的机制</strong>，因此在实践中，它有望<strong>有效地找到比基于梯度的解甚至其他类型的进化算法更高质量的解</strong>。</p>
+<p> &emsp;&emsp; 具体来说，在每次迭代过程中，根据当前总体（父项）生成另一组候选解决方案（子项）。然后将这些孩子与他们相应的父母进行比较，如果他们比他们的父母更适合（拥有更高的适应值），他们就可以存活下来。这样，只有将父母和孩子进行比较，才能同时达到保持多样性和提高适应值的目的。</p>
+<p> &emsp;&emsp; DE算法并<strong>不使用梯度信息来进行优化</strong>，因此不要求目标函数是可微的或以前已知的。因此，与基于梯度的方法相比，它可以用于更广泛的优化问题（例如，不可微、动态、噪声等）。使用DE生成对抗样本具有以下主要优点：</p>
+<ul>
+<li><strong>Higher probability of Finding Global Optima 找到全局最优解的概率较高</strong>。DE是一种元启发式算法，与梯度下降或贪婪搜索算法相比，它相对较少受到局部极小的影响（这部分是由于多样性保持机制和一组候选解的使用）。此外，本文考虑的问题有一个严格的约束（只能修改一个像素），这使得它相对困难。</li>
+<li><strong>Require Less Information from Target System 需要较少的目标系统的信息</strong>。DE不要求优化问题如梯度下降法、拟牛顿法等经典优化方法所要求的那样是可微的。这在生成敌对图像的情况下是至关重要的，因为，1）有些网络是不可微的。2） 计算梯度需要更多关于目标系统的信息，这在很多情况下是不现实的。</li>
+<li><p><strong>Simplicity 简单</strong>。这里提出的方法与使用的分类器无关。要使攻击发生，只需知道概率标签就足够了。</p>
+<p>&emsp;&emsp; 有许多对DE算法的变体或改进，如自适应、多目标等。考虑到这些变化/改进，当前的工作可以进一步改进。</p>
+</li>
+</ul>
+<h3 id="C-Method-and-Settings-方法"><a href="#C-Method-and-Settings-方法" class="headerlink" title="C. Method and Settings 方法"></a>C. Method and Settings 方法</h3><p> &emsp;&emsp; 我们将扰动编码成一个矩阵（候选解），矩阵通过差分进化进行优化（进化）。一个候选解包含固定数量的扰动，每个扰动是一个包含五个元素的元组：x-y坐标和扰动的RGB值。一个扰动修改一个像素。候选解（总体）的初始数目为400，在每次迭代中，将使用通常的DE公式生成另外400个候选解（子解）：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+x_i(g+1) =& x_{r_1}(g) + F(x_{r_2}(g) - x_{r_3}(g))\\
+&r_1 \ne r_2 \ne r_3\\
+\end{split}
+\end{equation}</script><p> &emsp;&emsp; 其中$\ x_i$ 是候选解的某个元素，$\ r_1,r_2,r_3$ 表示随机数，$\ F$ 是一个范围参数，设为0.5，$\ g$ 表示目前迭代的index。 </p>
+<p> &emsp;&emsp; 在每一次迭代后，我们会将每一个候选解，与其相对应的父解进行对比，胜者进入下一轮迭代过程。</p>
+<p> &emsp;&emsp; 最大迭代次数设置为100，当对Kaggle-CIFAR-10进行有目标攻击时，当目标类的概率标签超过90%时或当ImageNet受到无目标攻击时，当真类的标签低于5%时，会进行early stop。之后，类别真实标签与最高概率的非真实标签进行比较来评价是否该攻击成功了。</p>
+<p> &emsp;&emsp; <strong>初始化父解</strong>，通过对CIFAR-10图像使用均匀分布U（1，32）和对ImageNet图像使用均匀分布U（1，227）来初始化，以生成x-y坐标。通过高斯分布$\ N(\mu=128,\sigma=127)$ 来初始化RGB值。</p>
+<p> &emsp;&emsp; fitness函数，在CIFAR-10上采用目标类别的概率，在ImageNet上采用真实类别的概率。</p>
+<h2 id="4-Evaluation-And-Results"><a href="#4-Evaluation-And-Results" class="headerlink" title="4. Evaluation And Results"></a>4. Evaluation And Results</h2><p> &emsp;&emsp; 在CIFAR-10和ImageNet上对上述攻击方法进行评估，引入了几种对攻击效率的评价标准：</p>
+<ul>
+<li>攻击成功率</li>
+<li>对抗概率标签（置信度）：累积每个成功扰动的目标类的概率标签值，然后除以成功扰动的总数。该度量表示当错误分类敌对图像时，目标系统给出的平均置信度</li>
+<li>目标类别数量：统计成功扰动到目标类的特定数量（即从0到9）的自然图像的数量。特别是，通过计算不能被任何其他类干扰的图像数量，可以评估非目标攻击的有效性。</li>
+<li>原始目标类对的数量：统计每个原始目标类对被攻击成功的次数。</li>
+</ul>
+<h3 id="A-Kaggle-CIFAR-10"><a href="#A-Kaggle-CIFAR-10" class="headerlink" title="A. Kaggle CIFAR-10"></a>A. Kaggle CIFAR-10</h3><p> &emsp;&emsp; 在CIFAR-10训练集上，作者训练了3种类型的网络，分别时全卷积网络，NIN网络和VGG16网络，其模型结构如下：</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/1.png?raw=true"  alt="1"></p>
+<p> &emsp;&emsp; 对每一个网络都进行有目标攻击和无目标攻击，每一次攻击都从Kaggle CIFAR-10的测试集中随机选取500张图片。</p>
+<p> &emsp;&emsp; 注意，我们使用Kaggle CIFAR-10测试数据集而不是最初的实验。该数据集包含300000幅CIFAR-10图像，这些图像可以进行如下修改：复制、旋转、剪切、模糊、添加少量随机坏像素等。然而，具体采用的修改算法尚未发布。这使得它成为一个更实用的数据集，可以模拟图像可能包含未知随机噪声的常见场景。</p>
+<p> &emsp;&emsp; 此外，在全卷积网络上进行了一个实验，生成了500幅经过3和5个像素修改的对抗性图像。其目的是比较单像素攻击与三像素和五像素攻击。对于每个自然图像，会进行9次目标攻击，试图将其扰动到其他9个目标类。需要注意的是，我们实际上只是进行有目标攻击，而无目标攻击的有效性是根据有目标攻击结果来评估的。也就是说，如果一个图像可以被扰动到总共9个类中的至少一个目标类，则对该图像的非目标攻击成功。总的来说，它创造了总共36000个对抗性图像。</p>
+<h3 id="B-ImageNet"><a href="#B-ImageNet" class="headerlink" title="B. ImageNet"></a>B. ImageNet</h3><p> &emsp;&emsp; 在ImageNet上，我们采用无目标攻击，其DE的参数与CIFAR-10的一样。不同的是，在DE的过程中，我们的fitness函数是为了减少真实类别的概率。</p>
+<p> &emsp;&emsp; 我们的实验模型是BVLC AlexNet网络，使用了ILSVRC 2012测试集中的105个图片。还把这些图片从有损jpeg格式转换成了png格式。采用了center cropping预处理图片，将其resize成227x227大小。</p>
+<h3 id="C-Results"><a href="#C-Results" class="headerlink" title="C. Results"></a>C. Results</h3><p> &emsp;&emsp; 在CIFAR-10和BVLC网络上的one-pixel攻击的成功率和置信度如下：</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/2.png?raw=true"  alt="2"></p>
+<p> &emsp;&emsp; 在Kaggle CIFAR-10上的three-pixel 和five-pixel attack的结果如下：</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/3.png?raw=true"  alt="3"></p>
+<p> &emsp;&emsp; 目标类别以及original-target的实验结果如下：</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/4.png?raw=true"  alt="4"></p>
+<p><strong>Success Rate and Adversarial Probability Labels (Targeted Attack Results)</strong></p>
+<p> &emsp;&emsp; 在Kaggle CIFAR-10上的不同模型的成功率可以看出，one-pixel在不同模型之间具有泛化性，平均每个图片可以被扰动为两种目标类别。另外，通过增加扰动像素的数量，可攻击的目标类别的数量也增加了许多。</p>
+<p> &emsp;&emsp; 在ImageNet上，结果显示，one-pixel攻击对大尺寸的图像也泛化的很好。有22.91%的概率可以让ImageNet的16.04%的图像被误分类。</p>
+<p><strong>Number ofTarget Classes (Non-targeted Attack Results)</strong></p>
+<p> &emsp;&emsp; 关于图5中所示的结果，我们发现只要一个像素的修改，就可以将相当数量的自然图像扰动到两个、三个和四个目标类。通过增加修改的像素数，对更多目标类的扰动变得非常可能。在非目标单像素攻击的情况下，VGG16网络对所提出的攻击具有略高的鲁棒性。这表明所有三种类型的网络（AllConv网络、NiN和VGG16）都易受此类攻击。</p>
+<p><strong>Original-Target Class Pairs</strong></p>
+<p> &emsp;&emsp; 实验表明，有一些数据对更容易被扰动，比如类别3更容易被扰动成类别5.而且heat-map矩阵大部分是对称的</p>
+<p><strong>Time complexity and average distortion</strong></p>
+<p> &emsp;&emsp; 我们使用进化的次数来评估时间复杂度，其中进化的次数等于候选解的个数乘以迭代次数。同时统计了单像素平均扰动大小。</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/5.png?raw=true"  alt="5"></p>
+<p><strong>Comparing with Random One-Pixel Attack</strong></p>
+<p> &emsp;&emsp; 我们将我们的方法与随机的one-pixel攻击进行对比，来证明DE是有用的。我们对图像进行随机的选择，重复100次，每次随机的修改一个像素，采用随机的RGB值。实验发现，随机攻击的最高置信度等于DE方法的。</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/6.png?raw=true"  alt="6"></p>
+<p><strong>Change in fitness values</strong></p>
+<p> &emsp;&emsp; 经过实验发现，fitness的总体趋势是下降的。我们的目的也就是最小化fitness值。</p>
+<h2 id="5-Results-On-Original-CIFAR-10-Test-Data"><a href="#5-Results-On-Original-CIFAR-10-Test-Data" class="headerlink" title="5. Results On Original CIFAR-10 Test Data"></a>5. Results On Original CIFAR-10 Test Data</h2><p> &emsp;&emsp; CIFAR-10的数据相比于Kaggle CIFAR-10的数据，具有更少的实际的噪音(旋转等)。与Kaggle上的模型相比，在NIN网络，移除了第二个average pooling层，对于全卷积网络，移除了第一层的batch normalization。其他参数一样</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/7.png?raw=true"  alt="7"></p>
+<h2 id="6-Discussion"><a href="#6-Discussion" class="headerlink" title="6. Discussion"></a>6. Discussion</h2><h3 id="A-Adversarial-Perturbation"><a href="#A-Adversarial-Perturbation" class="headerlink" title="A. Adversarial Perturbation"></a>A. Adversarial Perturbation</h3><p> &emsp;&emsp; 这篇文章证明了，沿着几个维度移动数据点就能够使其标签发生变化。同时，我们的结果证明了Goodfellow等人的假设：在一些维度上的小的扰动会累加，造成输出的大的改变。</p>
+<p> &emsp;&emsp; 实验结果表明，one pixel attack可以在不同的网络结构和不同的图像尺寸上进行泛化。通过更多的迭代或者更多的初始候选解集，扰动成功率应该可以进一步提高。同时，使用一个更好的进化算法，比如Co-variance Matrix Adaptation Evolution Strategy 也可以得到同样的效果。</p>
+<h3 id="B-Robustness-Of-One-pixel-Attack"><a href="#B-Robustness-Of-One-pixel-Attack" class="headerlink" title="B. Robustness Of One-pixel Attack"></a>B. Robustness Of One-pixel Attack</h3><p> &emsp;&emsp; One-pixel的鲁棒性并不是很强。</p>
+<h2 id="7-Future-Work"><a href="#7-Future-Work" class="headerlink" title="7. Future Work"></a>7. Future Work</h2><p> &emsp;&emsp; 通过使用更好的进化算法，可以改进这个方法，比如Adaptive DE、d Covariance matrix adaptation evolution strategy (CMA-ES)。</p>
+<p> &emsp;&emsp; 基于进化的机器学习允许模型具有很大的灵活性，在一个称为神经进化的进化机器学习领域，通过进化计算不仅可以学习网络的权值，还可以学习网络的拓扑结构。</p>
+<p> &emsp;&emsp; 最后，self-organizing和novelty-organizing分类器可以通过使用灵活的representations来适应环境的变化。例如：例如，它们可以适应形状变化的迷宫，也可以适应整个实验中变量范围变化的问题（这是一个非常具有挑战性的场景，其中大多数甚至所有的深度学习算法都会失败）。这些显示，这是一条很有希望的道路，可以在未来纪念解决深层神经网络中的当前问题。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">白丁</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/">http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://baidinghub.github.io" target="_blank">BaiDing's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><a class="post-meta__tags" href="/tags/%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB/">对抗攻击</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDyIdOn/M/aXcGQOiSDVMqvN2gxDdiESHUfFuB2YMy48fvNN9SZOQUbVlGF4Pk6nDXIAir+br/EWuEnNLtgOCYMo/BTxl29gqS/QGHPiDaIQedzmLcuRZpfDuGit61N/b9pyktpZLagBgbl5Ox9mAgWQxXyhxYB092gyOXqrBULBeZUYQ+H7Eupha10QTQghHv4nLk+oYWo2UXEiijQpE3qMXT32G8v8k0KbRdd1hIFPyNEx6eZ6Buc2ZdbMtoutdGjvdnw5B1+dxgl1egESPChzcwCMxt3NW/3faQ5lsjRhQD4fRU+Ua/aqXe+0xg2+xr0BTjNr/JZIAaNiLuo71lH 1564026260@qq.com" async="async"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/wechat.png?raw=true" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/alipay.jpg?raw=true" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%89%EF%BC%89Feature%20Adversary/"><img class="prev_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%89%EF%BC%89Feature%20Adversary/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">对抗样本（十三）Feature Adversary</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Universal%20Perturbation/"><img class="next_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Universal%20Perturbation/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">对抗样本（十一）Universal Perturbation</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/04/03/对抗攻击之目录/" title="对抗样本之目录"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB%E4%B9%8B%E7%9B%AE%E5%BD%95/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本之目录</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（九）C&W’s Attack/" title="对抗样本（九）C&W’s Attack"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E4%B9%9D%EF%BC%89C&W%E2%80%99s%20Attack/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（九）C&W’s Attack</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（三）FGSM/" title="对抗样本（三）FGSM"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E4%B8%89%EF%BC%89FGSM/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（三）FGSM</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（二）L-BFGS/" title="对抗样本（二）L-BFGS"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E4%BA%8C%EF%BC%89L-BFGS/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（二）L-BFGS</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（五）DeepFool/" title="对抗样本（五）DeepFool"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E4%BA%94%EF%BC%89DeepFool/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（五）DeepFool</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（八）JSMA/" title="对抗样本（八）JSMA"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%85%AB%EF%BC%89JSMA/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（八）JSMA</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: 'd3948be001a91411dfd9',
+  clientSecret: 'ebddf2a2a5a039922fb373a8a8c0efcc439bf6ca',
+  repo: 'BaiDingHub.github.io',
+  owner: 'BaiDingHub',
+  admin: ['BaiDingHub'],
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  perPage: 10,
+  distractionFreeMode: false,
+  pagerDirection: 'last',
+  createIssueManually: false,
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  try {
+    document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+  } catch (e) {
+    return false
+  }
+}</script></div></article></main><footer id="footer" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89One%20Pixel%20Attack/cover.png?raw=true)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By 白丁</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://jerryc.me/" target="_blank" rel="noopener">blog</a>!</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js" ></script><script src="/js/utils.js" ></script><script src="/js/main.js" ></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/js/search/algolia.js"></script></body></html>
