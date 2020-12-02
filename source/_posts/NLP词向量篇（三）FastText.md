@@ -54,7 +54,9 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%
 
  &emsp;&emsp; **字符粒度的N-gram是用来表示一个单词**的，用字符粒度的N-gram来表示单词"apple"，设其超参数$\ n=3$ ，则以每个字符作为中心，得到其trigram为：
 
- &emsp;&emsp; “<ap”, “app”, “ppl”, “ple”, “le>”
+```
+ “<ap”, “app”, “ppl”, “ple”, “le>”
+```
 
  &emsp;&emsp; 其中，<表示前缀，>表示后缀。于是，我们可以用这些trigram来表示“apple”这个单词，进一步，我们可以用这5个trigram的向量叠加来表示“apple”的词向量。
 
