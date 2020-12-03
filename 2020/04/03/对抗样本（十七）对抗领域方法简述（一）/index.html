@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>对抗样本（十七）对抗领域方法简述（一） | BaiDing's blog</title><meta name="description" content="对抗样本（十七）对抗领域方法简述（一）"><meta name="keywords" content="深度学习,对抗攻击"><meta name="author" content="白丁"><meta name="copyright" content="白丁"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://raw.githubusercontent.com/BaiDingHub/Blog_images/master/BlogSource/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="crossorigin"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="x-1ef6P_miWkq-RJn_fmjd3KYumrXANNXYzK1myaLf0"/><meta name="baidu-site-verification" content="guD6l44Chk"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="对抗样本（十七）对抗领域方法简述（一）"><meta name="twitter:description" content="对抗样本（十七）对抗领域方法简述（一）"><meta name="twitter:image" content="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/cover.png?raw=true"><meta property="og:type" content="article"><meta property="og:title" content="对抗样本（十七）对抗领域方法简述（一）"><meta property="og:url" content="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/"><meta property="og:site_name" content="BaiDing's blog"><meta property="og:description" content="对抗样本（十七）对抗领域方法简述（一）"><meta property="og:image" content="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/cover.png?raw=true"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css" ><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/"><link rel="prev" title="对抗样本（十八）PGD及防御" href="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E5%85%AB%EF%BC%89PGD%E5%8F%8A%E9%98%B2%E5%BE%A1/"><link rel="next" title="对抗样本（十六）Denfensive Distillation" href="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E5%85%AD%EF%BC%89Denfensive%20Distillation/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-162698439-1', 'auto');
+ga('send', 'pageview');
+</script><script src="https://tajs.qq.com/stats?sId=66540586" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"4JGH9NW4XG","apiKey":"41cdb6d9ec4d21196956524e9c985b36","indexName":"baiding","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/avatar.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/friend_404.gif?raw=true'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">91</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">57</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、对抗领域背景介绍"><span class="toc-text">一、对抗领域背景介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、出现背景"><span class="toc-text">1、出现背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、当前攻击方法现状"><span class="toc-text">2、当前攻击方法现状</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、当前防御方法现状"><span class="toc-text">3、当前防御方法现状</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Towards-Robust-Neural-Networks-via-Random-Self-ensemble"><span class="toc-text">二、Towards Robust Neural Networks via Random Self-ensemble</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、主要思想"><span class="toc-text">1、主要思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、算法性能"><span class="toc-text">2、算法性能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1）防御性能"><span class="toc-text">1）防御性能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2）噪声添加位置"><span class="toc-text">2）噪声添加位置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、评论-amp-想法"><span class="toc-text">3、评论&amp;想法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Ground-Truth-Adversarial-Examples"><span class="toc-text">三、Ground-Truth Adversarial Examples</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、背景"><span class="toc-text">1、背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、主要思想"><span class="toc-text">2、主要思想</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1）Ground-Truth的寻找"><span class="toc-text">1）Ground Truth的寻找</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、算法性能"><span class="toc-text">3、算法性能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1）攻击评测"><span class="toc-text">1）攻击评测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2）防御评测"><span class="toc-text">2）防御评测</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、评论-amp-想法"><span class="toc-text">4、评论&amp;想法</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/cover.png?raw=true)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">BaiDing's blog</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">对抗样本（十七）对抗领域方法简述（一）</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-03 13:17:05"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-03</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-12-03 12:28:43"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-12-03</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/">对抗样本</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">1.6k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 5 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><meta name="referrer" content="no-referrer"/>
+
+<h2 id="一、对抗领域背景介绍"><a href="#一、对抗领域背景介绍" class="headerlink" title="一、对抗领域背景介绍"></a>一、对抗领域背景介绍</h2><h3 id="1、出现背景"><a href="#1、出现背景" class="headerlink" title="1、出现背景"></a>1、出现背景</h3><p> &emsp;&emsp; 深度模型的脆弱性问题逐渐的暴露出来，一个人类无法察觉的对抗扰动却能轻易的让深度模型分类错误，这个问题导致深度模型无法应用在对安全有严格要求的领域。</p>
+<h3 id="2、当前攻击方法现状"><a href="#2、当前攻击方法现状" class="headerlink" title="2、当前攻击方法现状"></a>2、当前攻击方法现状</h3><ul>
+<li>L-BFGS：首个攻击方法，采用L-BFGS寻找扰动，效果差，速度慢</li>
+<li>FGSM：基于梯度的攻击方法，速度快，但效果一般，在MNIST上扰动都很明显</li>
+<li>PGD：FGSM的迭代版本</li>
+<li>BIM&amp;ILLC：迭代的攻击方法</li>
+<li>Deepfool：得到更小的扰动，比FGSM小一个量级</li>
+<li>CPPN EA Fool：采用进化算法生成图片，假正例攻击</li>
+<li>JSMA：借用Jacobian矩阵来生成对抗样本</li>
+<li>C&amp;W’s Attack：重新设计对抗目标，平滑了box-constrained，采用了三种距离攻击，针对蒸馏防御</li>
+<li>ZOO：使用梯度估算，直接进行黑盒攻击</li>
+<li>Universarl Attack：生成一个普适性的对抗扰动</li>
+<li>One pixel Attack：修改一个像素实现攻击效果</li>
+<li>Feature Adversary：借用网络内部特征设计目标方程</li>
+<li>Hot&amp;Cold：提出了新的对抗样本量化方法PASS，来进行对抗攻击</li>
+<li>Natural GAN：借用GAN网络生成一个更加自然的攻击方法</li>
+</ul>
+<h3 id="3、当前防御方法现状"><a href="#3、当前防御方法现状" class="headerlink" title="3、当前防御方法现状"></a>3、当前防御方法现状</h3><ul>
+<li>Defensive Distillation：采用蒸馏方法提高模型的鲁棒性。被C&amp;W’s attack解决</li>
+<li>BReLU：修改了ReLU激活函数</li>
+<li>对抗训练：将对抗样本加入训练集中增加模型的容量，但是对CIFAR-10这样复杂的数据集效果不好</li>
+<li>对抗检测：训练网络来检测对抗样本</li>
+<li>测试和验证方法</li>
+</ul>
+<h2 id="二、Towards-Robust-Neural-Networks-via-Random-Self-ensemble"><a href="#二、Towards-Robust-Neural-Networks-via-Random-Self-ensemble" class="headerlink" title="二、Towards Robust Neural Networks via Random Self-ensemble"></a>二、Towards Robust Neural Networks via Random Self-ensemble</h2><blockquote>
+<p>时间：2018年</p>
+<p>关键词：Random Self-Ensemble防御方法</p>
+<p>论文位置：<a href="https://arxiv.org/abs/1712.00673" target="_blank" rel="noopener">https://arxiv.org/abs/1712.00673</a></p>
+<p>引用：Liu X, Cheng M, Zhang H, et al. Towards robust neural networks via random self-ensemble[C]//Proceedings of the European Conference on Computer Vision (ECCV). 2018: 369-385.</p>
+</blockquote>
+<h3 id="1、主要思想"><a href="#1、主要思想" class="headerlink" title="1、主要思想"></a>1、主要思想</h3><p> &emsp;&emsp; 提出了一个新的防御方法，<strong>Random Self-Ensemble（RSE），结合了随机性和集成度这两个重要部分。</strong>RSE为网络添加随机的噪声层来阻止梯度攻击，将随机噪声与预测结合起来来稳定性能。</p>
+<p> &emsp;&emsp; 模型集成可以提高鲁棒性，但也会增加模型的大小。我们可以构建了无限个噪声模型$\ f_{\epsilon}$ ，通过集成模型的结果来提高鲁棒性。但是，我们都知道在推断阶段增加噪声只会让效果变差，那么集成的效果也不确定。所以作者的做法是<strong>在训练阶段加入噪声层</strong>，这样，训练阶段的目的就是最小化模型损失的上界，噪声带来的影响就可控，因此算法的性能也就比较好。同时，由于噪声层会生成随机的噪声，这样<strong>RSE方法就等价于无限个噪声模型</strong>。在测试时，预测10次（10个模型的结果达到饱和），取平均。</p>
+<p> &emsp;&emsp; RSE添加噪声层来训练网络的方法，等价于添加了一个额外的Lipschitz正则化。</p>
+<p> &emsp;&emsp; 在每次经过噪声层时，输入向量变为$\ x = x+\epsilon,\epsilon$ 随机生成。</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/1.png?raw=true"  alt="1"></p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/2.png?raw=true"  alt="2"></p>
+<p> &emsp;&emsp; 在计算$\ w$ 的梯度时，需要使用$\ \epsilon$ 来计算。</p>
+<h3 id="2、算法性能"><a href="#2、算法性能" class="headerlink" title="2、算法性能"></a>2、算法性能</h3><h4 id="1）防御性能"><a href="#1）防御性能" class="headerlink" title="1）防御性能"></a>1）防御性能</h4><p> &emsp;&emsp; 在CIFAR-10和VGG网络（92%的准确率）下，使用C&amp;W攻击可使其准确率下降至小于10%，当前最好的防御方法能提高到48%的准确率，RSE方法可以提高到86%的准确率。</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/3.png?raw=true"  alt="3"></p>
+<h4 id="2）噪声添加位置"><a href="#2）噪声添加位置" class="headerlink" title="2）噪声添加位置"></a>2）噪声添加位置</h4><p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/4.png?raw=true"  alt="4"></p>
+<h3 id="3、评论-amp-想法"><a href="#3、评论-amp-想法" class="headerlink" title="3、评论&amp;想法"></a>3、评论&amp;想法</h3><h2 id="三、Ground-Truth-Adversarial-Examples"><a href="#三、Ground-Truth-Adversarial-Examples" class="headerlink" title="三、Ground-Truth Adversarial Examples"></a>三、Ground-Truth Adversarial Examples</h2><blockquote>
+<p>时间：2018年</p>
+<p>关键词：攻防技术的评估、基于网络验证</p>
+<p>论文位置：<a href="https://openreview.net/forum?id=Hki-ZlbA-&amp;noteId=Hki-ZlbA-" target="_blank" rel="noopener">https://openreview.net/forum?id=Hki-ZlbA-&amp;noteId=Hki-ZlbA-</a></p>
+<p>引用：Carlini N, Katz G, Barrett C, et al. Ground-truth adversarial examples[J]. 2018.</p>
+</blockquote>
+<h3 id="1、背景"><a href="#1、背景" class="headerlink" title="1、背景"></a>1、背景</h3><p> &emsp;&emsp; 近年来，各种攻击防御方法层出不穷，总会有更strong的攻击方法来破解目前的防御方法，这些提出了一个问题，在设计防御方法的过程中，如何去评估其对未来的攻击方法的鲁棒性？</p>
+<h3 id="2、主要思想"><a href="#2、主要思想" class="headerlink" title="2、主要思想"></a>2、主要思想</h3><p> &emsp;&emsp; 提出了ground truth的概念，<strong>ground truth：离输入样本最近的但分类不同的样本（对抗样本）。借用ground truth来评估攻击方法的能力。</strong>比较攻击得到的对抗样本与ground truth的距离、防御前后得到的对抗样本与ground truth的距离。ground truth的作用如下：（1）如果我们知道了一组点的ground truth，我们就可以评价一个网络针对攻击的鲁棒性。（2）通过测量对抗样本到ground truth的距离，评估攻击方法。（3）通过计算新的ground truth评估防御方法的效率。</p>
+<h4 id="1）Ground-Truth的寻找"><a href="#1）Ground-Truth的寻找" class="headerlink" title="1）Ground Truth的寻找"></a>1）Ground Truth的寻找</h4><p> &emsp;&emsp; 对于一个网络$\ F$ ，我们设定其距离评价标准为$\ d\in {L<em>1,L</em>\infty}$ ，输入点为$\ x$ ，目标标签为$\ t’\ne F(x)$ ，初始GroundTruth点为$\ x’<em>{init}$ ，我们要找到一个点$\ x</em>{t’}$ ，满足$\ F(x<em>{t’})=t’,d(x,x</em>{t’})$ 最小。$\ x’_{init}$ 是用CW attack方法来得到。在这里使用了网络验证技术Reluplex来验证网络的特性。</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/5.png?raw=true"  alt="5"></p>
+<h3 id="3、算法性能"><a href="#3、算法性能" class="headerlink" title="3、算法性能"></a>3、算法性能</h3><h4 id="1）攻击评测"><a href="#1）攻击评测" class="headerlink" title="1）攻击评测"></a>1）攻击评测</h4><p> &emsp;&emsp; 使用了MNIST数据集的10个样本点，每个样本可以被攻击为9类，所以总共有90个样本示例，下图中Points点的数目表示上面的搜索算法成功停止的比例，即能在样本和对抗样本之间找到更小的距离的Ground Truth的比例，CW表示到对抗样本点的平均距离，Ground Truth表示样本点到Ground Truth的平均距离（越远越好）。其中N表示一个全连接层网络，$\ \bar{N}$ 表示对抗训练后得到的网络</p>
+<p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/6.png?raw=true"  alt="6"></p>
+<h4 id="2）防御评测"><a href="#2）防御评测" class="headerlink" title="2）防御评测"></a>2）防御评测</h4><p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/7.png?raw=true"  alt="7"></p>
+<p> &emsp;&emsp; 可以看到，对抗训练是有效的，他将Ground Truth从0.04提高到了0.171。</p>
+<h3 id="4、评论-amp-想法"><a href="#4、评论-amp-想法" class="headerlink" title="4、评论&amp;想法"></a>4、评论&amp;想法</h3><ul>
+<li>采用Reluplex进行验证，对输入点的数目要求严格，只能用于小模型上，而且，寻找过程花费时间过多，平均每次迭代需要2~3小时。</li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">白丁</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/">http://baidinghub.github.io/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://baidinghub.github.io" target="_blank">BaiDing's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><a class="post-meta__tags" href="/tags/%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB/">对抗攻击</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDyIdOn/M/aXcGQOiSDVMqvN2gxDdiESHUfFuB2YMy48fvNN9SZOQUbVlGF4Pk6nDXIAir+br/EWuEnNLtgOCYMo/BTxl29gqS/QGHPiDaIQedzmLcuRZpfDuGit61N/b9pyktpZLagBgbl5Ox9mAgWQxXyhxYB092gyOXqrBULBeZUYQ+H7Eupha10QTQghHv4nLk+oYWo2UXEiijQpE3qMXT32G8v8k0KbRdd1hIFPyNEx6eZ6Buc2ZdbMtoutdGjvdnw5B1+dxgl1egESPChzcwCMxt3NW/3faQ5lsjRhQD4fRU+Ua/aqXe+0xg2+xr0BTjNr/JZIAaNiLuo71lH 1564026260@qq.com" async="async"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/wechat.png?raw=true" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/alipay.jpg?raw=true" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E5%85%AB%EF%BC%89PGD%E5%8F%8A%E9%98%B2%E5%BE%A1/"><img class="prev_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E5%85%AB%EF%BC%89PGD%E5%8F%8A%E9%98%B2%E5%BE%A1/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">对抗样本（十八）PGD及防御</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/03/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E5%85%AD%EF%BC%89Denfensive%20Distillation/"><img class="next_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E5%85%AD%EF%BC%89Denfensive%20Distillation/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">对抗样本（十六）Denfensive Distillation</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/04/03/对抗攻击之目录/" title="对抗样本之目录"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB%E4%B9%8B%E7%9B%AE%E5%BD%95/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本之目录</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（三）FGSM/" title="对抗样本（三）FGSM"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E4%B8%89%EF%BC%89FGSM/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（三）FGSM</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（二）L-BFGS/" title="对抗样本（二）L-BFGS"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E4%BA%8C%EF%BC%89L-BFGS/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（二）L-BFGS</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（九）C&W’s Attack/" title="对抗样本（九）C&W’s Attack"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E4%B9%9D%EF%BC%89C&W%E2%80%99s%20Attack/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（九）C&W’s Attack</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（六）CPPN EA Fool/" title="对抗样本（六）CPPN EA Fool"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%85%AD%EF%BC%89CPPN%20EA%20Fool/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（六）CPPN EA Fool</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/对抗样本（八）JSMA/" title="对抗样本（八）JSMA"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%85%AB%EF%BC%89JSMA/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">对抗样本（八）JSMA</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: 'd3948be001a91411dfd9',
+  clientSecret: 'ebddf2a2a5a039922fb373a8a8c0efcc439bf6ca',
+  repo: 'BaiDingHub.github.io',
+  owner: 'BaiDingHub',
+  admin: ['BaiDingHub'],
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  perPage: 10,
+  distractionFreeMode: false,
+  pagerDirection: 'last',
+  createIssueManually: false,
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  try {
+    document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+  } catch (e) {
+    return false
+  }
+}</script></div></article></main><footer id="footer" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89%E5%AF%B9%E6%8A%97%E9%A2%86%E5%9F%9F%E6%96%B9%E6%B3%95%E7%AE%80%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/cover.png?raw=true)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By 白丁</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://jerryc.me/" target="_blank" rel="noopener">blog</a>!</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js" ></script><script src="/js/utils.js" ></script><script src="/js/main.js" ></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/js/search/algolia.js"></script></body></html>
