@@ -88,229 +88,170 @@ ga('send', 'pageview');
 .justified-gallery img{
   opacity: 1
 }
-</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/avatar.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/friend_404.gif?raw=true'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">94</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">60</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-text">一、模型介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、贝叶斯决策论"><span class="toc-text">1、贝叶斯决策论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、极大似然估计MLE"><span class="toc-text">2、极大似然估计MLE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、朴素贝叶斯分类器"><span class="toc-text">3、朴素贝叶斯分类器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、半朴素贝叶斯分类器"><span class="toc-text">4、半朴素贝叶斯分类器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#独依赖估计-ODE"><span class="toc-text">独依赖估计(ODE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TAN"><span class="toc-text">TAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AODE"><span class="toc-text">AODE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、贝叶斯网"><span class="toc-text">5、贝叶斯网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构"><span class="toc-text">结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#学习"><span class="toc-text">学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推断"><span class="toc-text">推断</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-text">二、模型分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、模型应用"><span class="toc-text">1、模型应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、模型优缺点"><span class="toc-text">2、模型优缺点</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/cover.png?raw=true)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">BaiDing's blog</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">机器学习（六）贝叶斯分类器</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-03 14:06:05"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-03</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-12-02 11:11:09"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-12-02</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">4.7k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 15 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><meta name="referrer" content="no-referrer"/>
-<h1>一、模型介绍</h1>
-<p>   贝叶斯分类器是一类分类算法的总称，<strong>贝叶斯定理</strong>是这类算法的核心，因此统称为<strong>贝叶斯分类</strong>。下面，我们将会从<strong>贝叶斯决策论</strong>、<strong>极大似然估计</strong>、<strong>朴素贝叶斯分类器</strong>、<strong>半朴素贝叶斯分类器</strong>、<strong>贝叶斯网络</strong>来进行讲解。</p>
-<h2 id="1、贝叶斯决策论">1、贝叶斯决策论</h2>
-<p>   贝叶斯决策论(Bayesian decision theory)是概率框架下实施决策的基本方法。机器学习所要实现的是基于有限的训练样本尽可能准确地估计出<strong>后验概率</strong> $\ p(c|x)$ 。而估计后验概率的方式有两种：</p>
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/avatar.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/friend_404.gif?raw=true'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">94</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">60</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、模型介绍"><span class="toc-text">一、模型介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、贝叶斯决策论"><span class="toc-text">1、贝叶斯决策论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、极大似然估计MLE"><span class="toc-text">2、极大似然估计MLE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、朴素贝叶斯分类器"><span class="toc-text">3、朴素贝叶斯分类器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、半朴素贝叶斯分类器"><span class="toc-text">4、半朴素贝叶斯分类器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#独依赖估计-ODE"><span class="toc-text">独依赖估计(ODE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TAN"><span class="toc-text">TAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AODE"><span class="toc-text">AODE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、贝叶斯网"><span class="toc-text">5、贝叶斯网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构"><span class="toc-text">结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#学习"><span class="toc-text">学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推断"><span class="toc-text">推断</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、模型分析"><span class="toc-text">二、模型分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、模型应用"><span class="toc-text">1、模型应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、模型优缺点"><span class="toc-text">2、模型优缺点</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/cover.png?raw=true)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">BaiDing's blog</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">机器学习（六）贝叶斯分类器</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-03 14:06:05"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-03</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-12-02 11:11:09"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-12-02</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">4.8k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 16 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><meta name="referrer" content="no-referrer"/>
+
+
+
+<h1 id="一、模型介绍"><a href="#一、模型介绍" class="headerlink" title="一、模型介绍"></a>一、模型介绍</h1><p> &emsp;&emsp; 贝叶斯分类器是一类分类算法的总称，<strong>贝叶斯定理</strong>是这类算法的核心，因此统称为<strong>贝叶斯分类</strong>。下面，我们将会从<strong>贝叶斯决策论</strong>、<strong>极大似然估计</strong>、<strong>朴素贝叶斯分类器</strong>、<strong>半朴素贝叶斯分类器</strong>、<strong>贝叶斯网络</strong>来进行讲解。 </p>
+<h2 id="1、贝叶斯决策论"><a href="#1、贝叶斯决策论" class="headerlink" title="1、贝叶斯决策论"></a>1、贝叶斯决策论</h2><p> &emsp;&emsp; 贝叶斯决策论(Bayesian decision theory)是概率框架下实施决策的基本方法。机器学习所要实现的是基于有限的训练样本尽可能准确地估计出<strong>后验概率</strong> $\ p(c|x)$ 。而估计后验概率的方式有两种：</p>
 <ul>
-<li>
-<p>判别式模型(discriminative models)，通过直接建模$\ P(c|x)$ 来预测，其中决策树，BP神经网络，支持向量机都属于判别式模型</p>
+<li><p>判别式模型(discriminative models)，通过直接建模$\ P(c|x)$ 来预测，其中决策树，BP神经网络，支持向量机都属于判别式模型</p>
 </li>
-<li>
-<p>生成式模型(generative models)，通过对联合概率模型$\ P(x，c)$进行建模，然后再获得$\ P(c|x)$ 。贝叶斯方法就是基于生成式模型构建的。</p>
+<li><p>生成式模型(generative models)，通过对联合概率模型$\ P(x，c)$进行建模，然后再获得$\ P(c|x)$ 。贝叶斯方法就是基于生成式模型构建的。</p>
+<p>&emsp;&emsp; 我们可以知道贝叶斯公式如下：</p>
+<script type="math/tex; mode=display">
+p(c|x) = \frac{p(x,c)}{p(x)} = \frac{p(c)p(x|c)}{p(x)}</script><p>&emsp;&emsp;  其中$\ p(c|x)$ 是样本$\ x$  相对于标签$\ c$ 的条件概率，也称为似然，在这里是<strong>后验概率</strong>（指在得到样本$\ x$ 时，我们对结果$\ c$ 的估计）。 $\ p(c)$ 是<strong>先验概率</strong>（在进行建模前就已知的概率），这里指标签$\ c$ 出现的概率。$\ p(x|c)$ 指的是在已知标签$\ c$ 时，样本$\ x$ 出现的概率。$\ p(x)$ 表示样本$\ x$ 出现的概率</p>
+<p>&emsp;&emsp;  对于二分类而言，我们使用贝叶斯模型要做的就是，计算$\ p(1|x)$ 与$\ p(0|x)$ 的大小，选择较大的那个作为分类结果。即：<strong>贝叶斯决策论是基于最小风险的</strong></p>
 </li>
 </ul>
-<p>   我们可以知道贝叶斯公式如下：<br>
-$$<br>
-p(c|x) = \frac{p(x,c)}{p(x)} = \frac{p©p(x|c)}{p(x)}<br>
-$$<br>
-    其中$\ p(c|x)$ 是样本$\ x$  相对于标签$\ c$ 的条件概率，也称为似然，在这里是<strong>后验概率</strong>（指在得到样本$\ x$ 时，我们对结果$\ c$ 的估计）。 $\ p©$ 是<strong>先验概率</strong>（在进行建模前就已知的概率），这里指标签$\ c$ 出现的概率。$\ p(x|c)$ 指的是在已知标签$\ c$ 时，样本$\ x$ 出现的概率。$\ p(x)$ 表示样本$\ x$ 出现的概率</p>
-<p>    对于二分类而言，我们使用贝叶斯模型要做的就是，计算$\ p(1|x)$ 与$\ p(0|x)$ 的大小，选择较大的那个作为分类结果。即：<strong>贝叶斯决策论是基于最小风险的</strong></p>
 <p><strong>贝叶斯决策理论的“最优”性</strong></p>
-<p>    贝叶斯决策论选择后验概率中最大的哪一个作为预测结果，这保证了我们预测的错误概率是最小的，这就是其“最优”性。</p>
+<p> &emsp;&emsp;  贝叶斯决策论选择后验概率中最大的哪一个作为预测结果，这保证了我们预测的错误概率是最小的，这就是其“最优”性。</p>
 <p><strong>贝叶斯决策论的最小误分概率</strong></p>
-<p>    我们定义最小误分概率如下：<br>
-$$<br>
-R^* = \sum_Xp(X)·min(p(y=0|X),p(y=1|X))<br>
-$$<br>
-    易知$\ \sum_Xp(X) = 1$ 且$\ 0\le min(p(y=0|X),p(y=1|X))\le 0.5$ ，我们可以得到$\ 0 \le R^* \le 0.5$ 。因此贝叶斯决策论保证了我们我们的预测的正确率是大于50%的。</p>
-<p>    上面的情况还只是随机情况，当我们建模比较好时，或许我们可以得到$\ min(p(y=0|X),p(y=1|X))\le 0.2$ 那么该决策的误分概率就低于20%。</p>
-<p>    贝叶斯公式的另一个优点时，其能够<strong>维持先验和观测对象之间的平衡</strong>，即不会出现在数据集上有99%的正例时，模型将所有的结果都预测为正例的情况，贝叶斯公式有机地通过$\ p(X)$对于先验进行调节，保证结果不会完全被先验概率所决定。</p>
+<p> &emsp;&emsp;  我们定义最小误分概率如下：</p>
+<script type="math/tex; mode=display">
+R^* = \sum_Xp(X)·min(p(y=0|X),p(y=1|X))</script><p> &emsp;&emsp;  易知$\ \sum_Xp(X) = 1$ 且$\ 0\le min(p(y=0|X),p(y=1|X))\le 0.5$ ，我们可以得到$\ 0 \le R^* \le 0.5$ 。因此贝叶斯决策论保证了我们我们的预测的正确率是大于50%的。</p>
+<p> &emsp;&emsp;  上面的情况还只是随机情况，当我们建模比较好时，或许我们可以得到$\ min(p(y=0|X),p(y=1|X))\le 0.2$ 那么该决策的误分概率就低于20%。</p>
+<p> &emsp;&emsp;  贝叶斯公式的另一个优点时，其能够<strong>维持先验和观测对象之间的平衡</strong>，即不会出现在数据集上有99%的正例时，模型将所有的结果都预测为正例的情况，贝叶斯公式有机地通过$\ p(X)$对于先验进行调节，保证结果不会完全被先验概率所决定。</p>
 <p><strong>缺点</strong></p>
 <ul>
 <li>贝叶斯决策论的假设性比较强，实际操作太难。我们无法活得真实的先验概率，只能通过统计学的方法进行估计</li>
 <li>在计算概率时，会面临维度灾难，即当$\ X$ 的特征较多时，我们要将这些概率相乘，可能会使得其趋近于0，数值很不稳定</li>
 </ul>
-<p>    我们的模型就是上面的贝叶斯模型，但是$\ p(x|c),p(x),p©$ 这些<strong>参数是未知</strong>的，我们怎么样通过观测结果（训练集）来得到这些参数（不只是上面的三个参数，还包括某个特征/样本在训练集中出现的概率，是个统称，这里可以记为$\ \theta$ ），以及我们需要的概率呢？</p>
-<p>    <strong>极大似然估计（Maximum Likelihood Estimation，MLE）和贝叶斯估计（Bayesian Estimation）是统计推断中两种最常用的参数估计方法</strong>，这两种方法，也分别是频率派和贝叶斯派的观点</p>
-<h2 id="2、极大似然估计MLE">2、极大似然估计MLE</h2>
-<p>    假设我们有训练集$\ X$，共有n个独立同分布的样本$\ x_1,x_2,……$ ，$\ \theta$ 表示模型的参数，也可以说是整个模型。那么，我们可以得到，在这个模型中，出现这个n个样本的概率为：<br>
-$$<br>
-L(X|\theta) = f(x_1,x_2,……|\theta) = f(x_1|\theta)·f(x_2|\theta)····f(x_n|\theta)<br>
-$$<br>
-    其中$\ f(x_i|\theta)$ 表示在这个模型中，样本$\ x_i$ 出现的概率。</p>
-<p>    当概率$\ p(x_1,x_2,……|\theta)$ 最大时，我们就能够得到最符合这个模型的参数$\ \theta$ 。</p>
-<p>     需要注意的是，连乘容易造成下溢，我们一般将其转换成对数的形式$\ ln\ L(X|\theta) = \sum_{x_i \in X} ln\ f(x_i|\theta)$</p>
-<p>    我们可以得到我们要的参数$\ \theta_{MLE} = argmax_{\theta}\ ln\ L(X|\theta)$</p>
+<p> &emsp;&emsp;  我们的模型就是上面的贝叶斯模型，但是$\ p(x|c),p(x),p(c)$ 这些<strong>参数是未知</strong>的，我们怎么样通过观测结果（训练集）来得到这些参数（不只是上面的三个参数，还包括某个特征/样本在训练集中出现的概率，是个统称，这里可以记为$\ \theta$ ），以及我们需要的概率呢？</p>
+<p> &emsp;&emsp;  <strong>极大似然估计（Maximum Likelihood Estimation，MLE）和贝叶斯估计（Bayesian Estimation）是统计推断中两种最常用的参数估计方法</strong>，这两种方法，也分别是频率派和贝叶斯派的观点</p>
+<h2 id="2、极大似然估计MLE"><a href="#2、极大似然估计MLE" class="headerlink" title="2、极大似然估计MLE"></a>2、极大似然估计MLE</h2><p> &emsp;&emsp;  假设我们有训练集$\ X$，共有n个独立同分布的样本$\ x_1,x_2,……$ ，$\ \theta$ 表示模型的参数，也可以说是整个模型。那么，我们可以得到，在这个模型中，出现这个n个样本的概率为：</p>
+<script type="math/tex; mode=display">
+L(X|\theta) = f(x_1,x_2,……|\theta) = f(x_1|\theta)·f(x_2|\theta)····f(x_n|\theta)</script><p> &emsp;&emsp;  其中$\ f(x_i|\theta)$ 表示在这个模型中，样本$\ x_i$ 出现的概率。</p>
+<p> &emsp;&emsp;  当概率$\ p(x_1,x_2,……|\theta)$ 最大时，我们就能够得到最符合这个模型的参数$\ \theta$ 。</p>
+<p> &emsp;&emsp;   需要注意的是，连乘容易造成下溢，我们一般将其转换成对数的形式$\ ln\ L(X|\theta) = \sum_{x_i \in X} ln\ f(x_i|\theta)$</p>
+<p> &emsp;&emsp;  我们可以得到我们要的参数$\ \theta<em>{MLE} = argmax</em>{\theta}\ ln\ L(X|\theta)$</p>
 <p><strong>举例</strong></p>
-<p>    假设有一个袋子，里面有黑白两种颜色的球，我们不知道里面黑球和白球的比例。我们从袋子中拿球，然后放回，进行了100次的拿球操作，总过拿到了70个白球，问白球的比例是多少。</p>
-<p>    我们使用极大似然估计的思想，对上面的参数$\ \theta$ （也就是白球的比例$\ p$）进行估计。<br>
-$$<br>
-L(X|\theta) = p(x_1|\theta)·p(x_2|\theta)····p(x_{100}|\theta) \<br>
-=p^{70}(1-p)^{30}<br>
-$$<br>
-    于是：<br>
-$$<br>
-ln\ L(X|\theta) = 70ln\ p + 30ln(1-p)<br>
-$$<br>
-    求导取最大值<br>
-$$<br>
-ln’L(X|\theta) = \frac{70}{p} - \frac{30}{1-p}<br>
-$$<br>
-    于是得到$\ p=0.7$</p>
+<p> &emsp;&emsp;  假设有一个袋子，里面有黑白两种颜色的球，我们不知道里面黑球和白球的比例。我们从袋子中拿球，然后放回，进行了100次的拿球操作，总过拿到了70个白球，问白球的比例是多少。</p>
+<p> &emsp;&emsp;  我们使用极大似然估计的思想，对上面的参数$\ \theta$ （也就是白球的比例$\ p$）进行估计。</p>
+<script type="math/tex; mode=display">
+L(X|\theta) = p(x_1|\theta)·p(x_2|\theta)····p(x_{100}|\theta) \\
+=p^{70}(1-p)^{30}</script><p> &emsp;&emsp;  于是：</p>
+<script type="math/tex; mode=display">
+ln\ L(X|\theta) = 70ln\ p + 30ln(1-p)</script><p> &emsp;&emsp;  求导取最大值</p>
+<script type="math/tex; mode=display">
+ln'L(X|\theta) = \frac{70}{p} - \frac{30}{1-p}</script><p> &emsp;&emsp;  于是得到$\ p=0.7$</p>
 <p><strong>优缺点</strong></p>
 <p>这种方法比较简单，但是假设条件非常严格，<strong>要求训练集符合真实的数据分布</strong></p>
-<h2 id="3、朴素贝叶斯分类器">3、朴素贝叶斯分类器</h2>
-<p>    贝叶斯估计法，是如何得到上面的参数呢？其采用了一个很重要的假设，<strong>假设所有的属性都是互相独立的(属性条件独立性假设）</strong>，即：对于联合概率有$\ p(x,y) = p(x)p(y)$</p>
-<p>    此时，我们假设样本$\ x=(x_1,x_2,……x_d)$，样本$\ x$ 共有$\ d$ 个特征，则贝叶斯公式可以改写为：<br>
-$$<br>
-P(c|x) = \frac{P©P(x|c)}{P(x)} = \frac{P©}{P(x)}\prod_{i=1}^dP(x_i|c)<br>
-$$<br>
-    因此，朴素贝叶斯分类器的训练过程，就是基于训练集D来估计类先验概率$\ P©$ ，并为每个属性估计条件概率$\ P(x_i|c)$ 。</p>
-<p><strong>估计类先验概率$\ P©$</strong></p>
-<p>    令$\ D_c$ 表示训练集$\ D$ 中第$\ c$ 类样本组成的集合，若有充足的独立同分布样本，则可容易地估计出类先验概率：<br>
-$$<br>
-P© = \frac{|D_c|}{|D|}<br>
-$$<br>
-<strong>估计属性条件概率$\ P(x_i|c)$</strong></p>
-<p>    对离散属性而言，令$\ D_{c,x_i}$ 表示$\ D_c$ 中在第$\ i$ 个属性上取值为$\ x_i$ 的样本组成的集合，则条件概率可估计为：<br>
-$$<br>
-P(x_i|c) =\frac{|D_{c,x_i}|}{|D_c|}<br>
-$$<br>
-    对连续属性而言，我们可以考虑概率密度函数，假定$\ p(x_i|c) \thicksim \mathcal{N}(\mu_{c,i},\sigma_{c,i}^2)$ ，其中$\ \mu_{c,i}$ 和$\ \sigma_{c,i}$ 分别是第$\ c$ 类样本在第$\ i$ 个属性上取值的均值和方差，则有：<br>
-$$<br>
-p(x_i|c) = \frac{1}{\sqrt{2\pi}\sigma_{c,i}}exp(-\frac{(x_i-\mu_{c,i})^2}{2\sigma_{c,i}^2})<br>
-$$<br>
-<strong>拉普拉斯修正</strong></p>
-<p>    为了避免其他属性携带的信息被训练集中未出现的属性值&quot;抹去&quot;，在估计概率时通常要进行&quot;平滑&quot;，令$\ N$ 表示训练集$\ D$ 中可能的类别数，$\ N_i$ 表示第$\ i$ 个属性可能的取值数，则上面的公式修改为：<br>
-$$<br>
-P© = \frac{|D_c|+1}{|D|+N} \<br>
-P(x_i|c) =\frac{|D_{c,x_i}|+1}{|D_c|+N_i}<br>
-$$<br>
-<strong>缺点</strong></p>
+<h2 id="3、朴素贝叶斯分类器"><a href="#3、朴素贝叶斯分类器" class="headerlink" title="3、朴素贝叶斯分类器"></a>3、朴素贝叶斯分类器</h2><p> &emsp;&emsp;  贝叶斯估计法，是如何得到上面的参数呢？其采用了一个很重要的假设，<strong>假设所有的属性都是互相独立的(属性条件独立性假设）</strong>，即：对于联合概率有$\ p(x,y) = p(x)p(y)$</p>
+<p> &emsp;&emsp;  此时，我们假设样本$\ x=(x_1,x_2,……x_d)$，样本$\ x$ 共有$\ d$ 个特征，则贝叶斯公式可以改写为：</p>
+<script type="math/tex; mode=display">
+P(c|x) = \frac{P(c)P(x|c)}{P(x)} = \frac{P(c)}{P(x)}\prod_{i=1}^dP(x_i|c)</script><p>  &emsp;&emsp;  因此，朴素贝叶斯分类器的训练过程，就是基于训练集D来估计类先验概率$\ P(c)$ ，并为每个属性估计条件概率$\ P(x_i|c)$ 。</p>
+<p><strong>估计类先验概率$\ P(c)$</strong></p>
+<p> &emsp;&emsp;  令$\ D_c$ 表示训练集$\ D$ 中第$\ c$ 类样本组成的集合，若有充足的独立同分布样本，则可容易地估计出类先验概率：</p>
+<script type="math/tex; mode=display">
+P(c) = \frac{|D_c|}{|D|}</script><p><strong>估计属性条件概率$\ P(x_i|c)$</strong></p>
+<p> &emsp;&emsp;  对离散属性而言，令$\ D_{c,x_i}$ 表示$\ D_c$ 中在第$\ i$ 个属性上取值为$\ x_i$ 的样本组成的集合，则条件概率可估计为：</p>
+<script type="math/tex; mode=display">
+P(x_i|c) =\frac{|D_{c,x_i}|}{|D_c|}</script><p> &emsp;&emsp;  对连续属性而言，我们可以考虑概率密度函数，假定$\ p(x<em>i|c) \thicksim \mathcal{N}(\mu</em>{c,i},\sigma<em>{c,i}^2)$ ，其中$\ \mu</em>{c,i}$ 和$\ \sigma_{c,i}$ 分别是第$\ c$ 类样本在第$\ i$ 个属性上取值的均值和方差，则有：</p>
+<script type="math/tex; mode=display">
+p(x_i|c) = \frac{1}{\sqrt{2\pi}\sigma_{c,i}}exp(-\frac{(x_i-\mu_{c,i})^2}{2\sigma_{c,i}^2})</script><p><strong>拉普拉斯修正</strong></p>
+<p> &emsp;&emsp;  为了避免其他属性携带的信息被训练集中未出现的属性值”抹去”，在估计概率时通常要进行”平滑”，令$\ N$ 表示训练集$\ D$ 中可能的类别数，$\ N_i$ 表示第$\ i$ 个属性可能的取值数，则上面的公式修改为：</p>
+<script type="math/tex; mode=display">
+P(c) = \frac{|D_c|+1}{|D|+N} \\
+P(x_i|c) =\frac{|D_{c,x_i}|+1}{|D_c|+N_i}</script><p><strong>缺点</strong></p>
 <p>朴素贝叶斯分类器所进行的属性条件独立假设在现实生活中很难成立</p>
-<h2 id="4、半朴素贝叶斯分类器">4、半朴素贝叶斯分类器</h2>
-<p>    半朴素贝叶斯分类器<strong>对属性条件独立性假设进行了一定程度的放松</strong>。半朴素贝叶斯分类器<strong>适当考虑一部分属性间的相互依赖信息</strong>，从而既不需要进行完全联合概率计算，又不彻底忽略了比较强的属性依赖关系。</p>
-<h3 id="独依赖估计-ODE"><strong>独依赖估计(ODE)</strong></h3>
-<p>    独依赖估计是半朴素贝叶斯分类器最常用的策略，就是假设每个属性在类别之外<strong>最多只依赖一个其他属性</strong>，即：<br>
-$$<br>
-P(c|x) \varpropto P©\prod_{i=1}^dP(x_i|c,pa_i)<br>
-$$<br>
-    其中$\ pa_i$ 为属性$\ x_i$ 所依赖的属性，称为$\ x_i$ 的父属性。</p>
-<p>    若$\ pa_i$ 已知，那么我们可以得到其概率值：<br>
-$$<br>
-P(x_i|c,pa_i) = \frac{|D_{x_i,c,pa_i}|+1}{|D_c,pa_i|+N_i}<br>
-$$<br>
-    那么，我们的问题就是，如何确定这个父属性？</p>
-<p>    最直接的方法，就是假设所有的属性都依赖于同一个属性，称为“超父”，通过交叉验证等模型选择方法来确定超父属性，即：“SPODE”方法</p>
-<h3 id="TAN"><strong>TAN</strong></h3>
-<p>    TAN(Tree Augmented naive Bayes)是在最大带权生成树算法的基础上，通过下列步骤将属性间依赖关系约简为树形结构的：</p>
+<h2 id="4、半朴素贝叶斯分类器"><a href="#4、半朴素贝叶斯分类器" class="headerlink" title="4、半朴素贝叶斯分类器"></a>4、半朴素贝叶斯分类器</h2><p> &emsp;&emsp;  半朴素贝叶斯分类器<strong>对属性条件独立性假设进行了一定程度的放松</strong>。半朴素贝叶斯分类器<strong>适当考虑一部分属性间的相互依赖信息</strong>，从而既不需要进行完全联合概率计算，又不彻底忽略了比较强的属性依赖关系。</p>
+<h3 id="独依赖估计-ODE"><a href="#独依赖估计-ODE" class="headerlink" title="独依赖估计(ODE)"></a><strong>独依赖估计(ODE)</strong></h3><p> &emsp;&emsp;  独依赖估计是半朴素贝叶斯分类器最常用的策略，就是假设每个属性在类别之外<strong>最多只依赖一个其他属性</strong>，即：</p>
+<script type="math/tex; mode=display">
+P(c|x) \varpropto P(c)\prod_{i=1}^dP(x_i|c,pa_i)</script><p> &emsp;&emsp;  其中$\ pa_i$ 为属性$\ x_i$ 所依赖的属性，称为$\ x_i$ 的父属性。</p>
+<p> &emsp;&emsp;  若$\ pa_i$ 已知，那么我们可以得到其概率值：</p>
+<script type="math/tex; mode=display">
+P(x_i|c,pa_i) = \frac{|D_{x_i,c,pa_i}|+1}{|D_c,pa_i|+N_i}</script><p> &emsp;&emsp;  那么，我们的问题就是，如何确定这个父属性？</p>
+<p> &emsp;&emsp;  最直接的方法，就是假设所有的属性都依赖于同一个属性，称为“超父”，通过交叉验证等模型选择方法来确定超父属性，即：“SPODE”方法</p>
+<h3 id="TAN"><a href="#TAN" class="headerlink" title="TAN"></a><strong>TAN</strong></h3><p> &emsp;&emsp;  TAN(Tree Augmented naive Bayes)是在最大带权生成树算法的基础上，通过下列步骤将属性间依赖关系约简为树形结构的：</p>
 <ol>
 <li>计算两个属性之间的条件互信息</li>
 </ol>
-<p>$$<br>
-I(x_i,x_j|y) = \sum_{x_i,x_j;c\in \mathcal{Y}} P(x_i,x_j|c) log\frac{P(x_i,x_j|c)}{P(x_i|c)P(x_j|c)}<br>
-$$</p>
-<ol start="2">
+<script type="math/tex; mode=display">
+I(x_i,x_j|y) = \sum_{x_i,x_j;c\in \mathcal{Y}} P(x_i,x_j|c) log\frac{P(x_i,x_j|c)}{P(x_i|c)P(x_j|c)}</script><ol>
 <li>以属性为节点，构建完全图，任意两个结点之间的权重设为$\ I(x_i,x_j|y)$</li>
 <li>构建此完全图的最大带权生成树，挑选根变量，将边置为有向</li>
-<li>加入类别节点$\ y$ ，增加从$\ y$ 到每个属性的有向边</li>
+<li><p>加入类别节点$\ y$ ，增加从$\ y$ 到每个属性的有向边</p>
+<p>&emsp;&emsp;  条件互信息$\ I(x_i,x_j|y)$ 刻画了属性$\ x_i$ 和属性$\ x_j$ 在已知类别情况下的相关性。因此，TAN通过最大生成树算法，仅保留了强相互属性之间的关系。</p>
+</li>
 </ol>
-<p>    条件互信息$\ I(x_i,x_j|y)$ 刻画了属性$\ x_i$ 和属性$\ x_j$ 在已知类别情况下的相关性。因此，TAN通过最大生成树算法，仅保留了强相互属性之间的关系。</p>
 <p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/1.png?raw=true"  alt="1"></p>
-<h3 id="AODE"><strong>AODE</strong></h3>
-<p>    AODE(Averaged One-Dependent Estimator)是<strong>基于集成学习</strong>机制，更为强大的独依赖分类器，与SPODE通过模型选择超父属性不同，AODE尝试将每个属性作为超父来构建SPODE,然后将那些具有足够训练数据支撑的SPODE集成起来作为最终结果，即：<br>
-$$<br>
-P(c|x) \varpropto \sum_{i=1\|D_{x_i}| \ge m’}^d P(c,x_i)\prod_{j=1}^dP(x_j|c,x_i)<br>
-$$<br>
-    其中$\ D_{x_i}$ 是在第$\ i$ 个属性上取值为$\ x_i$ 的样本的集合，$\ m’$ 为阈值常数。</p>
-<p>    AODE需要估计$\ P(c,x_i)$ 和$\ P(x_j|c,x_i)$ ，我们可以得到：<br>
-$$<br>
-P(c,x_i) = \frac{|D_{c,x_i}|+1}{|D|+N_i} \<br>
-P(x_j|c,x_i) = \frac{|D_{c,x_i,x_j}|+1}{|D_{c,x_i}|+N_i}<br>
-$$<br>
-与朴素贝叶斯分类器相似，AODE无需进行模型选择，能够节省预测时间，易于实现增量学习。</p>
-<h2 id="5、贝叶斯网">5、贝叶斯网</h2>
-<p>     <strong>半朴素贝叶斯分类器是将属性条件独立假设放松为独依赖假设来得到泛化性能的提升</strong>，那么我们可以通过可<strong>考虑属性间的高阶依赖</strong>来进一步提升泛化性能，即，我们要考虑属性的多个依赖关系，将ODE中的$\ pa_i$ 替换成包含$\ k$ 个属性的集合$\ pa_i$</p>
-<p>    <strong>贝叶斯网(Bayesian network)<strong>也称</strong>信念网(belief network)</strong>,它借助**有向无环图(Directed Acyclic Graph,简称DAG)<strong>来刻画属性之间的依赖关系，并使用</strong>条件概率表(Conditional Probability Table,简称CPT)**来描述属性的联合概率分布。</p>
-<p>    一个贝叶斯网$\ B$ 由<strong>结构</strong>$\ G$ 和<strong>参数</strong>$\ \Theta$ 两部分构成，即$\ B=$ &lt; $\ G,\Theta$ &gt;  ，网络结构$\ G$  是一个有向无环图，其每个节点对应了一个属性，若两个属性有直接依赖关系，则它们由一条边连接起来；参数$\ \Theta$ 定量描述了这种依赖关系，假设属性$\ x_i$ 在$\ G$ 中的父节点集为$\ \pi_i$ ，$\ \Theta$ 包含了每个属性的条件概率，$\ \theta_{x_i|\pi_i} = P_B(x_i|\pi_i)$ 。</p>
+<h3 id="AODE"><a href="#AODE" class="headerlink" title="AODE"></a><strong>AODE</strong></h3><p> &emsp;&emsp;  AODE(Averaged One-Dependent Estimator)是<strong>基于集成学习</strong>机制，更为强大的独依赖分类器，与SPODE通过模型选择超父属性不同，AODE尝试将每个属性作为超父来构建SPODE,然后将那些具有足够训练数据支撑的SPODE集成起来作为最终结果，即：</p>
+<script type="math/tex; mode=display">
+P(c|x) \varpropto \sum_{i=1\\|D_{x_i}| \ge m'}^d P(c,x_i)\prod_{j=1}^dP(x_j|c,x_i)</script><p> &emsp;&emsp;  其中$\ D_{x_i}$ 是在第$\ i$ 个属性上取值为$\ x_i$ 的样本的集合，$\ m’$ 为阈值常数。</p>
+<p> &emsp;&emsp;  AODE需要估计$\ P(c,x_i)$ 和$\ P(x_j|c,x_i)$ ，我们可以得到：</p>
+<script type="math/tex; mode=display">
+P(c,x_i) = \frac{|D_{c,x_i}|+1}{|D|+N_i} \\
+P(x_j|c,x_i) = \frac{|D_{c,x_i,x_j}|+1}{|D_{c,x_i}|+N_i}</script><p>与朴素贝叶斯分类器相似，AODE无需进行模型选择，能够节省预测时间，易于实现增量学习。</p>
+<h2 id="5、贝叶斯网"><a href="#5、贝叶斯网" class="headerlink" title="5、贝叶斯网"></a>5、贝叶斯网</h2><p> &emsp;&emsp;   <strong>半朴素贝叶斯分类器是将属性条件独立假设放松为独依赖假设来得到泛化性能的提升</strong>，那么我们可以通过可<strong>考虑属性间的高阶依赖</strong>来进一步提升泛化性能，即，我们要考虑属性的多个依赖关系，将ODE中的$\ pa_i$ 替换成包含$\ k$ 个属性的集合$\ pa_i$ </p>
+<p> &emsp;&emsp;  <strong>贝叶斯网(Bayesian network)</strong>也称<strong>信念网(belief network)</strong>,它借助<strong>有向无环图(Directed Acyclic Graph,简称DAG)</strong>来刻画属性之间的依赖关系，并使用<strong>条件概率表(Conditional Probability Table,简称CPT)</strong>来描述属性的联合概率分布。</p>
+<p> &emsp;&emsp;  一个贝叶斯网$\ B$ 由<strong>结构</strong>$\ G$ 和<strong>参数</strong>$\ \Theta$ 两部分构成，即$\ B=$ &lt; $\ G,\Theta$ &gt;  ，网络结构$\ G$  是一个有向无环图，其每个节点对应了一个属性，若两个属性有直接依赖关系，则它们由一条边连接起来；参数$\ \Theta$ 定量描述了这种依赖关系，假设属性$\ x<em>i$ 在$\ G$ 中的父节点集为$\ \pi_i$ ，$\ \Theta$ 包含了每个属性的条件概率，$\ \theta</em>{x_i|\pi_i} = P_B(x_i|\pi_i)$ 。</p>
 <p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/2.png?raw=true"  alt="2"></p>
-<h3 id="结构">结构</h3>
-<p>    贝叶斯网络结构有效的表达了属性间的条件独立性。给父节点集，贝叶斯假设每个属性与他的非后裔属性独立，于是$\ B=&lt;G,\Theta&gt;$ 将属性$\ x_1,x_2,······$ 的联合概率分布定义为：<br>
-$$<br>
-P_B(x_1,x_2,…,x_d) = \prod_{i=1}^dP_B(x_i|\pi_i) = \prod_{i=1}^d \theta_{x_i|\pi_i}<br>
-$$<br>
-    以上图7.2为例，其联合概率密度定义为：<br>
-$$<br>
-P(x_1,x_2,x_3,x_4,x_5) = P(x_1)P(x_2)P(x_3|x_1)P(x_4|x_1,x_2)P(x_5|x_2)<br>
-$$<br>
-    从上面的贝叶斯网我们可以得到，$\ x_3$ 和$\ x_4$ 在$\ x_1$ 已知的情况下独立，$\ x_4$ 和$\ x_5$ 在$\ x_2$ 已知的情况下独立，即：$\ x_3 \bot x_4|x_1$ ，$\ x_4 \bot x_5|x_2$</p>
-<p>    贝叶斯网的<strong>三种典型依赖关系</strong>如下：</p>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p> &emsp;&emsp;  贝叶斯网络结构有效的表达了属性间的条件独立性。给父节点集，贝叶斯假设每个属性与他的非后裔属性独立，于是$\ B=<G,\Theta>$ 将属性$\ x_1,x_2,······$ 的联合概率分布定义为：</p>
+<script type="math/tex; mode=display">
+P_B(x_1,x_2,...,x_d) = \prod_{i=1}^dP_B(x_i|\pi_i) = \prod_{i=1}^d \theta_{x_i|\pi_i}</script><p> &emsp;&emsp;  以上图7.2为例，其联合概率密度定义为：</p>
+<script type="math/tex; mode=display">
+P(x_1,x_2,x_3,x_4,x_5) = P(x_1)P(x_2)P(x_3|x_1)P(x_4|x_1,x_2)P(x_5|x_2)</script><p> &emsp;&emsp;  从上面的贝叶斯网我们可以得到，$\ x_3$ 和$\ x_4$ 在$\ x_1$ 已知的情况下独立，$\ x_4$ 和$\ x_5$ 在$\ x_2$ 已知的情况下独立，即：$\ x_3 \bot x_4|x_1$ ，$\ x_4 \bot x_5|x_2$ </p>
+<p> &emsp;&emsp;  贝叶斯网的<strong>三种典型依赖关系</strong>如下：</p>
 <p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/3.png?raw=true"  alt="3"></p>
-<p>    我们可以借助这些结构，来分析贝叶斯网中各个属性节点的独立性。</p>
-<p>    在同父结构下，给定$\ x_1$ 的取值，$\ x_3$ 与 $\ x_4$ 独立</p>
-<p>    在V型结构下，给定$\ x_4$ 的取值，$\ x_1$ 与 $\ x_2$ 必不独立，在$\ x_4$ 未知时，$\ x_1$ 与 $\ x_2$ 独立</p>
-<p>    在顺序结构下，给定$\ x$ 的取值，$\ y$ 与 $\ z$ 独立</p>
-<p>    我们可以借助这些结构，将贝叶斯网络转换成&quot;道德图&quot;来进行独立性的分析</p>
+<p> &emsp;&emsp;  我们可以借助这些结构，来分析贝叶斯网中各个属性节点的独立性。</p>
+<p> &emsp;&emsp;  在同父结构下，给定$\ x_1$ 的取值，$\ x_3$ 与 $\ x_4$ 独立</p>
+<p> &emsp;&emsp;  在V型结构下，给定$\ x_4$ 的取值，$\ x_1$ 与 $\ x_2$ 必不独立，在$\ x_4$ 未知时，$\ x_1$ 与 $\ x_2$ 独立</p>
+<p> &emsp;&emsp;  在顺序结构下，给定$\ x$ 的取值，$\ y$ 与 $\ z$ 独立</p>
+<p> &emsp;&emsp;  我们可以借助这些结构，将贝叶斯网络转换成”道德图”来进行独立性的分析</p>
 <ol>
 <li>找出有向图中的所有V型结构，在V型结构的两个父节点之间加一条无向边</li>
-<li>将所有有向边改为无向边，由此产生的图，就叫道德图</li>
+<li><p>将所有有向边改为无向边，由此产生的图，就叫道德图</p>
+<p>&emsp;&emsp;  图7.2的道德图如下：</p>
+</li>
 </ol>
-<p>    图7.2的道德图如下：</p>
 <p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/4.png?raw=true"  alt="4"></p>
-<h3 id="学习">学习</h3>
-<p>    根据上一节的知识，我们已经知道了关于贝叶斯网结构的一些知识，那么我们该怎么构建一个贝叶斯网络呢？贝叶斯网络学习的首要任务就是<strong>根据训练数据集找出最&quot;恰当&quot;的贝叶斯网</strong>，**”评分搜索“**是求解这一问题的常用办法</p>
-<p>    “评分搜索”：定义个一个评分函数，以此来评估贝叶斯网与训练数据的契合程度，然后基于评分函数来寻找结构最优的贝叶斯网。</p>
-<p>    <strong>评分函数决定了贝叶斯网络的归纳偏好。</strong></p>
-<p>    常用评分函数基于<strong>信息论准则</strong>，将学习问题看作一个数据压缩任务，学习的目标是能找到一个能以最短编码长度描述训练数据的模型。</p>
-<p>    对于贝叶斯网络学习而言，模型就是一个贝叶斯网，同时，每个贝叶斯网描述了一个在训练数据上的概率分布，自有一套编码机制能使那些经常出现的样本有更短的编码。于是，我们应选择那个综合编码长度（包括描述网络和编码数据）最短的贝叶斯网，这就是“最小描述长度准则”(Minimal Description Length,简称MDL)。</p>
-<p>    给定训练集$\ D = {x_1,x_2,…,x_m}$ ，贝叶斯网在$\ B=$ &lt; $\ G,\Theta$ &gt;   上的评分函数可写为：<br>
-$$<br>
-s(B|D) = f(\theta)|B| - LL(B|D)<br>
-$$<br>
-    其中,$\ |B|$ 是贝叶斯网的参数($\ \theta_{x_i|\pi_i}$)的个数，$\ f(\theta)$ 表示每个参数$\ \theta$ 所需的字节数，且：<br>
-$$<br>
-LL(B|D) = \sum_{i=1}^m log \ P_B(x_i)<br>
-$$<br>
-是贝叶斯网$\ B$ 的对数似然。</p>
-<p>    因此，学习任务转换成了一个优化任务，即寻找一个贝叶斯网$\ B$ 使评分函数最小。</p>
-<p>    除了上面的<strong>评分函数</strong>，我们还有：</p>
-<p>         AIC(Akaike Information Criterion)评分函数：$\ AIC(B|D) = |B| - LL(B|D)$</p>
-<p>         BIC(Bayesian Information Criterion)评分函数：$\ BIC(B|D) = \frac{log\ m}{2}|B| - LL(B|D)$</p>
-<p>  </p>
-<p>    我们可以发现，当评分函数第一项为0或常数时，评分函数退化为负对数对然。当结构$\ G$ 固定时，评分函数第一项为常数，此时，最小化评分函数，等价于对参数$\ \Theta$ 的极大似然估计。当然，我们的参数$\ \theta_{x_i|\pi_i}$ 可以直接通过训练数据集$\ D$ 通过经验估计获得，即：<br>
-$$<br>
-\theta_{x_i|\pi_i} = \hat{P_D}(x_i|\pi_i)<br>
-$$</p>
-<p>    不过，在<strong>网络结构空间中搜索最优贝叶斯网络是一个NP难问题</strong>，很难快速求解。我们可以借助以下两种方法来进行搜索：</p>
+<h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><p> &emsp;&emsp;  根据上一节的知识，我们已经知道了关于贝叶斯网结构的一些知识，那么我们该怎么构建一个贝叶斯网络呢？贝叶斯网络学习的首要任务就是<strong>根据训练数据集找出最”恰当”的贝叶斯网</strong>，<strong>”评分搜索“</strong>是求解这一问题的常用办法</p>
+<p> &emsp;&emsp;  “评分搜索”：定义个一个评分函数，以此来评估贝叶斯网与训练数据的契合程度，然后基于评分函数来寻找结构最优的贝叶斯网。</p>
+<p> &emsp;&emsp;  <strong>评分函数决定了贝叶斯网络的归纳偏好。</strong></p>
+<p> &emsp;&emsp;  常用评分函数基于<strong>信息论准则</strong>，将学习问题看作一个数据压缩任务，学习的目标是能找到一个能以最短编码长度描述训练数据的模型。</p>
+<p> &emsp;&emsp;  对于贝叶斯网络学习而言，模型就是一个贝叶斯网，同时，每个贝叶斯网描述了一个在训练数据上的概率分布，自有一套编码机制能使那些经常出现的样本有更短的编码。于是，我们应选择那个综合编码长度（包括描述网络和编码数据）最短的贝叶斯网，这就是“最小描述长度准则”(Minimal Description Length,简称MDL)。</p>
+<p> &emsp;&emsp;  给定训练集$\ D = {x_1,x_2,…,x_m}$ ，贝叶斯网在$\ B=$ &lt; $\ G,\Theta$ &gt;   上的评分函数可写为：</p>
+<script type="math/tex; mode=display">
+s(B|D) = f(\theta)|B| - LL(B|D)</script><p> &emsp;&emsp;  其中,$\ |B|$ 是贝叶斯网的参数($\ \theta_{x_i|\pi_i}$)的个数，$\ f(\theta)$ 表示每个参数$\ \theta$ 所需的字节数，且：</p>
+<script type="math/tex; mode=display">
+LL(B|D) = \sum_{i=1}^m log \ P_B(x_i)</script><p>是贝叶斯网$\ B$ 的对数似然。</p>
+<p> &emsp;&emsp;  因此，学习任务转换成了一个优化任务，即寻找一个贝叶斯网$\ B$ 使评分函数最小。</p>
+<p> &emsp;&emsp;  除了上面的<strong>评分函数</strong>，我们还有：</p>
+<p> &emsp;&emsp;   &emsp;&emsp;  AIC(Akaike Information Criterion)评分函数：$\ AIC(B|D) = |B| - LL(B|D)$ </p>
+<p> &emsp;&emsp;   &emsp;&emsp;  BIC(Bayesian Information Criterion)评分函数：$\ BIC(B|D) = \frac{log\ m}{2}|B| - LL(B|D)$ </p>
+<p> &emsp;&emsp;  </p>
+<p> &emsp;&emsp;  我们可以发现，当评分函数第一项为0或常数时，评分函数退化为负对数对然。当结构$\ G$ 固定时，评分函数第一项为常数，此时，最小化评分函数，等价于对参数$\ \Theta$ 的极大似然估计。当然，我们的参数$\ \theta_{x_i|\pi_i}$ 可以直接通过训练数据集$\ D$ 通过经验估计获得，即：</p>
+<script type="math/tex; mode=display">
+\theta_{x_i|\pi_i} = \hat{P_D}(x_i|\pi_i)</script><p> &emsp;&emsp;  不过，在<strong>网络结构空间中搜索最优贝叶斯网络是一个NP难问题</strong>，很难快速求解。我们可以借助以下两种方法来进行搜索：</p>
 <ol>
 <li><strong>贪心法</strong>。从某个网络结构出发， 每次调整一条边（增加、删除、调整方向）直到评分函数值不再降低</li>
 <li>通过给网络结构<strong>施加约束</strong>来削减搜索空间，例如将网络结构限定为树形结构等</li>
 </ol>
-<h3 id="推断">推断</h3>
-<p>    当贝叶斯网络训练好之后，我们就可以利用这个网络来进行分类等问题的解决了。通过已知变量观测值来推测待查询变量的过程称为推断(inference)，已知变量观测值称为证据(evidence)。</p>
-<p>    最理想的是直接根据贝叶斯网定义的联合概率分布来精确计算后验概率，但是这是NP难的，当网络结点较多，连接稠密时，难以进行精确判断，此时需借助近似判断。现实应用中，贝叶斯网的近似推断通常使用**吉布森采样(Gibbs sampling)**来完成。</p>
-<p>    以下是吉布森采样的工作过程：</p>
+<h3 id="推断"><a href="#推断" class="headerlink" title="推断"></a>推断</h3><p> &emsp;&emsp;  当贝叶斯网络训练好之后，我们就可以利用这个网络来进行分类等问题的解决了。通过已知变量观测值来推测待查询变量的过程称为推断(inference)，已知变量观测值称为证据(evidence)。</p>
+<p> &emsp;&emsp;  最理想的是直接根据贝叶斯网定义的联合概率分布来精确计算后验概率，但是这是NP难的，当网络结点较多，连接稠密时，难以进行精确判断，此时需借助近似判断。现实应用中，贝叶斯网的近似推断通常使用<strong>吉布森采样(Gibbs sampling)</strong>来完成。</p>
+<p> &emsp;&emsp;  以下是吉布森采样的工作过程：</p>
 <p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/5.png?raw=true"  alt="5"></p>
 <p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/6.png?raw=true"  alt="6"></p>
-<h1>二、模型分析</h1>
-<h2 id="1、模型应用">1、模型应用</h2>
-<p>    贝叶斯网络适用于由<strong>离散变量</strong>构成的数据集合，变量之间<strong>满足一定的条件独立关系</strong>，且此条件独立关系能够用一个<strong>有向无环图</strong>来描述。贝叶斯网络可以针对给定的任务实现预测、分类、诊断、聚类、因果分析等数据挖掘的功能。根据初始条件和推理目标的不同，贝叶斯网络的应用类型各不相同。</p>
+<h1 id="二、模型分析"><a href="#二、模型分析" class="headerlink" title="二、模型分析"></a>二、模型分析</h1><h2 id="1、模型应用"><a href="#1、模型应用" class="headerlink" title="1、模型应用"></a>1、模型应用</h2><p> &emsp;&emsp;  贝叶斯网络适用于由<strong>离散变量</strong>构成的数据集合，变量之间<strong>满足一定的条件独立关系</strong>，且此条件独立关系能够用一个<strong>有向无环图</strong>来描述。贝叶斯网络可以针对给定的任务实现预测、分类、诊断、聚类、因果分析等数据挖掘的功能。根据初始条件和推理目标的不同，贝叶斯网络的应用类型各不相同。</p>
 <ul>
 <li>可以应用于多分类任务</li>
 <li>比较适合文本处理问题，比如敏感邮件的检测等</li>
 </ul>
-<h2 id="2、模型优缺点">2、模型优缺点</h2>
-<p><strong>优点</strong></p>
+<h2 id="2、模型优缺点"><a href="#2、模型优缺点" class="headerlink" title="2、模型优缺点"></a>2、模型优缺点</h2><p><strong>优点</strong></p>
 <ul>
-<li>
-<p>朴素贝叶斯模型（NBC）发源于古典数学理论，有着坚实的数学基础，以及稳定的分类效率。</p>
+<li><p>朴素贝叶斯模型（NBC）发源于古典数学理论，有着坚实的数学基础，以及稳定的分类效率。</p>
 </li>
-<li>
-<p>朴素贝叶斯模型（NBC）所需估计的参数很少，对缺失数据不太敏感，算法也比较简单。</p>
+<li><p>朴素贝叶斯模型（NBC）所需估计的参数很少，对缺失数据不太敏感，算法也比较简单。</p>
 </li>
 </ul>
 <p><strong>缺点</strong></p>
 <ul>
-<li>
-<p>理论上，朴素贝叶斯模型（NBC）与其他分类方法相比具有最小的误差率。但是实际上并非总是如此，这是因为NBC模型假设属性之间相互独立，这个假设在实际应用中往往是不成立的（可以考虑用聚类算法先将相关性较大的属性聚类），这给NBC模型的正确分类带来了一定影响。在属性个数比较多或者属性之间相关性较大时，NBC模型的分类效率比不上决策树模型。而在属性相关性较小时，NBC模型的性能最为良好。</p>
+<li><p>理论上，朴素贝叶斯模型（NBC）与其他分类方法相比具有最小的误差率。但是实际上并非总是如此，这是因为NBC模型假设属性之间相互独立，这个假设在实际应用中往往是不成立的（可以考虑用聚类算法先将相关性较大的属性聚类），这给NBC模型的正确分类带来了一定影响。在属性个数比较多或者属性之间相关性较大时，NBC模型的分类效率比不上决策树模型。而在属性相关性较小时，NBC模型的性能最为良好。</p>
 </li>
-<li>
-<p>需要知道先验概率。</p>
+<li><p>需要知道先验概率。</p>
 </li>
-<li>
-<p>分类决策存在错误率</p>
+<li><p>分类决策存在错误率</p>
 </li>
 </ul>
 <p><strong>参考链接</strong></p>
@@ -318,7 +259,7 @@ $$</p>
 <li><a href="https://www.zhihu.com/question/27670909" target="_blank" rel="noopener">如何简单理解贝叶斯决策理论（Bayes Decision Theory）？</a></li>
 <li>周志华老师的《机器学习》</li>
 </ul>
-</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">白丁</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://baidinghub.github.io/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/">http://baidinghub.github.io/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://baidinghub.github.io" target="_blank">BaiDing's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="post-meta__tags" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/">贝叶斯</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDyIdOn/M/aXcGQOiSDVMqvN2gxDdiESHUfFuB2YMy48fvNN9SZOQUbVlGF4Pk6nDXIAir+br/EWuEnNLtgOCYMo/BTxl29gqS/QGHPiDaIQedzmLcuRZpfDuGit61N/b9pyktpZLagBgbl5Ox9mAgWQxXyhxYB092gyOXqrBULBeZUYQ+H7Eupha10QTQghHv4nLk+oYWo2UXEiijQpE3qMXT32G8v8k0KbRdd1hIFPyNEx6eZ6Buc2ZdbMtoutdGjvdnw5B1+dxgl1egESPChzcwCMxt3NW/3faQ5lsjRhQD4fRU+Ua/aqXe+0xg2+xr0BTjNr/JZIAaNiLuo71lH 1564026260@qq.com" async="async"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/wechat.png?raw=true" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/alipay.jpg?raw=true" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/"><img class="prev_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">机器学习（七）集成学习</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/"><img class="next_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">机器学习（五）K近邻算法</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（一）Logistic回归/" title="机器学习（一）Logistic回归"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89Logistic%E5%9B%9E%E5%BD%92/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（一）Logistic回归</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（七）集成学习/" title="机器学习（七）集成学习"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（七）集成学习</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（三）SVM/" title="机器学习（三）SVM"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89SVM/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（三）SVM</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（九）集成学习之GDBT/" title="机器学习（九）集成学习之GDBT"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B9%9D%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%E4%B9%8BGDBT/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（九）集成学习之GDBT</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（二）线性判别分析LDA/" title="机器学习（二）线性判别分析LDA"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%E7%BA%BF%E6%80%A7%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90LDA/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（二）线性判别分析LDA</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（五）K近邻算法/" title="机器学习（五）K近邻算法"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（五）K近邻算法</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">白丁</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://baidinghub.github.io/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/">http://baidinghub.github.io/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://baidinghub.github.io" target="_blank">BaiDing's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="post-meta__tags" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/">贝叶斯</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDyIdOn/M/aXcGQOiSDVMqvN2gxDdiESHUfFuB2YMy48fvNN9SZOQUbVlGF4Pk6nDXIAir+br/EWuEnNLtgOCYMo/BTxl29gqS/QGHPiDaIQedzmLcuRZpfDuGit61N/b9pyktpZLagBgbl5Ox9mAgWQxXyhxYB092gyOXqrBULBeZUYQ+H7Eupha10QTQghHv4nLk+oYWo2UXEiijQpE3qMXT32G8v8k0KbRdd1hIFPyNEx6eZ6Buc2ZdbMtoutdGjvdnw5B1+dxgl1egESPChzcwCMxt3NW/3faQ5lsjRhQD4fRU+Ua/aqXe+0xg2+xr0BTjNr/JZIAaNiLuo71lH 1564026260@qq.com" async="async"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/wechat.png?raw=true" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/alipay.jpg?raw=true" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/"><img class="prev_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">机器学习（七）集成学习</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/"><img class="next_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">机器学习（五）K近邻算法</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（一）Logistic回归/" title="机器学习（一）Logistic回归"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89Logistic%E5%9B%9E%E5%BD%92/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（一）Logistic回归</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（七）集成学习/" title="机器学习（七）集成学习"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（七）集成学习</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（九）集成学习之GDBT/" title="机器学习（九）集成学习之GDBT"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B9%9D%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%E4%B9%8BGDBT/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（九）集成学习之GDBT</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（五）K近邻算法/" title="机器学习（五）K近邻算法"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（五）K近邻算法</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（三）SVM/" title="机器学习（三）SVM"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89SVM/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（三）SVM</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（二）线性判别分析LDA/" title="机器学习（二）线性判别分析LDA"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%E7%BA%BF%E6%80%A7%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90LDA/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（二）线性判别分析LDA</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
   clientID: 'd3948be001a91411dfd9',
   clientSecret: 'ebddf2a2a5a039922fb373a8a8c0efcc439bf6ca',
   repo: 'BaiDingHub.github.io',

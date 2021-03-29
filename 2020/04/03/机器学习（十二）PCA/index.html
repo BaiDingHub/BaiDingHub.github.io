@@ -88,162 +88,131 @@ ga('send', 'pageview');
 .justified-gallery img{
   opacity: 1
 }
-</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/avatar.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/friend_404.gif?raw=true'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">94</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">60</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-text">一、模型介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、算法思想"><span class="toc-text">1、算法思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、PCA推导"><span class="toc-text">2、PCA推导</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-text">二、模型分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、模型优缺点"><span class="toc-text">1、模型优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、核化线性降维"><span class="toc-text">2、核化线性降维</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/cover.png?raw=true)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">BaiDing's blog</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">机器学习（十二）PCA</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-03 14:12:05"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-03</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2021-01-29 21:48:32"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2021-01-29</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">1.9k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 6 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><meta name="referrer" content="no-referrer"/>
-<h1>一、模型介绍</h1>
-<p>    PCA(Principal Component Analysis)，即<strong>主成分分析</strong>方法，是一种使用最广泛的<strong>数据降维</strong>算法。</p>
-<p>    降维就是一种对高维度特征数据预处理方法。<strong>降维是将高维度的数据保留下最重要的一些特征，去除噪声和不重要的特征，从而实现提升数据处理速度的目的</strong>。在实际的生产和应用中，降维在一定的信息损失范围内，可以为我们节省大量的时间和成本。降维也成为应用非常广泛的数据预处理方法。降维的算法有很多，比如奇异值分解(SVD)、主成分分析(PCA)、因子分析(FA)、独立成分分析(ICA)。</p>
-<p>    PCA的主要思想是将<strong>n维特征映射到k维上</strong>，这k维是全新的正交特征也被称为主成分，是在原有n维特征的基础上重新构造出来的k维特征。</p>
-<p>    PCA的工作就是从原始的空间中顺序地找一组相互正交的坐标轴，新的坐标轴的选择与数据本身是密切相关的。其中，第一个新坐标轴选择是原始数据中<strong>方差最大的方向</strong>，第二个新坐标轴选取是与第一个坐标轴正交的平面中使得方差最大的，第三个轴是与第1,2个轴正交的平面中方差最大的。依次类推，可以得到n个这样的坐标轴。通过这种方式获得的新的坐标轴，我们发现，大部分方差都包含在前面d个坐标轴中，后面的坐标轴所含的方差几乎为0。于是，我们可以忽略余下的坐标轴，只保留前面d个含有绝大部分方差的坐标轴。</p>
-<br>
-<h2 id="1、算法思想">1、算法思想</h2>
-<p>    PCA是基于<strong>最近重构性</strong>和<strong>最大可分性</strong>而得到的方法。</p>
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/avatar.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/friend_404.gif?raw=true'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">94</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">60</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、模型介绍"><span class="toc-text">一、模型介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、算法思想"><span class="toc-text">1、算法思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、PCA推导"><span class="toc-text">2、PCA推导</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、模型分析"><span class="toc-text">二、模型分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、模型优缺点"><span class="toc-text">1、模型优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、核化线性降维"><span class="toc-text">2、核化线性降维</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/cover.png?raw=true)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">BaiDing's blog</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于作者</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">机器学习（十二）PCA</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-03 14:12:05"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-03</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2021-01-29 21:48:32"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2021-01-29</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">2k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 7 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><meta name="referrer" content="no-referrer"/>
+
+
+
+<h1 id="一、模型介绍"><a href="#一、模型介绍" class="headerlink" title="一、模型介绍"></a>一、模型介绍</h1><p> &emsp;&emsp;  PCA(Principal Component Analysis)，即<strong>主成分分析</strong>方法，是一种使用最广泛的<strong>数据降维</strong>算法。</p>
+<p> &emsp;&emsp;  降维就是一种对高维度特征数据预处理方法。<strong>降维是将高维度的数据保留下最重要的一些特征，去除噪声和不重要的特征，从而实现提升数据处理速度的目的</strong>。在实际的生产和应用中，降维在一定的信息损失范围内，可以为我们节省大量的时间和成本。降维也成为应用非常广泛的数据预处理方法。降维的算法有很多，比如奇异值分解(SVD)、主成分分析(PCA)、因子分析(FA)、独立成分分析(ICA)。</p>
+<p> &emsp;&emsp;  PCA的主要思想是将<strong>n维特征映射到k维上</strong>，这k维是全新的正交特征也被称为主成分，是在原有n维特征的基础上重新构造出来的k维特征。</p>
+<p> &emsp;&emsp;  PCA的工作就是从原始的空间中顺序地找一组相互正交的坐标轴，新的坐标轴的选择与数据本身是密切相关的。其中，第一个新坐标轴选择是原始数据中<strong>方差最大的方向</strong>，第二个新坐标轴选取是与第一个坐标轴正交的平面中使得方差最大的，第三个轴是与第1,2个轴正交的平面中方差最大的。依次类推，可以得到n个这样的坐标轴。通过这种方式获得的新的坐标轴，我们发现，大部分方差都包含在前面d个坐标轴中，后面的坐标轴所含的方差几乎为0。于是，我们可以忽略余下的坐标轴，只保留前面d个含有绝大部分方差的坐标轴。</p>
+<p><br></p>
+<h2 id="1、算法思想"><a href="#1、算法思想" class="headerlink" title="1、算法思想"></a>1、算法思想</h2><p> &emsp;&emsp;  PCA是基于<strong>最近重构性</strong>和<strong>最大可分性</strong>而得到的方法。</p>
 <ul>
 <li>最近重构性：<strong>样本点到这个超平面的距离都足够近</strong></li>
-<li>最大可分性：<strong>样本点在这个超平面上的投影能尽可能分开</strong></li>
+<li><p>最大可分性：<strong>样本点在这个超平面上的投影能尽可能分开</strong></p>
+<p>&emsp;&emsp;  PCA通过协方差矩阵的特征值分解来找到这些坐标轴（特征向量），其算法描述为：</p>
+</li>
 </ul>
-<p>    PCA通过协方差矩阵的特征值分解来找到这些坐标轴（特征向量），其算法描述为：</p>
 <p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/1.png?raw=true"  alt="1"></p>
-<br>
-<h2 id="2、PCA推导">2、PCA推导</h2>
-<p>    该过程是证明PCA的投影策略符合最近重构性和最大可分性。</p>
+<p><br></p>
+<h2 id="2、PCA推导"><a href="#2、PCA推导" class="headerlink" title="2、PCA推导"></a>2、PCA推导</h2><p> &emsp;&emsp;  该过程是证明PCA的投影策略符合最近重构性和最大可分性。</p>
 <p><strong>数据中心化</strong></p>
-<p>    首先，我们先对我们的数据中心化。<br>
-$$<br>
-x_i = x_i - \frac{1}{m}\sum_{i=1}^mx_i<br>
-$$<br>
-<strong>最近重构性</strong></p>
-<p>    我们假定我们的数据（d维特征）经过了一个投影变换，投影变换后，得到的新坐标系为$\ {w_1,w_2,…,w_d}$  ，其中$\ w_i$ 是标准正交基向量，$\ ||w_i||_2=1$ 且$\ w_i^Tw_j=0(i\ne j)$ 。</p>
-<p>    我们可以丢弃新坐标系中的部分坐标，即将维度降低到$\ d’&lt;d$ 。那么样本点$\ x_i$ 在低维空间坐标系中的投影为$\ z_i=(z_{i1};z_{i2};…;z_{id’})$ ，其中$\ z_{ij}=w_j^Tx_i$ 是$\ x_i$ 在低维坐标系下第$\ j$ 维的坐标，若基于$\ z_i$ 来重构$\ x_i$ ，则会得到$\ \hat{x_i} = \sum_{j=1}^{d’}z_{ij}w_j$ 。</p>
-<p>    考虑整个训练集，原样本点$\ x_i$ 与基于投影重构的样本点$\ \hat{x_i}$ 的距离为：<br>
-$$<br>
-\begin{equation}<br>
-\begin{split}<br>
-\sum_{i=1}^m||\sum_{j=1}^{d’}z_{ij}w_j - x_i||<em>2^2 &amp;=\sum</em>{i=1}^m[(\sum_{j=1}^{d’}z_{ij}w_j)^2 - 2\sum_{j=1}^{d’}z_{ij}w_jx_i + x_i^2]\<br>
-&amp;=\sum_{i=1}^m[z_i^Tz_i - 2z_i^TW^Tx_i + x_i^2]\<br>
-&amp;=\sum_{i=1}^mz_i^Tz_i - 2\sum_{i=1}^mz_i^TW^Tx_i + const\<br>
-&amp;\propto -tr(W^T(\sum_{i=1}^mx_ix_i^T)W)\<br>
-\end{split}<br>
-\end{equation}<br>
-$$<br>
-    其中$\ W = (w_1,w_2,…,w_{d’})$ 。</p>
-<p>    根据最近重构性，上面的式子应该被最小化，我们知道$\ w_j$ 是标准正交基，且$\ \sum_ix_ix_i^T$ 是协方差矩阵，所以我们的<strong>目标函数</strong>为：<br>
-$$<br>
-\begin{equation}<br>
-\begin{split}<br>
-min_W&amp; \quad \  -tr(W^TXX^TW)\<br>
-s.t.&amp; \quad \  W^TW=I \</p>
-<p>\end{split}<br>
-\end{equation}<br>
-$$<br>
-<strong>最大可分性</strong></p>
-<p>    我们知道，样本点$\ x_i$ 在新空间中超平面上的投影是$\ W^Tx_i$ ，若所有样本点的投影能尽可能分开，则应该使投影后样本点的方差最大化，而投影点后的方差是$\ \sum_iW^Tx_ix_i^TW$ ，于是基于最大可分性，我们得到的目标函数依然是：<br>
-$$<br>
-\begin{equation}<br>
-\begin{split}<br>
-min_W&amp; \quad \  -tr(W^TXX^TW)\<br>
-s.t.&amp; \quad \  W^TW=I \</p>
-<p>\end{split}<br>
-\end{equation}<br>
-$$<br>
-<strong>特征向量求解</strong></p>
-<p>    我们对上面的目标函数使用拉格朗日乘子法可得：<br>
-$$<br>
-XX^TW = \lambda W<br>
-$$<br>
-    于是，我们只需要对协方差矩阵$\ XX^T$ 进行特征值分解，讲求得的特征值排序:$\ \lambda_1 \ge \lambda_2 \ge  …\lambda_d $ ，再取前$\ d’$ 个特征值对应的特征向量构成$\ W=(w_1,w_2,…,w_{d’})$ ，这就是主成分分析的解。</p>
+<p> &emsp;&emsp;  首先，我们先对我们的数据中心化。</p>
+<script type="math/tex; mode=display">
+x_i = x_i - \frac{1}{m}\sum_{i=1}^mx_i</script><p><strong>最近重构性</strong></p>
+<p> &emsp;&emsp;  我们假定我们的数据（d维特征）经过了一个投影变换，投影变换后，得到的新坐标系为$\ {w_1,w_2,…,w_d}$  ，其中$\ w_i$ 是标准正交基向量，$\ ||w_i||_2=1$ 且$\ w_i^Tw_j=0(i\ne j)$ 。</p>
+<p> &emsp;&emsp;  我们可以丢弃新坐标系中的部分坐标，即将维度降低到$\ d’&lt;d$ 。那么样本点$\ x<em>i$ 在低维空间坐标系中的投影为$\ z_i=(z</em>{i1};z<em>{i2};…;z</em>{id’})$ ，其中$\ z<em>{ij}=w_j^Tx_i$ 是$\ x_i$ 在低维坐标系下第$\ j$ 维的坐标，若基于$\ z_i$ 来重构$\ x_i$ ，则会得到$\ \hat{x_i} = \sum</em>{j=1}^{d’}z_{ij}w_j$ 。</p>
+<p> &emsp;&emsp;  考虑整个训练集，原样本点$\ x_i$ 与基于投影重构的样本点$\ \hat{x_i}$ 的距离为：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\sum_{i=1}^m||\sum_{j=1}^{d'}z_{ij}w_j - x_i||_2^2 &=\sum_{i=1}^m[(\sum_{j=1}^{d'}z_{ij}w_j)^2 - 2\sum_{j=1}^{d'}z_{ij}w_jx_i + x_i^2]\\
+&=\sum_{i=1}^m[z_i^Tz_i - 2z_i^TW^Tx_i + x_i^2]\\
+&=\sum_{i=1}^mz_i^Tz_i - 2\sum_{i=1}^mz_i^TW^Tx_i + const\\
+&\propto -tr(W^T(\sum_{i=1}^mx_ix_i^T)W)\\
+\end{split}
+\end{equation}</script><p> &emsp;&emsp;  其中$\ W = (w<em>1,w_2,…,w</em>{d’})$ 。</p>
+<p> &emsp;&emsp;  根据最近重构性，上面的式子应该被最小化，我们知道$\ w_j$ 是标准正交基，且$\ \sum_ix_ix_i^T$ 是协方差矩阵，所以我们的<strong>目标函数</strong>为：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+min_W& \quad \  -tr(W^TXX^TW)\\
+s.t.& \quad \  W^TW=I \\
+
+\end{split}
+\end{equation}</script><p><strong>最大可分性</strong></p>
+<p> &emsp;&emsp;  我们知道，样本点$\ x_i$ 在新空间中超平面上的投影是$\ W^Tx_i$ ，若所有样本点的投影能尽可能分开，则应该使投影后样本点的方差最大化，而投影点后的方差是$\ \sum_iW^Tx_ix_i^TW$ ，于是基于最大可分性，我们得到的目标函数依然是：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+min_W& \quad \  -tr(W^TXX^TW)\\
+s.t.& \quad \  W^TW=I \\
+
+\end{split}
+\end{equation}</script><p><strong>特征向量求解</strong></p>
+<p> &emsp;&emsp;  我们对上面的目标函数使用拉格朗日乘子法可得：</p>
+<script type="math/tex; mode=display">
+XX^TW = \lambda W</script><p> &emsp;&emsp;  于是，我们只需要对协方差矩阵$\ XX^T$ 进行特征值分解，讲求得的特征值排序:$\ \lambda<em>1 \ge \lambda_2 \ge  …\lambda_d $ ，再取前$\ d’$ 个特征值对应的特征向量构成$\ W=(w_1,w_2,…,w</em>{d’})$ ，这就是主成分分析的解。</p>
 <p><strong>d‘的选取</strong></p>
-<p>    降维后低维空间的维数$\ d’$ 通常是由用户事先制定，我们可以设置一个阈值$\ t=95%$ ，使得$\ d’$ 满足：<br>
-$$<br>
-\frac{\sum_{i=1}^{d’}\lambda_i}{\sum_{i=1}^{d}\lambda_i} \ge t<br>
-$$<br>
-<br></p>
-<h1>二、模型分析</h1>
-<h2 id="1、模型优缺点">1、模型优缺点</h2>
+<p> &emsp;&emsp;  降维后低维空间的维数$\ d’$ 通常是由用户事先制定，我们可以设置一个阈值$\ t=95%$ ，使得$\ d’$ 满足：</p>
+<script type="math/tex; mode=display">
+\frac{\sum_{i=1}^{d'}\lambda_i}{\sum_{i=1}^{d}\lambda_i} \ge t</script><p><br></p>
+<h1 id="二、模型分析"><a href="#二、模型分析" class="headerlink" title="二、模型分析"></a>二、模型分析</h1><h2 id="1、模型优缺点"><a href="#1、模型优缺点" class="headerlink" title="1、模型优缺点"></a>1、模型优缺点</h2><ul>
+<li><p><strong>降维的优点</strong>：</p>
 <ul>
-<li>
-<p><strong>降维的优点</strong>：</p>
-<ul>
-<li>
-<p>使得数据集更易使用。</p>
+<li>使得数据集更易使用。</li>
+<li><p>降低算法的计算开销。</p>
 </li>
-<li>
-<p>降低算法的计算开销。</p>
+<li><p>去除噪声。</p>
 </li>
-<li>
-<p>去除噪声。</p>
-</li>
-<li>
-<p>使得结果容易理解。</p>
+<li><p>使得结果容易理解。</p>
 </li>
 </ul>
 </li>
-<li>
-<p><strong>优点</strong>：</p>
+<li><p><strong>优点</strong>：</p>
 <ul>
-<li>仅仅需要以方差衡量信息量，不受数据集以外的因素影响。</li>
+<li>仅仅需要以方差衡量信息量，不受数据集以外的因素影响。　</li>
 <li>各主成分之间正交，可消除原始数据成分间的相互影响的因素。</li>
 <li>计算方法简单，主要运算是特征值分解，易于实现。</li>
 </ul>
 </li>
-<li>
-<p><strong>缺点：</strong></p>
-<ul>
+<li><strong>缺点：</strong><ul>
 <li>主成分各个特征维度的含义具有一定的模糊性，不如原始样本特征的解释性强。</li>
 <li>方差小的非主成分也可能含有对样本差异的重要信息，因降维丢弃可能对后续数据处理有影响。</li>
 </ul>
 </li>
 </ul>
-<br>
-<h2 id="2、核化线性降维">2、核化线性降维</h2>
-<p>    线性降维方法假设从高维空间到低维空间的哈数映射是线性的。然而，在不少现实任务中，可能需要非线性映射才能找到恰当的低维嵌入。如下图所示：经过PCA后，其丧失了其低维空间的结构。</p>
+<p><br></p>
+<h2 id="2、核化线性降维"><a href="#2、核化线性降维" class="headerlink" title="2、核化线性降维"></a>2、核化线性降维</h2><p> &emsp;&emsp;  线性降维方法假设从高维空间到低维空间的哈数映射是线性的。然而，在不少现实任务中，可能需要非线性映射才能找到恰当的低维嵌入。如下图所示：经过PCA后，其丧失了其低维空间的结构。</p>
 <p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/2.png?raw=true"  alt="2"></p>
-<p>    非线性降维的一种常用方法，是<strong>基于核技巧对线性降维方法进行“核化”</strong>。</p>
-<p>    PCA是对下面的函数进行求解：<br>
-$$<br>
-(\sum_{i=1}^m z_iz_i^T)W = \lambda W<br>
-$$<br>
-    易知：<br>
-$$<br>
-\begin{equation}<br>
-\begin{split}<br>
-W &amp;= \frac{1}{\lambda}(\sum_{i=1}^m z_iz_i^T)W = \sum_{i=1}^m z_i \frac{z_i^TW}{\lambda} \<br>
-&amp;= \sum_{i=1}^m z_i \alpha_i\</p>
-<p>\end{split}<br>
-\end{equation}<br>
-$$<br>
-    其中$\ \alpha_i = \frac{1}{\lambda}z_i^TW$ 。</p>
-<p>    假定$\ z_i$ 是由原始属性空间中的样本点$\ x_i$ 通过映射$\ \phi(x)$ 产生，即$\ z_i = \phi(x_i),i=1,2…m$ 。将其带入原PCA的目标函数中，我们可以得到：<br>
-$$<br>
-(\sum_{i=1}^m \phi(x_i)\phi(x_i^T))W = \lambda W<br>
-$$<br>
-    且$\ W = \sum_{i=1}^m\phi(x_i)\alpha_i$。</p>
-<p>    我们引入核函数：<br>
-$$<br>
-k(x_i,x_j) = \phi(x_i)^T\phi(x_j)<br>
-$$<br>
-    那么PCA的目标函数简化为：<br>
-$$<br>
-KA = \lambda A<br>
-$$<br>
-    其中$\ K$ 为$\ k$ 对应的核矩阵，$\ (K)_{ij} = k(x_i,x_j)$ 。$\ A = (\alpha_1;\alpha_2;…;\alpha_m)$ 。</p>
-<p>    所以，<strong>经过核化后，我们取上式的前$\ d’$ 个特征值对应的特征向量即可。</strong></p>
-<p>    对于新样本$\ x$ ，其投影后的第$\ j$ 维坐标维：<br>
-$$<br>
-\begin{equation}<br>
-\begin{split}<br>
-z_j &amp;= w_j^T\phi(x) = \sum_{i=1}^m\alpha_i^j\phi(x_i)^T\phi(x) \<br>
-&amp;= \sum_{i=1}^m\alpha_i^jk(x_i,x)</p>
-<p>\end{split}<br>
-\end{equation}<br>
-$$<br>
-    其中$\ \alpha_i$ 已经过规范化，$\ \alpha_i^j$ 是$\ \alpha_i$ 的第$\ j$ 个分量。</p>
-<p>    根据上式，我们可以知道，为了获得投影后的坐标，核化的PCA需要对所有样本求和，因此它的计算开销较大。</p>
+<p> &emsp;&emsp;  非线性降维的一种常用方法，是<strong>基于核技巧对线性降维方法进行“核化”</strong>。</p>
+<p> &emsp;&emsp;  PCA是对下面的函数进行求解：</p>
+<script type="math/tex; mode=display">
+(\sum_{i=1}^m z_iz_i^T)W = \lambda W</script><p> &emsp;&emsp;  易知：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+W &= \frac{1}{\lambda}(\sum_{i=1}^m z_iz_i^T)W = \sum_{i=1}^m z_i \frac{z_i^TW}{\lambda} \\
+&= \sum_{i=1}^m z_i \alpha_i\\
+
+\end{split}
+\end{equation}</script><p> &emsp;&emsp;  其中$\ \alpha_i = \frac{1}{\lambda}z_i^TW$ 。</p>
+<p> &emsp;&emsp;  假定$\ z_i$ 是由原始属性空间中的样本点$\ x_i$ 通过映射$\ \phi(x)$ 产生，即$\ z_i = \phi(x_i),i=1,2..m$ 。将其带入原PCA的目标函数中，我们可以得到：</p>
+<script type="math/tex; mode=display">
+(\sum_{i=1}^m \phi(x_i)\phi(x_i^T))W = \lambda W</script><p> &emsp;&emsp;  且$\ W = \sum_{i=1}^m\phi(x_i)\alpha_i$。</p>
+<p> &emsp;&emsp;  我们引入核函数：</p>
+<script type="math/tex; mode=display">
+k(x_i,x_j) = \phi(x_i)^T\phi(x_j)</script><p> &emsp;&emsp;  那么PCA的目标函数简化为：</p>
+<script type="math/tex; mode=display">
+KA = \lambda A</script><p> &emsp;&emsp;  其中$\ K$ 为$\ k$ 对应的核矩阵，$\ (K)_{ij} = k(x_i,x_j)$ 。$\ A = (\alpha_1;\alpha_2;…;\alpha_m)$ 。</p>
+<p> &emsp;&emsp;  所以，<strong>经过核化后，我们取上式的前$\ d’$ 个特征值对应的特征向量即可。</strong></p>
+<p> &emsp;&emsp;  对于新样本$\ x$ ，其投影后的第$\ j$ 维坐标维：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+z_j &= w_j^T\phi(x) = \sum_{i=1}^m\alpha_i^j\phi(x_i)^T\phi(x) \\
+&= \sum_{i=1}^m\alpha_i^jk(x_i,x)
+
+\end{split}
+\end{equation}</script><p> &emsp;&emsp;  其中$\ \alpha_i$ 已经过规范化，$\ \alpha_i^j$ 是$\ \alpha_i$ 的第$\ j$ 个分量。</p>
+<p> &emsp;&emsp;  根据上式，我们可以知道，为了获得投影后的坐标，核化的PCA需要对所有样本求和，因此它的计算开销较大。</p>
 <p><strong>参考链接</strong></p>
 <ul>
 <li>周志华老师的《机器学习》</li>
 <li><a href="https://zhuanlan.zhihu.com/p/37777074" target="_blank" rel="noopener">主成分分析（PCA）原理详解</a></li>
 </ul>
-</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">白丁</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://baidinghub.github.io/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/">http://baidinghub.github.io/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://baidinghub.github.io" target="_blank">BaiDing's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="post-meta__tags" href="/tags/PCA/">PCA</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDyIdOn/M/aXcGQOiSDVMqvN2gxDdiESHUfFuB2YMy48fvNN9SZOQUbVlGF4Pk6nDXIAir+br/EWuEnNLtgOCYMo/BTxl29gqS/QGHPiDaIQedzmLcuRZpfDuGit61N/b9pyktpZLagBgbl5Ox9mAgWQxXyhxYB092gyOXqrBULBeZUYQ+H7Eupha10QTQghHv4nLk+oYWo2UXEiijQpE3qMXT32G8v8k0KbRdd1hIFPyNEx6eZ6Buc2ZdbMtoutdGjvdnw5B1+dxgl1egESPChzcwCMxt3NW/3faQ5lsjRhQD4fRU+Ua/aqXe+0xg2+xr0BTjNr/JZIAaNiLuo71lH 1564026260@qq.com" async="async"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/wechat.png?raw=true" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/alipay.jpg?raw=true" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%89%EF%BC%89EM%E7%AE%97%E6%B3%95/"><img class="prev_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%89%EF%BC%89EM%E7%AE%97%E6%B3%95/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">机器学习（十三）EM算法</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89K-means/"><img class="next_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89K-means/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">机器学习（十一）K-means</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（一）Logistic回归/" title="机器学习（一）Logistic回归"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89Logistic%E5%9B%9E%E5%BD%92/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（一）Logistic回归</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（七）集成学习/" title="机器学习（七）集成学习"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（七）集成学习</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（三）SVM/" title="机器学习（三）SVM"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89SVM/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（三）SVM</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（九）集成学习之GDBT/" title="机器学习（九）集成学习之GDBT"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B9%9D%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%E4%B9%8BGDBT/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（九）集成学习之GDBT</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（二）线性判别分析LDA/" title="机器学习（二）线性判别分析LDA"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%E7%BA%BF%E6%80%A7%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90LDA/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（二）线性判别分析LDA</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（五）K近邻算法/" title="机器学习（五）K近邻算法"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（五）K近邻算法</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">白丁</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://baidinghub.github.io/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/">http://baidinghub.github.io/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89PCA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://baidinghub.github.io" target="_blank">BaiDing's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="post-meta__tags" href="/tags/PCA/">PCA</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDyIdOn/M/aXcGQOiSDVMqvN2gxDdiESHUfFuB2YMy48fvNN9SZOQUbVlGF4Pk6nDXIAir+br/EWuEnNLtgOCYMo/BTxl29gqS/QGHPiDaIQedzmLcuRZpfDuGit61N/b9pyktpZLagBgbl5Ox9mAgWQxXyhxYB092gyOXqrBULBeZUYQ+H7Eupha10QTQghHv4nLk+oYWo2UXEiijQpE3qMXT32G8v8k0KbRdd1hIFPyNEx6eZ6Buc2ZdbMtoutdGjvdnw5B1+dxgl1egESPChzcwCMxt3NW/3faQ5lsjRhQD4fRU+Ua/aqXe+0xg2+xr0BTjNr/JZIAaNiLuo71lH 1564026260@qq.com" async="async"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/wechat.png?raw=true" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/alipay.jpg?raw=true" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%89%EF%BC%89EM%E7%AE%97%E6%B3%95/"><img class="prev_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%89%EF%BC%89EM%E7%AE%97%E6%B3%95/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">机器学习（十三）EM算法</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89K-means/"><img class="next_cover lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89K-means/cover.png?raw=true" onerror="onerror=null;src='https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/404.jpg?raw=true'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">机器学习（十一）K-means</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（一）Logistic回归/" title="机器学习（一）Logistic回归"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89Logistic%E5%9B%9E%E5%BD%92/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（一）Logistic回归</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（七）集成学习/" title="机器学习（七）集成学习"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（七）集成学习</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（九）集成学习之GDBT/" title="机器学习（九）集成学习之GDBT"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B9%9D%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%E4%B9%8BGDBT/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（九）集成学习之GDBT</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（五）K近邻算法/" title="机器学习（五）K近邻算法"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（五）K近邻算法</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（三）SVM/" title="机器学习（三）SVM"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89SVM/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（三）SVM</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/03/机器学习（二）线性判别分析LDA/" title="机器学习（二）线性判别分析LDA"><img class="relatedPosts_cover lazyload"data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%E7%BA%BF%E6%80%A7%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90LDA/cover.png?raw=true"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">机器学习（二）线性判别分析LDA</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
   clientID: 'd3948be001a91411dfd9',
   clientSecret: 'ebddf2a2a5a039922fb373a8a8c0efcc439bf6ca',
   repo: 'BaiDingHub.github.io',
