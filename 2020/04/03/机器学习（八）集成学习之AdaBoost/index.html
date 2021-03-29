@@ -97,7 +97,7 @@ ga('send', 'pageview');
 <script type="math/tex; mode=display">
 H(x) = \sum_{t=1}^T \alpha_th_t(x)</script><p> &emsp;&emsp;  整体要做的事情，就是最小化指数损失函数：</p>
 <script type="math/tex; mode=display">
-l_{exp}(H|D) = \mathbb{E}_{x \thicksim D}[e^{-f(x)H(x)}]</script><h2 id="1、训练过程"><a href="#1、训练过程" class="headerlink" title="1、训练过程"></a>1、训练过程</h2><p> &emsp;&emsp;  最初，训练集会有一个初始的样本权值分布（平均分布），基于训练集$\ D$ 与该分布$\ D<em>t$ 训练一个基学习器$\ h_t$ ，估计$\ h_t$ 的分类误差，根据误差确定分类器$\ h_t$的权重，根据误差等信息重新确定样本的权值分布$\ D</em>{t+1}$ （为分类错误的样本增加权重），伪代码如下图所示：</p>
+l_{exp}(H|D) = \mathbb{E}_{x \thicksim D}[e^{-f(x)H(x)}]</script><h2 id="1、训练过程"><a href="#1、训练过程" class="headerlink" title="1、训练过程"></a>1、训练过程</h2><p> &emsp;&emsp;  最初，训练集会有一个初始的样本权值分布（平均分布），基于训练集$\ D$ 与该分布$\ D_t$ 训练一个基学习器$\ h_t$ ，估计$\ h_t$ 的分类误差，根据误差确定分类器$\ h_t$的权重，根据误差等信息重新确定样本的权值分布$\ D_{t+1}$ （为分类错误的样本增加权重），伪代码如下图所示：</p>
 <p><img src="https://github.com/BaiDingHub/Blog_images/blob/master/BlogSource/loading.gif?raw=true" class="lazyload" data-src="https://github.com/BaiDingHub/Blog_images/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AB%EF%BC%89%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%E4%B9%8BAdaBoost/1.png?raw=true"  alt="1"></p>
 <p> &emsp;&emsp;  接下来的部分是伪代码中的公式推导，如果不想看的，可直接跳过这些，直接到<strong>样本分布&amp;重采样</strong>后再看。</p>
 <p><br></p>
@@ -130,12 +130,12 @@ l_{exp}(\alpha_th_t|D_t)&=\mathbb{E}_{x\thicksim D_t}[e^{-f(x)\alpha_th_t(x)}]\\
 &=e^{-\alpha_t}P_{x\sim D_t}(f(x)=h_t(x)) + e^{\alpha_t}P_{x\sim D_t}(f(x)\ne h_t(x))\\
 &=e^{-\alpha_t}(1-\epsilon_t) + e^{\alpha_t}\epsilon_t
 \end{split}
-\end{equation}</script><p> &emsp;&emsp;  其中$\ \epsilon<em>t = P</em>{x\sim D_t}(h_t(x)\ne f(x))$ ，$\ Ⅱ(·)$ 表示概率，计算损失函数对$\ \alpha_t$ 的导数：</p>
+\end{equation}</script><p> &emsp;&emsp;  其中$\ \epsilon_t = P_{x\sim D_t}(h_t(x)\ne f(x))$ ，$\ Ⅱ(·)$ 表示概率，计算损失函数对$\ \alpha_t$ 的导数：</p>
 <script type="math/tex; mode=display">
 \frac{\partial\ l_exp(\alpha_th_t|D_t)}{\partial\ \alpha_t} = -e^{-\alpha_t}(1-\epsilon_t) + e^{\alpha_t}\epsilon_t</script><p>  &emsp;&emsp;  令导数为0，我们可得：</p>
 <script type="math/tex; mode=display">
 \alpha_t = \frac{1}{2}ln\frac{1-\epsilon_t}{\epsilon_t}</script><p><br></p>
-<h2 id="4、样本权重分布的确定"><a href="#4、样本权重分布的确定" class="headerlink" title="4、样本权重分布的确定"></a>4、样本权重分布的确定</h2><p> &emsp;&emsp;  AdaBoost算法，在获得$\ H<em>{t-1}$ 之后，样本分布将进行调整，使下一轮的基学习器$\ h_t$ 能纠正$\ H</em>{t-1}$ 的一些错误，理想的$\ h<em>t$ 能纠正$\ H</em>{t-1}$ 的全部错误，即最小化：</p>
+<h2 id="4、样本权重分布的确定"><a href="#4、样本权重分布的确定" class="headerlink" title="4、样本权重分布的确定"></a>4、样本权重分布的确定</h2><p> &emsp;&emsp;  AdaBoost算法，在获得$\ H_{t-1}$ 之后，样本分布将进行调整，使下一轮的基学习器$\ h_t$ 能纠正$\ H_{t-1}$ 的一些错误，理想的$\ h_t$ 能纠正$\ H_{t-1}$ 的全部错误，即最小化：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
 \begin{split}

@@ -102,7 +102,7 @@ f_M(x) = \sum_{m=1}^MT(x;\Theta_m)</script><p> &emsp;&emsp;  其中，$\ T(x;\Th
 L(y,f(x)) = (y-f(x))^2</script><p> &emsp;&emsp;  XGBoost的目标函数中包含了其损失函数以及正则化项，其中n表示数据集的数量，t表示当前的迭代标号：</p>
 <script type="math/tex; mode=display">
 Obj^{(t)} = \sum_{i=1}^nL(y_i,\hat{y}_i^{(t)}) + \sum_{i=1}^t\Omega(f_i)</script><h2 id="1、训练过程"><a href="#1、训练过程" class="headerlink" title="1、训练过程"></a>1、训练过程</h2><p> &emsp;&emsp;  在XGBoost的训练过程中，我们在每次的迭代过程中，我们依然是构建一个新的树来拟合数据的残差$\ r=y-f_{m-1}(x)$ ，其算法叙述如下：</p>
-<p> &emsp;&emsp;  首先初始化$\ f<em>0(x)=0$ ，初始化第一个残差数据集$\ r_i=y_i-f_0(x_i)$ （原数据集），根据原数据以及目标函数，采用XGBoost特有的分割节点的策略来建立一颗树$\ T(x;\Theta_0)$ ，根据树得到的结果，再次计算残差，将这次得到的残差作为下一颗树的数据集，得到下一颗树$\ T(x;\Theta_m)$ ，并且更新$\ f_m(x) = f</em>{m-1}(x)+T(x;\Theta_m)$ ，不断地迭代，我们就能够得到最终的集成模型：</p>
+<p> &emsp;&emsp;  首先初始化$\ f_0(x)=0$ ，初始化第一个残差数据集$\ r_i=y_i-f_0(x_i)$ （原数据集），根据原数据以及目标函数，采用XGBoost特有的分割节点的策略来建立一颗树$\ T(x;\Theta_0)$ ，根据树得到的结果，再次计算残差，将这次得到的残差作为下一颗树的数据集，得到下一颗树$\ T(x;\Theta_m)$ ，并且更新$\ f_m(x) = f_{m-1}(x)+T(x;\Theta_m)$ ，不断地迭代，我们就能够得到最终的集成模型：</p>
 <p> &emsp;&emsp;  根据上述的训练过程，我们不得不有一些疑问。<strong>我们怎样根据我们的目标函数来设计我们的分割策略呢？</strong>，<strong>我们怎样把XGBoost应用到其他模型上呢？</strong>，让我们按顺序来看一下下面的解析</p>
 <p><br></p>
 <h2 id="2、目标函数的确定"><a href="#2、目标函数的确定" class="headerlink" title="2、目标函数的确定"></a>2、目标函数的确定</h2><p> &emsp;&emsp;  我们已经知道，第t轮迭代的目标函数的固定形式为：</p>
@@ -130,7 +130,7 @@ I_j = \{i|q(x_i)=j\}</script><p> &emsp;&emsp;  <strong>带入正则化项后</st
 Obj^{(t)} &\approx \sum_{i=1}^n[g_if_t(x_i)+\frac{1}{2}h_if^2_t(x_i)] + \gamma ·T +\frac{1}{2}\lambda\sum_{j=1}^Tw_j^2\\
 &=\sum_{j=1}^T[(\sum_{i \in I_j}g_i)w_j+\frac{1}{2}(\sum_{i \in I_j}h_i+\lambda)w^2_j] + \gamma ·T\\
 \end{split}
-\end{equation}</script><p> &emsp;&emsp;  我们记$\ G<em>j = \sum</em>{i \in I<em>j}g_i$ ，$\ H_j=\sum</em>{i \in I_j}h_i$，那么目标函数变为：</p>
+\end{equation}</script><p> &emsp;&emsp;  我们记$\ G_j = \sum_{i \in I_j}g_i$ ，$\ H_j=\sum_{i \in I_j}h_i$，那么目标函数变为：</p>
 <script type="math/tex; mode=display">
 Obj^{(t)} = \sum_{j=1}^T[G_jw_j+\frac{1}{2}(H_j+\lambda)w^2_j] + \gamma ·T\\</script><p><strong>假设树的结构已经固定</strong></p>
 <p> &emsp;&emsp;  假设我们已经知道了树的结构，也就是说$\ q(x)$ 已知。</p>
