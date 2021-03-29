@@ -81,12 +81,12 @@ def Fibonacci(n:int)->int:
         return 0
     if(n==1 or n==2):
         return 1
-    array=[0 for i in range(n)]
-    array[0]=1			#表示F(1)
-    array[1]=1			#表示F(2)
-    for i in range(2,n):
+    array=[0 for i in range(n+1)]
+    array[1]=1			#表示F(1)
+    array[2]=1			#表示F(2)
+    for i in range(3,n+1):
         array[i]=array[i-1]+array[i-2]		#依据状态转移方程，进行递推
-    return array[n-1]
+    return array[n]
 ```
 
 <br>
@@ -111,12 +111,12 @@ def climb(n:int)->int:
         return 0
     if(n==1):
         return 1
-    array=[0 for i in range(n)]
-    array[0]=1			#表示F(1)
-    array[1]=2			#表示F(2)
-    for i in range(2,n):				
+    array=[0 for i in range(n+1)]
+    array[1]=1			#表示F(1)
+    array[2]=2			#表示F(2)
+    for i in range(3,n+1):				
         array[i]=array[i-1]+array[i-2]			#根据状态转移方程得到递推公式
-    return array[n-1]
+    return array[n]
 ```
 
 <br>
@@ -142,19 +142,20 @@ $$
 
 ```python
 def coin(n:int)->int:
-    if(n==0):
+    if n == 0:
         return 0
-    if(n==1):
+   	if(n==1):
         return 1
-    array=[0 for i in range(n)]
-    array[0]=1			#表示F(1)
-    array[1]=1			#表示F(2)
-    for i in range(2,n):
-        if(i<5):
-            array[i]=min(array(i-1),array(i-2))+1
+    array = [0 for i in range(n+1)]
+    array[1] = 1		#表示F(1)
+    array[2] = 1		#表示F(2)
+    for i in range(3, n+1):
+        if i >= 5:
+            array[i] = min(array[i-1], array[i-2], array[i-5]) + 1
         else:
-            array[i]=min(array(i-1),array(i-2),array(i-5))+1
-    return array[n-1]
+            array[i] = min(array[i-1], array[i-2]) + 1
+    
+    return array[n]
 ```
 
 <br>
@@ -194,13 +195,13 @@ $$
  &emsp;  &emsp; 根据状态转移方程，我们可以自底向上的写代码。
 
 ```python
-def zero_one_bag(W:List[int],P:List[int],M:int)->int:
+def zero_one_bag(W:List[int],P:List[int],M:int)->int:		# W表示重量列表，P表示价值列表，M表示允许重量
     N=len(W)
     C=[[0 for i in range(M+1)] for j in range(N+1)]			#构造N+1行，M+1列的数据结构
     for i in range(1,N+1):
         for j in range(1,M+1):
-            if j>=W[i]:			#如果满足条件，进行更新
-            	C[i][j]=max(P[i]+C[i-1][j-W[i]],C[i-1][j])
+            if j>=W[i-1]:			#如果满足条件，进行更新
+            	C[i][j]=max(P[i-1]+C[i-1][j-W[i-1]],C[i-1][j])
             else:
                 C[i][j]=C[i-1][j]
     return C[N][M]
@@ -281,11 +282,11 @@ $$
 def multi_bag(W:List[int],P:List[int],V:List[int],M:int)->int:
     N=len(W)
     C=[0 for i in range(M+1)]				#只使用1维列表
-    for i in range(1,N+1):
+    for i in range(N):
         for j in range(M,W(i)-1,-1):   #从M遍历到W(i)，逆序保证了后面的数据的正确更新
             for k in range(V[i]):
                 if(k*W[i]<=j):
-            		C[j]=max(k*P[i]+C[j-k*W[i]],C[j],C[j])
+            		C[j]=max(k*P[i]+C[j-k*W[i]],C[j])
     return C[M]
 ```
 
@@ -305,7 +306,7 @@ def multi_bag(W:List[int],P:List[int],V:List[int],M:int)->int:
 
 **例子**
 
- &emsp;  &emsp; [4 2 3 1 5]的最长递增子序列为[2 3 5]，长度为 3 。
+ &emsp;  &emsp; [4, 2, 3, 1, 5]的最长递增子序列为[2 3 5]，长度为 3 。
 
 **简单思路**
 
@@ -502,11 +503,11 @@ p = "a*"
 - 初始化所有值为`False`，我们很容易就知道`dp[-1][-1]=True`，因为两个空值，一定匹配。于是我们从后往前进行遍历，直到计算出`dp[0][0]`
 - 当遍历到`dp[i][j]`时，其可能碰到的情况如下：
   - 定义`first_match`表示`text[i]`与`pattern[j]`是否匹配，因为正则表达式`.`的存在，我们可以得到`first_match = pattern[j] in {text[i],'.'}`
-  - 1、如果`pattern[j]` 为正则表达式`*`时，我们要考虑两种情况
+  - 1、如果`pattern[j+1]` 为正则表达式`*`时，我们要考虑两种情况
     - 第一种：该`*`表示零个`pattern[j]`的情况，此时`dp[i][j] = dp[i][j+2]`
     - 第二种：该`*` 表示多个`pattern[j]`的情况，此时如果`first_match`为`True`，则我们要考虑`text[i+1]`是否与`pattern[j]`相同（即`dp[i+1][j]`是否为`True`)
   - 综合上面的情况，我们可以得到此时`dp[i][j] =dp[i][j+2] or(first_match and dp[i+1][j])`
-  - 2、如果`pattern[j]` 不是正则表达式`*`时，我们只需要考虑`text[i]与pattern[j]`是否匹配，以及之后的字符串是否匹配，即`dp[i][j]=first_match and dp[i+1][j+1]`
+  - 2、如果`pattern[j+1]` 不是正则表达式`*`时，我们只需要考虑`text[i]与pattern[j]`是否匹配，以及之后的字符串是否匹配，即`dp[i][j]=first_match and dp[i+1][j+1]`
 
 
 

@@ -70,3 +70,46 @@ git push -u origin master
 *.pkl
 ```
 
+
+
+### 8、撤销上一次操作
+
+```bash
+如果git add之后想要撤销，可以通过：
+git reset HEAD					# 这样就能把上一次add的文件全部撤销
+git reset HEAD XXX/XXX.py		# 就能撤销某个文件
+
+如果git commit 之后想要撤销，可以通过：
+git log 						# 查看节点，找到上一次的commit的节点id，名称为commit xxxxxxxx
+git reset commit_id				# 这样就能撤销上一次commit
+# 注意： 另外，如果使用git reset -hard commit_id ，那么直接回退到上一个节点，修改的代码也会消失
+
+如果git push 之后想要还原，可以通过：
+git revert HEAD					# 撤销前一次的commit，代码恢复到前一次的commit状态
+git revert HEAD^				# 撤销前前次的commit，代码恢复到前前次的commit状态
+git revert commit_id			# 撤销指定的版本
+# 注意：git revert是提交一个新的版本，将需要revert的版本的内容再反向修改回去，版本会递增，不影响之前提交的内容。
+
+```
+
+
+
+### 9、放弃本地修改，强制覆盖本地代码
+
+```
+git fetch --all
+git reset --hard origin/master 
+git pull
+```
+
+
+
+### 10、设置Git代理
+
+我们有时候会出现`Failed to connect to github.com port 443:connection timed out` 的问题，如果有代理的小伙伴，可以将Git的代理设置一下，比如：我的代理的端口是51837，此时，执行下面命令：
+
+```
+ git config --global http.proxy http://127.0.0.1:51837
+ git config --global https.proxy http://127.0.0.1:51837
+```
+

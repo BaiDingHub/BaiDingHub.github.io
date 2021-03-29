@@ -275,9 +275,24 @@ Linux版音乐CoCoMusic最新版本是2.0.2，提供deb、tar.xz、AppImage等�
 
 
 ## 16.pip 更换下载源
+在`pip install` 时添加`-i 软件源`即可更换下载源，常用的下载源有：
+
+```
+清华：https://pypi.tuna.tsinghua.edu.cn/simple
+
+阿里云：http://mirrors.aliyun.com/pypi/simple/
+
+中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/
+
+华中理工大学：http://pypi.hustunique.com/
+
+山东理工大学：http://pypi.sdutlinux.org/ 
+
+豆瓣：http://pypi.douban.com/simple/
+```
+
 以安装torch为例
 
 ```bash
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple torch torchvison
 ```
-

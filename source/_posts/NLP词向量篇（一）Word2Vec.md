@@ -34,7 +34,7 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%
 
 **CBOW**
 
- &emsp;&emsp; 词袋模型，Bag-of-Words Model。包含有input、projection、output层，对于一个单词$\ w_t$  ，在一个句子中包含有上下文$\ ...,w_{t-2},w_{t-1},.,w_{t+1},w_{t+2},... $ 。CBOW的任务目标就是根据该单词的N个上下文来预测该单词，其预测过程可以这样描述：
+ &emsp;&emsp; 词袋模型，Bag-of-Words Model。包含有input、projection、output层，对于一个单词$ w_t$  ，在一个句子中包含有上下文$\ ...,w_{t-2},w_{t-1},.,w_{t+1},w_{t+2},... $ 。CBOW的任务目标就是根据该单词的N个上下文来预测该单词，其预测过程可以这样描述：
 
 1. 为模型输入N个上下文（作者选择了4个上文、4个下文），经过input层，将其转换为V维的one hot向量（总词汇量数目记为V）。
 2. 每个单词都对应一个特征向量，也就是词向量，这存放在projection层的特征向量矩阵中，因此，经过projetion层后，我们得到N个D维的词向量，在CBOW模型中，将这个N个词向量相加，得到一个总的特征向量。

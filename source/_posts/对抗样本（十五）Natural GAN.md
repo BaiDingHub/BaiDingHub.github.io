@@ -27,6 +27,12 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%
 
 &emsp;&emsp;&emsp;&emsp; https://arxiv.org/abs/1710.11342
 
+## &emsp;&emsp;4.论文引用
+
+&emsp;&emsp;&emsp;&emsp; Zhao Z, Dua D, Singh S. Generating natural adversarial examples[J]. arXiv preprint arXiv:1710.11342, 2017.
+
+
+
 <br>
 
 # 二、论文背景及简介
@@ -57,31 +63,29 @@ cover: https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%
 
 ### 2.1 GAN介绍
 
- &emsp;&emsp; 为了解决上述问题，我们需要**一个强大的生成模型来学习从潜在的低维表示到分布$\ P_x$ 的映射**，我们使用$\ X$ 中的样本进行估计。
+ &emsp;&emsp;  给定分类其$\ f$ ，一组unlabel数据$\ X$ ，我们的目标是生成一个对抗样本$\ x^*$ 使得$\ f(x^*) \ne f(x)$ ，$\ x$ 并不一定是$\ X$ 内的数据，但是，他们一定是服从同样的数据分布$\ \mathcal{P}_x$ ，我们要是$\ x^*$ 在这个数据分布上，尽可能与$\ x$ 相靠近，而并不是让$\ x^*$ 的representaion与$\ x$ 的representaion靠近。
 
- &emsp;&emsp; 给定未标签的数据集$\ X$ 作为训练数据**，生成器会把分布为$\ p_z(z)，z\in \mathbb{IR}^d$ 的噪声映射到尽可能接近训练数据的合成数据上。判别器来区分生成器的输出与来自$\ X$ 的真实样本的输出。**在这里，为了优化的方便，采用了**WGAN**，其目标函数为：
-$$
-min_\theta\ max_w\ \mathbb{E}_{x\sim p_x(x)}[C_w(x)] - \mathbb{E}_{z\sim p_z(z)}[C_w(G_\theta(z))]
-$$
+ &emsp;&emsp;  我们的方法是，是**首先在服从分布$\ \mathcal{P}_x$ 的$\ z$ 空间中找到一个对抗样本$\ z^* $ ，然后使用GAN，将$\ z^*$ 映射回$\ x^*$** ，我们发现，这样的对抗样本更加真实，与原始输入语义更接近。
 
 ### 2.2 Natural Adversaries
 
- &emsp;&emsp; 为了表示一些自然的样本，我们首先训练一个WGAN，其生成器用来将随机向量$\ z\in \mathbb{IR}^d$ 映射到$\ X$ 的某一样本$\ x$ 。我们也训练了一个逆变器$\ I_{\gamma}$ ，用来映射数据的距离到相应的密集表示向量。
+ &emsp;&emsp;  什么是真实的对抗样本？
 
-![2](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/1.png?raw=true)
+ &emsp;&emsp;  我们首先使用数据集$\ X$ 训练一个WGAN，在WGAN中，可以把一个随机的向量$\ z \in \mathbb{R}^d$ 映射到样本空间$\ X$ 中的$\ x$ 上。另外，我们又训练了一个反转器$\ \mathcal{I}_{\gamma}$ ，其可以将样本$\ x$ ，映射回向量空间$\ z'$ ，如下图所示：
 
- &emsp;&emsp; 我们最小化$\ x$ 的重建误差和$\ z$ 与$\ I_\gamma(G_\theta(z))$ 的差别来促使隐藏空间变得正态分布：
-$$
-min_\gamma\ \mathbb{E}_{x\sim p_x(x)}||G_\theta(I_\gamma(x))-x||+\lambda· \mathbb{E}_{z\sim p_z(z)}[L(z,I_\gamma(G_\theta(z)))]
-$$
- &emsp;&emsp; 通过这些学到的函数，我们可以如下定义对抗样本$\ x^*$ ：
-$$
-x^* = G_\theta(z^*)\ where\ z^* = argmin_{\tilde{z}}||\tilde{z}-I_\gamma(x)|| \\
-s.t. \ f(G_\theta(\tilde{z})) \ne f(x)
-$$
-  &emsp;&emsp; 作者在图片领域采用$\ L_2$ 距离，$\ \lambda=0.1$ ；在文本领域采用Jensen-Shannon距离，$\ \lambda=1$。
+![9](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/9.png?raw=true)
 
-![3](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/1.png?raw=true)
+ &emsp;&emsp;  我们，通过最小化$\ x$ 的重建损失$\ \mathcal{C}_{w}$ ，以及divergence$\ \mathcal{L}$ 来训练分类器。
+
+ &emsp;&emsp;  于是，我们定义，Natural Adversarials是：
+$$
+x^* = \mathcal{G}_{\theta}(z^*)\ where\ z^* = \arg \min_{\tilde{z}}||\tilde{z} - \mathcal{I}_{\gamma}(x)||\ s.t. f(\mathcal{G}_{\theta}(\tilde{z})) \ne f(x)
+$$
+ &emsp;&emsp;  使用这种方法，我们并不是扰动样本$\ x$ ，而是扰动$\ z' = \mathcal{I}_{\gamma}(x)$ ，然后使用生成器来判断是否一个扰动$\ \tilde{z}$ 欺骗了分类器。其迭代过程如下图所示：
+
+![8](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/8.png?raw=true)
+
+ &emsp;&emsp;  对于divergence $\ \mathcal{L}$ ，我们在图像领域使用$\ \lambda = 0.1$ 的$\ L_2$ 距离，在文本数据中采用$\ \lambda = 1$ 的Jensen-Shannon距离。
 
 ### 2.3 Search Algorithms
 
@@ -107,17 +111,21 @@ $$
 
  &emsp;&emsp; 采用的目标分类器有两个，一个是Random Forest，五棵树，测试准确率90.45%；一个是LeNet，测试准确率98.71%。
 
-![4](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/1.png?raw=true)
+![4](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/4.png?raw=true)
 
 #### 3.1.2 Church vs Tower
 
  &emsp;&emsp; 在LSUN中取126227张church和tower的图片，resize到64x64。训练了一个$\ z\in \mathbb{IR}^{128}$ 的WGAN，生成器和判别器采用了残差网络。采用MLP分类器，在这两类的测试准确率为71.3%。
 
-![5](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/1.png?raw=true)
+![5](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/5.png?raw=true)
 
 ### 3.2 Generating Text Adversaries
 
- &emsp;&emsp; 略
+ &emsp;&emsp; 由于文本的离散性，生成语法和语言上连贯的对抗文本是一项具有挑战性的任务：我们不可能添加不可察觉的噪音，而且对$\ x$ 的大多数的更改可能会产生语法不通的文本。
+
+ &emsp;&emsp;  我们使用一个对抗性正则化的自动编码器（ARAE），来将离散的文本编码成连续的编码。ARAE会使用一个LSTM编码器将一个句子编码成连续的编码（向量），然后在这些编码上进行对抗训练来捕获数据分布。之后，我们引入了Inverter，将这些编码映射到高斯空间$\ z \in \mathbb{R}^{100}$ 。
+
+ &emsp;&emsp;  作者使用了四层的CNN用作编码器，使用了LSTM作为解码器。然后训练了两个MLP模型，分别用作生成器和inverter，来学习noise和连续编码的映射关系。
 
 <br>
 
@@ -127,13 +135,13 @@ $$
 
  &emsp;&emsp; 将我们的方法用到各种各样的黑盒分类其中，来评测这些模型的鲁棒性。一般来说，更精确的分类器需要对样本进行更多的改变才能改变其预测值。
 
-![6](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/1.png?raw=true)
+![6](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/6.png?raw=true)
 
 ### 4.2 Human Evaluation
 
  &emsp;&emsp; 作者进行了调查，询问生成的对抗样本的自然程度和与原始样本的相似程度
 
-![7](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/1.png?raw=true)
+![7](https://github.com/BaiDingHub/Blog_images/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89Natural%20GAN/7.png?raw=true)
 
 ## 5. Related Work
 

@@ -111,3 +111,10 @@ algolia:
 
 aplayer:
   meting: true
+
+math:
+  engine: 'mathjax' # or 'katex'
+  mathjax:
+    src: custom_mathjax_source
+    config:
+      MathJax config
