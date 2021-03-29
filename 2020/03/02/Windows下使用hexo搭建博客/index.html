@@ -116,7 +116,7 @@ ga('send', 'pageview');
 <p>介绍两个文件</p>
 <ul>
 <li>blog/_config.yml：站点配置文件，配置我们发布网站的站点信息</li>
-<li>blog/themes/$theme_name$/ _config.yml：主题配置文件，配置我们网站要使用的主题</li>
+<li>blog/themes/\$theme_name\$/ _config.yml：主题配置文件，配置我们网站要使用的主题</li>
 </ul>
 <h3 id="1）关联Hexo与Github"><a href="#1）关联Hexo与Github" class="headerlink" title="1）关联Hexo与Github"></a>1）关联Hexo与Github</h3><p>打开站点配置文件blog/_config.yml，修改deploy</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">    <span class="built_in">type</span>: git</span><br><span class="line">    repo: 这里填入你之前在GitHub上创建仓库的完整路径，记得加上 .git</span><br><span class="line">    branch: master</span><br></pre></td></tr></table></figure>
@@ -132,7 +132,7 @@ ga('send', 'pageview');
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/jerryc127/hexo-theme-butterfly themes/butterfly</span><br></pre></td></tr></table></figure>
 <p>打开站点配置文件blog/_config.yml，修改主题为theme：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Extensions</span></span><br><span class="line"><span class="comment">## Plugins: https://hexo.io/plugins/</span></span><br><span class="line"><span class="comment">## Themes: https://hexo.io/themes/</span></span><br><span class="line">theme: butterfly</span><br></pre></td></tr></table></figure>
-<p>可以在主题配置文件blog/themes/$theme_name$/ _config.yml中，来对主题进行一定的修改</p>
+<p>可以在主题配置文件blog/themes/\$theme_name\$/ _config.yml中，来对主题进行一定的修改</p>
 <p>再次部署网站后，即可登录网站：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 <p>如果出现错误：</p>
